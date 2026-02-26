@@ -1,6 +1,6 @@
 # Aleph Cloud Design System
 
-A tokens-only design system built with Tailwind CSS 4 + CSS custom properties + OKLCH colors. No components yet — just tokens, fonts, and a preview app.
+A design system built with Tailwind CSS 4 + CSS custom properties + OKLCH colors. Includes design tokens, fonts, reusable components, and a preview app.
 
 ## Setup
 
@@ -11,11 +11,13 @@ Import the global stylesheet in your root layout. All tokens are available as Ta
 import "./globals.css";
 ```
 
-`globals.css` imports Tailwind and the token file:
+`globals.css` imports Tailwind, the token file, and registers the `dark:` variant for class-based theming:
 
 ```css
 @import "tailwindcss";
 @import "../styles/tokens.css";
+
+@custom-variant dark (&:where(.theme-dark, .theme-dark *));
 ```
 
 ## Themes
@@ -47,14 +49,18 @@ import { ThemeSwitcher } from "@ac/components/theme-switcher";
 
 Use as Tailwind classes. Semantic tokens resolve to different values per theme.
 
-### Brand Colors
+### Color Scales
 
-Fixed across themes. These extend Tailwind's palette.
+Full OKLCH 50–950 scales. Each scale has 11 stops, available as Tailwind classes like `bg-primary-600`, `text-error-500`, etc. Supports `/opacity` modifier: `bg-primary-600/50`.
 
-| Token | Tailwind class | Hex | OKLCH | Use for |
-|-------|---------------|-----|-------|---------|
-| `brand` | `bg-brand`, `text-brand` | `#5100CD` | `oklch(0.372 0.254 285.48)` | Brand identity, primary actions |
-| `brand-lime` | `bg-brand-lime`, `text-brand-lime` | `#D4FF00` | `oklch(0.929 0.228 121.30)` | Accents, highlights, CTAs |
+| Scale | Hue | Anchor | Use for |
+|-------|-----|--------|---------|
+| `primary` | 285.48 (purple) | 600 = brand #5100CD | Brand identity, primary actions |
+| `accent` | 121.30 (lime) | 300 = brand #D4FF00 | Accents, highlights, CTAs |
+| `success` | 145 (green) | 500 = #36D846 | Success states |
+| `warning` | 75 (amber) | 500 = #FBAE18 | Warning states |
+| `error` | 12 (red) | 600 = #DE3668 | Error states |
+| `neutral` | 265 (purple-tinted gray) | — | Borders, backgrounds, text |
 
 ### Semantic Colors
 
@@ -64,49 +70,33 @@ Swap automatically between light and dark themes.
 |-------|---------------|-------|------|---------|
 | `background` | `bg-background` | `#F9F4FF` | `#141421` | Page background |
 | `foreground` | `text-foreground` | `#141421` | `#F9F4FF` | Primary text |
-| `primary` | `bg-primary`, `text-primary` | brand | brand (lighter) | Interactive elements |
+| `primary` | `bg-primary`, `text-primary` | primary-600 | primary-400 | Interactive elements |
 | `primary-foreground` | `text-primary-foreground` | `#ffffff` | `#ffffff` | Text on primary backgrounds |
-| `accent` | `bg-accent`, `text-accent` | brand-lime | brand-lime | Highlights, emphasis |
+| `accent` | `bg-accent`, `text-accent` | accent-300 | accent-300 | Highlights, emphasis |
 | `accent-foreground` | `text-accent-foreground` | `#141421` | `#141421` | Text on accent backgrounds |
-| `muted` | `bg-muted` | `#F3E8FF` | `#1E1E2E` | Subdued backgrounds |
-| `muted-foreground` | `text-muted-foreground` | `#6B7280` | `#9CA3AF` | Subdued text, labels |
-| `card` | `bg-card` | `#ffffff` | `#1E1E2E` | Card/panel backgrounds |
+| `muted` | `bg-muted` | primary-100 | neutral-900 | Subdued backgrounds |
+| `muted-foreground` | `text-muted-foreground` | neutral-500 | neutral-400 | Subdued text, labels |
+| `card` | `bg-card` | `#ffffff` | neutral-900 | Card/panel backgrounds |
 | `card-foreground` | `text-card-foreground` | `#141421` | `#F9F4FF` | Card text |
-| `border` | `border-border` | `#E9D5FF` | `#2E2E3E` | Borders, dividers |
-| `border-hover` | `border-border-hover` | `#D8B4FE` | `#3E3E4E` | Hover state borders |
-
-### Status Colors
-
-Fixed across themes.
-
-| Token | Tailwind class | Hex | Use for |
-|-------|---------------|-----|---------|
-| `success` | `bg-success`, `text-success` | `#36D846` | Success states |
-| `warning` | `bg-warning`, `text-warning` | `#FBAE18` | Warning states |
-| `error` | `bg-error`, `text-error` | `#DE3668` | Error states |
+| `border` | `border-border` | primary-200 | neutral-800 | Borders, dividers |
+| `border-hover` | `border-border-hover` | primary-300 | neutral-700 | Hover state borders |
 
 ### Usage Examples
 
 ```tsx
-{/* Card with theme-aware colors */}
+{/* Scale colors — use specific stops for fine control */}
+<div className="bg-primary-100 text-primary-800 p-4 rounded">Light tint</div>
+<div className="bg-error-600 text-white p-4 rounded">Error</div>
+<div className="bg-neutral-50 border border-neutral-200 p-4 rounded">Subtle</div>
+
+{/* Opacity modifier */}
+<div className="bg-primary-600/20 text-primary-700 p-4 rounded">20% opacity</div>
+
+{/* Semantic colors — theme-aware */}
 <div className="bg-card text-card-foreground rounded-lg border border-border p-6">
   <h3 className="text-foreground font-bold">Title</h3>
   <p className="text-muted-foreground">Description text</p>
 </div>
-
-{/* Primary action button */}
-<button className="bg-primary text-primary-foreground px-4 py-2 rounded-md">
-  Deploy
-</button>
-
-{/* Accent highlight */}
-<span className="bg-accent text-accent-foreground px-2 py-0.5 rounded">
-  NEW
-</span>
-
-{/* Status badges */}
-<span className="bg-success text-white px-2 py-0.5 rounded text-sm">Online</span>
-<span className="bg-error text-white px-2 py-0.5 rounded text-sm">Failed</span>
 ```
 
 ---
@@ -360,9 +350,93 @@ Size tokens for consistent icon sizing. No icon library included yet.
 
 ```tsx
 <div className="flex items-center gap-2">
-  <div className="w-2 h-2 rounded-full bg-success" />
+  <div className="w-2 h-2 rounded-full bg-success-500" />
   <span className="text-sm text-muted-foreground">All systems operational</span>
 </div>
+```
+
+---
+
+## Components
+
+### Button
+
+CVA-based button with 6 variants, 4 sizes, icon slots, loading/disabled states, and `asChild` polymorphism.
+
+```tsx
+import { Button } from "@ac/components/button/button";
+```
+
+**Visual style:** Pill shape (`rounded-full`), 3px border, `font-heading` at weight 700.
+
+#### Variants
+
+```tsx
+<Button variant="primary">Primary</Button>     {/* solid primary-600, white text, lighter border */}
+<Button variant="secondary">Secondary</Button> {/* solid primary-100, primary text */}
+<Button variant="outline">Outline</Button>     {/* transparent, neutral border */}
+<Button variant="text">Text</Button>           {/* transparent, no visible border */}
+<Button variant="destructive">Delete</Button>  {/* 20% error fill, dark text (light in dark mode) */}
+<Button variant="warning">Careful</Button>     {/* 20% warning fill, dark text (light in dark mode) */}
+```
+
+#### Sizes
+
+```tsx
+<Button size="xs">Extra Small</Button>  {/* h-7, text-sm */}
+<Button size="sm">Small</Button>        {/* h-8, text-base */}
+<Button size="md">Medium</Button>       {/* h-9, text-base (default) */}
+<Button size="lg">Large</Button>        {/* h-10, text-lg */}
+```
+
+#### Icons
+
+```tsx
+<Button iconLeft={<PlusIcon />}>Add Item</Button>
+<Button iconRight={<ArrowIcon />}>Next</Button>
+<Button iconLeft={<PlusIcon />} iconRight={<ArrowIcon />}>Both</Button>
+```
+
+#### Loading and Disabled
+
+```tsx
+<Button loading>Saving...</Button>   {/* Shows spinner, hides icons, aria-busy */}
+<Button disabled>Unavailable</Button> {/* 50% opacity, pointer-events-none */}
+```
+
+#### As Link (asChild)
+
+Renders button styles on a child element instead of `<button>`:
+
+```tsx
+<Button asChild variant="primary">
+  <a href="/dashboard">Go to Dashboard</a>
+</Button>
+
+{/* Works with Next.js Link */}
+<Button asChild variant="text">
+  <Link href="/settings">Settings</Link>
+</Button>
+```
+
+#### Custom Composition with buttonVariants
+
+```tsx
+import { buttonVariants } from "@ac/components/button/button";
+
+<a href="/docs" className={buttonVariants({ variant: "outline", size: "sm" })}>
+  Documentation
+</a>
+```
+
+### Spinner
+
+Animated loading indicator. Used internally by Button but available standalone.
+
+```tsx
+import { Spinner } from "@ac/components/ui/spinner";
+
+<Spinner className="size-5 text-primary-600" />
 ```
 
 ---
@@ -383,11 +457,12 @@ To modify tokens, edit `src/styles/tokens.css` directly. Changes propagate to al
 
 ## Preview App
 
-Run `pnpm dev` and visit http://localhost:3000. Five tabs:
+Run `pnpm dev` and visit http://localhost:3000. Six tabs:
 
 | Tab | Content |
 |-----|---------|
-| Colors | Brand swatches, semantic tokens (theme-aware), status colors, borders |
+| Components | Button showcase: all variants, sizes, icons, loading, disabled, asChild |
+| Colors | OKLCH color scales (50–950), semantic tokens (theme-aware), borders |
 | Typography | Heading scale (Header–H7), body styles, font family specimens |
 | Spacing | Tailwind spacing scale, breakpoints table, border radius samples |
 | Effects | Shadow tokens, gradient swatches, transition speed demos (hover) |

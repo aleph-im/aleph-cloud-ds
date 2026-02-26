@@ -18,6 +18,30 @@ Each entry includes:
 
 ---
 
+## Decision #14 — 2026-02-26
+
+**Context:** Gradient fill variants for primary/secondary buttons
+**Decision:** Deferred — leave for later
+**Rationale:** Gradient tokens exist but adding gradient variants to buttons adds complexity without a current need. Can be added as new variants when needed.
+
+## Decision #13 — 2026-02-26
+
+**Context:** `dark:` variant for class-based `.theme-dark` theming
+**Decision:** Use `@custom-variant dark` in globals.css, keep `.theme-dark` class name
+**Rationale:** Tailwind CSS 4's default `dark:` uses `prefers-color-scheme` media query, not class toggling. `@custom-variant` is the standard Tailwind mechanism for class-based dark mode — not a hack. Same pattern scales to future themes (contrast, warm, etc.).
+
+## Decision #12 — 2026-02-26
+
+**Context:** Destructive and warning button fill opacity
+**Decision:** Use 20% opacity fill with dark text (light text in dark mode via `dark:` variant)
+**Rationale:** Solid red/amber fills are visually aggressive for actions that aren't always dangerous. 20% opacity is subtler while the solid 3px border maintains definition. Text color adapts per theme for readability.
+
+## Decision #11 — 2026-02-26
+
+**Context:** Button visual style — border radius, padding, border, font weight
+**Decision:** Pill shape (`rounded-full`), 3px border one stop lighter than fill, wider horizontal padding, `font-bold` (700)
+**Rationale:** Font weight 700 matches the existing website. Pill shape and wider padding give buttons more presence. Lighter borders (not darker) avoid muddy appearance in dark mode.
+
 ## Decision #10 — 2026-02-26
 
 **Context:** Whether to tokenize structural button properties (radii, heights, padding, font sizes)
@@ -27,8 +51,8 @@ Each entry includes:
 ## Decision #9 — 2026-02-26
 
 **Context:** Button font family
-**Decision:** Use `font-heading` (Rigid Square), `font-extrabold`, no italic
-**Rationale:** Buttons are brand elements, not body text. The existing front-core also used a display font (Rubik bold) for buttons. Italic reserved for headings.
+**Decision:** Use `font-heading` (Rigid Square), `font-bold` (700), no italic
+**Rationale:** Buttons are brand elements, not body text. The existing front-core also used a display font (Rubik bold) for buttons. Weight 700 matches the website. Italic reserved for headings.
 
 ## Decision #8 — 2026-02-26
 

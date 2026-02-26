@@ -6,12 +6,13 @@ import { TypographyTab } from "@ac/components/tabs/typography-tab";
 import { SpacingTab } from "@ac/components/tabs/spacing-tab";
 import { EffectsTab } from "@ac/components/tabs/effects-tab";
 import { IconsTab } from "@ac/components/tabs/icons-tab";
+import { ComponentsTab } from "@ac/components/tabs/components-tab";
 
-const TABS = ["Colors", "Typography", "Spacing", "Effects", "Icons"] as const;
+const TABS = ["Components", "Colors", "Typography", "Spacing", "Effects", "Icons"] as const;
 type Tab = (typeof TABS)[number];
 
 export function PreviewTabs() {
-  const [active, setActive] = useState<Tab>("Colors");
+  const [active, setActive] = useState<Tab>("Components");
 
   return (
     <div>
@@ -38,6 +39,8 @@ export function PreviewTabs() {
 
 function TabContent({ tab }: { tab: Tab }) {
   switch (tab) {
+    case "Components":
+      return <ComponentsTab />;
     case "Colors":
       return <ColorsTab />;
     case "Typography":

@@ -181,16 +181,23 @@ pnpm check        # lint + typecheck + test
 ### Key Directories
 
 ```
-src/styles/           # Design tokens (tokens.css)
+src/styles/           # Design tokens (tokens.css with OKLCH scales)
 src/components/       # Preview UI components
-src/components/tabs/  # Tab content components (colors, typography, spacing, effects, icons)
+src/components/button/  # Button component + tests
+src/components/ui/    # Shared primitives (Spinner)
+src/components/tabs/  # Tab content components
+src/lib/              # Utilities (cn.ts)
 src/app/              # Next.js pages and layout
 docs/plans/           # Design and implementation plans
 ```
 
 ### Current Features
 
-- Three-layer token system (brand colors, semantic tokens, Tailwind mapping)
-- Light/dark theme switching via `.theme-dark` class
-- Preview app with 5 tabs (Colors, Typography, Spacing, Effects, Icons)
+- Three-layer token system (OKLCH color scales 50–950, semantic tokens, Tailwind mapping)
+- OKLCH color scales for primary, accent, success, warning, error, neutral
+- Light/dark theme switching via `.theme-dark` class with `@custom-variant dark`
+- Button component with 6 variants, 4 sizes, CVA architecture
+- Spinner component for loading states
+- cn() utility (clsx + tailwind-merge)
+- Preview app with 6 tabs (Components, Colors, Typography, Spacing, Effects, Icons)
 - Static export for deployment

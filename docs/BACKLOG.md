@@ -21,11 +21,23 @@ Ideas and scope creep captured for later consideration.
 **Description:** Add 4 SVG logo variants (icon-only light/dark, icon+wordlogo light/dark).
 **Priority:** Medium
 
-### 2026-02-26 — Component library
+### 2026-02-26 — Component library (continued)
 
 **Source:** Design doc
-**Description:** Build reusable UI components (buttons, inputs, cards, modals, etc.) using the token system.
+**Description:** Build remaining UI components (inputs, cards, modals, etc.) using the token system. Button component is complete.
 **Priority:** High
+
+### 2026-02-26 — Gradient button variants
+
+**Source:** Discussed during button styling session
+**Description:** Add gradient fill variants using `--gradient-main` (primary) and `--gradient-lime` (secondary) tokens.
+**Priority:** Low
+
+### 2026-02-26 — Button icon animations
+
+**Source:** Deferred from button component design
+**Description:** Add hover/focus animations to button icons (e.g., arrow slide on hover, plus rotate on focus).
+**Priority:** Low
 
 ### 2026-02-26 — Package publishing
 
@@ -49,5 +61,6 @@ Ideas and scope creep captured for later consideration.
 
 - [x] 2026-02-26 — Typekit font integration (kit ID: `acb7qvn`)
 - [x] 2026-02-26 — Global CLAUDE.md: bundler moduleResolution for Next.js
+- [x] 2026-02-26 — Button component (CVA variants, OKLCH color scales, TDD)
 
 </details>
