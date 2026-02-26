@@ -18,6 +18,37 @@ Each entry includes:
 
 ---
 
+## Decision #10 — 2026-02-26
+
+**Context:** Whether to tokenize structural button properties (radii, heights, padding, font sizes)
+**Decision:** Use plain Tailwind values, don't tokenize structural properties
+**Rationale:** No rebrand has happened yet. Extracting to tokens later is a trivial mechanical refactor. Tokenizing now adds indirection, loses Tailwind autocomplete, and creates tokens that may never change. YAGNI.
+
+## Decision #9 — 2026-02-26
+
+**Context:** Button font family
+**Decision:** Use `font-heading` (Rigid Square), `font-extrabold`, no italic
+**Rationale:** Buttons are brand elements, not body text. The existing front-core also used a display font (Rubik bold) for buttons. Italic reserved for headings.
+
+## Decision #8 — 2026-02-26
+
+**Context:** Polymorphic button rendering (`as="a"` vs `asChild`)
+**Decision:** Use `asChild` pattern (React.cloneElement) instead of `as` prop
+**Rationale:** Works with Next.js `<Link>`, router links, and any element without prop forwarding headaches. No Radix dependency — simple cloneElement implementation.
+
+## Decision #7 — 2026-02-26
+
+**Context:** Button variant architecture
+**Decision:** CVA (Class Variance Authority) with 6 variants (primary, secondary, outline, text, destructive, warning) and 4 sizes (xs, sm, md, lg). No `color` prop — variant determines color.
+**Rationale:** Variant-determines-color eliminates the combinatorial explosion of the old system (2 kinds × 4 variants × 8+ colors). CVA gives type-safe variant maps with zero runtime. Rebrand-safe because visual decisions live in the token layer.
+**Alternatives considered:** Pure Tailwind maps (reinvents CVA), CSS Modules (doesn't leverage Tailwind utilities)
+
+## Decision #6 — 2026-02-26
+
+**Context:** Color token architecture for component library
+**Decision:** Full OKLCH 50–950 scales for primary, accent, success, warning, error, neutral. Replace bare semantic tokens (`--primary`, etc.) with scales. No backward compatibility.
+**Rationale:** Scales give components fine-grained color control. OKLCH enables Tailwind's `/opacity` modifier. No external consumers exist, so no backward compat needed — replace, don't deprecate.
+
 ## Decision #5 — 2026-02-26
 
 **Context:** CSS import of token file
