@@ -5,6 +5,7 @@ import { ColorsTab } from "@ac/components/tabs/colors-tab";
 import { TypographyTab } from "@ac/components/tabs/typography-tab";
 import { SpacingTab } from "@ac/components/tabs/spacing-tab";
 import { EffectsTab } from "@ac/components/tabs/effects-tab";
+import { IconsTab } from "@ac/components/tabs/icons-tab";
 
 const TABS = ["Colors", "Typography", "Spacing", "Effects", "Icons"] as const;
 type Tab = (typeof TABS)[number];
@@ -46,10 +47,6 @@ function TabContent({ tab }: { tab: Tab }) {
     case "Effects":
       return <EffectsTab />;
     case "Icons":
-      return <IconsPlaceholder />;
+      return <IconsTab />;
   }
-}
-
-function IconsPlaceholder() {
-  return <p className="text-muted-foreground">Icons tab — next task</p>;
 }
