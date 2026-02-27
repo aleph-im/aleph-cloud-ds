@@ -157,11 +157,26 @@
 
 /* ──────────────────────────────────────────────
    Utilities: gradient border effects
+
+   Uses full background declarations per state to
+   avoid setting custom properties inside :hover
+   (Turbopack's CSS optimizer can't parse var()
+   in custom property assignments within nested
+   hover media queries).
    ────────────────────────────────────────────── */
-@utility border-gradient-main {
-  --bg-fill: var(--color-primary-100);
+.border-gradient-main {
   border-color: transparent;
   background:
-    linear-gradient(var(--bg-fill), var(--bg-fill)) padding-box,
+    linear-gradient(var(--color-primary-100), var(--color-primary-100)) padding-box,
+    var(--gradient-main) border-box;
+}
+.border-gradient-main:hover {
+  background:
+    linear-gradient(var(--color-primary-200), var(--color-primary-200)) padding-box,
+    var(--gradient-main) border-box;
+}
+.border-gradient-main:active {
+  background:
+    linear-gradient(var(--color-primary-300), var(--color-primary-300)) padding-box,
     var(--gradient-main) border-box;
 }

@@ -30,8 +30,8 @@ const buttonVariants = cva(
         ].join(" "),
         secondary: [
           "border-gradient-main text-primary-700",
-          "hover:text-primary-800 hover:[--bg-fill:var(--color-primary-200)]",
-          "active:text-primary-800 active:[--bg-fill:var(--color-primary-300)]",
+          "hover:text-primary-800",
+          "active:text-primary-800",
           "disabled:opacity-50",
         ].join(" "),
         outline: [

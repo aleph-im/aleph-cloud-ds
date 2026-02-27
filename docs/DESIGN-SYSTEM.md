@@ -11,11 +11,13 @@ Import the global stylesheet in your root layout. All tokens are available as Ta
 import "./globals.css";
 ```
 
-`globals.css` imports Tailwind, the token file, and registers the `dark:` variant for class-based theming:
+`globals.css` imports Tailwind, the token file, restricts content scanning to `src/`, and registers the `dark:` variant for class-based theming:
 
 ```css
 @import "tailwindcss";
 @import "../styles/tokens.css";
+
+@source "../../src/**/*.{ts,tsx}";
 
 @custom-variant dark (&:where(.theme-dark, .theme-dark *));
 ```
@@ -174,19 +176,15 @@ Available as CSS custom properties. Use via `style` attribute.
 
 ### Gradient Border Utilities
 
-CSS `border-color` doesn't support gradients. These `@utility` classes (defined in `tokens.css`) use the background-clip trick to render gradient borders with rounded corners.
+CSS `border-color` doesn't support gradients. These classes (defined in `tokens.css`) use the background-clip trick to render gradient borders with rounded corners. Interactive states (hover, active) are built into the class.
 
-| Utility class | Gradient | Default fill |
-|--------------|----------|-------------|
-| `border-gradient-main` | `--gradient-main` | `primary-100` |
-
-Override the fill color per state with the `--bg-fill` CSS variable:
+| Class | Gradient | Fill (default → hover → active) |
+|-------|----------|--------------------------------|
+| `border-gradient-main` | `--gradient-main` | primary-100 → 200 → 300 |
 
 ```tsx
-{/* Button with gradient border, fill changes on hover/active */}
-<button className="border-gradient-main border-3 rounded-full
-                   hover:[--bg-fill:var(--color-primary-200)]
-                   active:[--bg-fill:var(--color-primary-300)]">
+{/* Just apply the class — hover/active fills are built in */}
+<button className="border-gradient-main border-3 rounded-full">
   Secondary Action
 </button>
 ```

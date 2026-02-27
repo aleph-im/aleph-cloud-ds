@@ -18,12 +18,18 @@ Each entry includes:
 
 ---
 
+## Decision #16 — 2026-02-27
+
+**Context:** Tailwind 4's `@utility` wraps `:hover` in `@media (hover: hover)`. Turbopack's CSS optimizer can't parse `var()` inside custom property assignments in that nesting, causing build errors. Also: Tailwind 4 auto-scans all project files for class names, including markdown docs with code examples.
+**Decision:** Use plain CSS classes (not `@utility`) for gradient border effects. Bake interactive states into the class. Restrict Tailwind's content scanning to `src/` via `@source` in globals.css.
+**Rationale:** Plain CSS `:hover` avoids Tailwind's media query wrapping. `@source` prevents doc examples from generating phantom CSS utilities.
+
 ## Decision #15 — 2026-02-27
 
 **Context:** Secondary button needs a gradient border (`--gradient-main`), but CSS `border-color` doesn't accept gradients. The background-clip trick requires multiple CSS properties working together.
-**Decision:** Use Tailwind 4's `@utility` in `tokens.css` for complex CSS effects that can't be expressed as plain Tailwind utilities. Expose a CSS variable (`--bg-fill`) for per-state customization. Never add component-level utility classes to `globals.css`.
-**Rationale:** `@utility` is part of Tailwind's utility layer — same specificity, variant support (`hover:`, `dark:`), IDE autocomplete. Colocating the utility in `tokens.css` next to the gradient tokens it consumes keeps the system coherent. `globals.css` stays clean (imports, variant registrations, base element styles only).
-**Alternatives considered:** Inline arbitrary values in CVA (works but unreadable), custom CSS class in globals.css (works but sits outside the token system)
+**Decision:** Define gradient border classes in `tokens.css`, colocated with the gradient tokens they consume. Never add component-level classes to `globals.css`.
+**Rationale:** Keeps the token file as the single source for gradient-related styles. `globals.css` stays clean (imports, content sources, variant registrations, base element styles only).
+**Alternatives considered:** Inline arbitrary values in CVA (works but unreadable), `@utility` (Turbopack can't parse `var()` in nested hover — see Decision #16)
 
 ## Decision #14 — 2026-02-26
 

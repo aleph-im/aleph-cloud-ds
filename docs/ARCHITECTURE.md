@@ -21,7 +21,7 @@ Technical patterns and decisions.
 ```
 src/
 ├── app/
-│   ├── globals.css       # Tailwind + token imports
+│   ├── globals.css       # Tailwind + token imports + @source
 │   ├── layout.tsx        # Root layout with font loading
 │   └── page.tsx          # Preview page
 ├── components/
@@ -42,7 +42,7 @@ src/
 ├── lib/
 │   └── cn.ts             # clsx + tailwind-merge utility
 └── styles/
-    └── tokens.css        # Three-layer token system (OKLCH scales)
+    └── tokens.css        # Three-layer token system + gradient border classes
 docs/
 ├── DESIGN-SYSTEM.md      # Token & component reference (agent-optimized)
 ├── ARCHITECTURE.md       # Technical patterns (this file)
@@ -98,36 +98,38 @@ All source imports use the `@ac/*` prefix, resolved to `./src/*`.
 
 **Adding a new variant:** Add an entry to the `variants` object inside the `cva()` call. The variant key becomes the prop value (e.g., `variant="ghost"` → add `ghost: "..."` to the variant map). TypeScript infers the new prop value automatically.
 
-### Custom Utilities (`@utility`)
+### Custom CSS Classes for Complex Effects
 
-**Context:** Some CSS effects (gradient borders, complex backgrounds) can't be expressed as plain Tailwind utilities. Need an escape hatch that stays within the system rather than adding one-off classes to `globals.css`.
+**Context:** Some CSS effects (gradient borders, complex backgrounds) require multiple properties working together and can't be expressed as plain Tailwind utilities.
 
-**Approach:** Use Tailwind CSS 4's `@utility` directive in `tokens.css` to register custom utilities. These sit alongside the tokens they consume, get the same specificity as other Tailwind utilities, work with variants (`hover:`, `dark:`, etc.), and show up in IDE autocomplete.
+**Approach:** Define plain CSS classes in `tokens.css`, colocated with the tokens they consume. Include interactive states (`:hover`, `:active`) directly in the class so components just apply a single class name. Plain CSS avoids Tailwind's `@media (hover: hover)` wrapping, which causes Turbopack CSS parser issues with `var()` in nested hover contexts.
 
 **Key files:** `src/styles/tokens.css` (after the Layer 3 Tailwind bridge block)
+
+**Why not `@utility`?** Tailwind 4's `@utility` wraps `:hover` in `@media (hover: hover)`, and Turbopack's CSS optimizer can't parse `var()` in that nesting. Plain CSS classes avoid this.
 
 **Decision framework — when a style can't be a plain Tailwind class:**
 
 1. **First choice: Tailwind utility or arbitrary value** — if the effect can be a single `[property:value]` in a class string, use it inline.
-2. **Second choice: `@utility` in `tokens.css`** — if the effect requires multiple CSS properties working together (e.g., `background-clip` + `background` + `border-color`), extract to a `@utility`. Expose a CSS variable (e.g., `--bg-fill`) for per-state customization so components only override the variable, not the whole effect.
-3. **Never: custom classes in `globals.css`** — `globals.css` is for Tailwind imports, variant registrations, and base element styles only. No component-level utilities.
+2. **Second choice: plain CSS class in `tokens.css`** — if the effect requires multiple CSS properties working together (e.g., `background-clip` + `background` + `border-color`), extract to a CSS class with interactive states baked in.
+3. **Never: custom classes in `globals.css`** — `globals.css` is for Tailwind imports, content sources, variant registrations, and base element styles only.
 
-**Example:** `border-gradient-main` uses the background-clip trick for gradient borders with rounded corners. The utility owns the plumbing; components set `--bg-fill` per state.
+**Example:** `border-gradient-main` uses the background-clip trick for gradient borders with rounded corners. Each state has the full `background` declaration referencing color scale tokens.
 
 ```css
-@utility border-gradient-main {
-  --bg-fill: var(--color-primary-100);
+.border-gradient-main {
   border-color: transparent;
   background:
-    linear-gradient(var(--bg-fill), var(--bg-fill)) padding-box,
+    linear-gradient(var(--color-primary-100), var(--color-primary-100)) padding-box,
     var(--gradient-main) border-box;
 }
+.border-gradient-main:hover { /* same with primary-200 */ }
+.border-gradient-main:active { /* same with primary-300 */ }
 ```
 
 ```tsx
-/* Component just applies the utility and overrides --bg-fill per state */
+/* Component just applies the class — interactive states are built in */
 "border-gradient-main text-primary-700",
-"hover:[--bg-fill:var(--color-primary-200)]",
 ```
 
 ### cn() Utility
@@ -149,12 +151,12 @@ All source imports use the `@ac/*` prefix, resolved to `./src/*`.
 3. Add Tailwind mapping in `@theme inline` block (e.g., `--color-new-token: var(--new-token)`)
 4. Use as Tailwind class: `bg-new-token`, `text-new-token`, etc.
 
-### Adding a Gradient Border Utility
+### Adding a Gradient Border Class
 
-1. Add `@utility border-gradient-<name>` in `src/styles/tokens.css` after the existing utilities
-2. Set `--bg-fill` default to the appropriate fill color
-3. Reference the corresponding `var(--gradient-<name>)` token
-4. In components, apply the utility class and override `--bg-fill` per state via `hover:[--bg-fill:var(...)]`
+1. Add `.border-gradient-<name>` in `src/styles/tokens.css` after the existing gradient border classes
+2. Set `border-color: transparent` and the full `background` with `padding-box` / `border-box` clip
+3. Add `:hover` and `:active` selectors with the appropriate fill color stops
+4. In components, apply the class name — no hover overrides needed
 5. Document in `docs/DESIGN-SYSTEM.md` § Gradient Border Utilities
 
 ### Adding a New Component
