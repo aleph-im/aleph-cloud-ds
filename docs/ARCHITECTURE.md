@@ -226,15 +226,15 @@ If either answer is "no," promote the token:
 
 `gradient-fill-main` / `gradient-fill-lime` — gradient fills with overlay-based hover states:
 ```css
-.gradient-fill-main { background: var(--gradient-main); }
+.gradient-fill-main { background: var(--gradient-main) border-box; }
 .gradient-fill-main:hover {
   background:
-    linear-gradient(oklch(1 0 0 / 0.1), oklch(1 0 0 / 0.1)),
-    var(--gradient-main);
+    linear-gradient(oklch(1 0 0 / 0.1), oklch(1 0 0 / 0.1)) border-box,
+    var(--gradient-main) border-box;
 }
 ```
 
-The overlay technique layers a semi-transparent `linear-gradient(solid, solid)` over the base gradient. This avoids maintaining separate hover gradient definitions — just tune the overlay opacity.
+The overlay technique layers a semi-transparent `linear-gradient(solid, solid)` over the base gradient. This avoids maintaining separate hover gradient definitions — just tune the overlay opacity. Each layer uses inline `border-box` to set both `background-origin` and `background-clip` — this prevents sub-pixel artifacts at rounded corners with `border-transparent` (using a separate `background-origin` longhand after the shorthand causes clipping issues with multi-layer backgrounds).
 
 ```tsx
 /* Component just applies the class — interactive states are built in */
@@ -369,9 +369,9 @@ Design system components are visual by nature — most of their code maps props 
 ### Adding a Gradient Fill Class
 
 1. Add `.gradient-fill-<name>` in `packages/ds/src/styles/tokens.css` after the existing gradient fill classes
-2. Set `background: var(--gradient-<name>)`
-3. Add `:hover` with a semi-transparent overlay: `linear-gradient(oklch(... / opacity), oklch(... / opacity)), var(--gradient-<name>)`. Use white overlay to lighten dark gradients, black overlay to darken light gradients.
-4. Add `:active` with a stronger overlay opacity
+2. Set `background: var(--gradient-<name>) border-box` — inline `border-box` prevents sub-pixel artifacts at rounded corners
+3. Add `:hover` with a semi-transparent overlay: `linear-gradient(oklch(... / opacity), oklch(... / opacity)) border-box, var(--gradient-<name>) border-box`. Use white overlay to lighten dark gradients, black overlay to darken light gradients.
+4. Add `:active` with a stronger overlay opacity (same `border-box` per layer)
 5. In components, apply the class name — hover/active states are built in
 6. Document in `docs/DESIGN-SYSTEM.md` § Gradient Fill Utilities
 
