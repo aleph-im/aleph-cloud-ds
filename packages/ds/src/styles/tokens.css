@@ -187,35 +187,29 @@
 }
 
 .gradient-fill-main {
-  background: var(--gradient-main);
-  background-origin: border-box;
+  background: var(--gradient-main) border-box;
 }
 .gradient-fill-main:hover {
   background:
-    linear-gradient(oklch(1 0 0 / 0.1), oklch(1 0 0 / 0.1)),
-    var(--gradient-main);
-  background-origin: border-box;
+    linear-gradient(oklch(1 0 0 / 0.1), oklch(1 0 0 / 0.1)) border-box,
+    var(--gradient-main) border-box;
 }
 .gradient-fill-main:active {
   background:
-    linear-gradient(oklch(0 0 0 / 0.1), oklch(0 0 0 / 0.1)),
-    var(--gradient-main);
-  background-origin: border-box;
+    linear-gradient(oklch(0 0 0 / 0.1), oklch(0 0 0 / 0.1)) border-box,
+    var(--gradient-main) border-box;
 }
 
 .gradient-fill-lime {
-  background: var(--gradient-lime);
-  background-origin: border-box;
+  background: var(--gradient-lime) border-box;
 }
 .gradient-fill-lime:hover {
   background:
-    linear-gradient(oklch(0 0 0 / 0.06), oklch(0 0 0 / 0.06)),
-    var(--gradient-lime);
-  background-origin: border-box;
+    linear-gradient(oklch(0 0 0 / 0.06), oklch(0 0 0 / 0.06)) border-box,
+    var(--gradient-lime) border-box;
 }
 .gradient-fill-lime:active {
   background:
-    linear-gradient(oklch(0 0 0 / 0.12), oklch(0 0 0 / 0.12)),
-    var(--gradient-lime);
-  background-origin: border-box;
+    linear-gradient(oklch(0 0 0 / 0.12), oklch(0 0 0 / 0.12)) border-box,
+    var(--gradient-lime) border-box;
 }
