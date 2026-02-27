@@ -113,8 +113,8 @@
   --muted-foreground: var(--color-neutral-500);
   --card: #ffffff;
   --card-foreground: #141421;
-  --border: var(--color-primary-200);
-  --border-hover: var(--color-primary-300);
+  --edge: var(--color-primary-200);
+  --edge-hover: var(--color-primary-300);
 
   --duration-fast: 200ms;
   --duration-normal: 500ms;
@@ -133,8 +133,8 @@
   --muted-foreground: var(--color-neutral-400);
   --card: var(--color-neutral-900);
   --card-foreground: #F9F4FF;
-  --border: var(--color-neutral-800);
-  --border-hover: var(--color-neutral-700);
+  --edge: var(--color-neutral-800);
+  --edge-hover: var(--color-neutral-700);
 }
 
 /* ──────────────────────────────────────────────
@@ -151,8 +151,8 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
-  --color-border: var(--border);
-  --color-border-hover: var(--border-hover);
+  --color-edge: var(--edge);
+  --color-edge-hover: var(--edge-hover);
 }
 
 /* ──────────────────────────────────────────────

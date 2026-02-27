@@ -45,13 +45,6 @@ Ideas and scope creep captured for later consideration.
 **Description:** Publish `@aleph-front/ds` to npm for consumption by other Aleph Cloud apps.
 **Priority:** Medium
 
-
-### 2026-02-26 — CSS import alias
-
-**Source:** Task 11 build fix
-**Description:** Investigate PostCSS/Tailwind CSS path alias support to enable `@ac/` imports in CSS files (currently only works in TypeScript).
-**Priority:** Low
-
 ---
 
 ## Completed / Rejected

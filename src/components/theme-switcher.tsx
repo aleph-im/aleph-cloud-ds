@@ -17,8 +17,8 @@ export function ThemeSwitcher() {
   return (
     <button
       onClick={toggle}
-      className="rounded-md border border-border px-3 py-1.5 text-sm
-                 hover:border-border-hover transition-colors"
+      className="rounded-md border border-edge px-3 py-1.5 text-sm
+                 hover:border-edge-hover transition-colors"
       style={{ transitionDuration: "var(--duration-fast)" }}
       aria-label={dark ? "Switch to light theme" : "Switch to dark theme"}
     >

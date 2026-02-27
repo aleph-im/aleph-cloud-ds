@@ -78,7 +78,7 @@ export function ColorsTab() {
         swatches={[
           {
             label: "background",
-            colorClass: "bg-background border border-border",
+            colorClass: "bg-background border border-edge",
             textClass: "text-foreground",
           },
           {
@@ -103,7 +103,7 @@ export function ColorsTab() {
           },
           {
             label: "card",
-            colorClass: "bg-card border border-border",
+            colorClass: "bg-card border border-edge",
             textClass: "text-card-foreground",
           },
         ]}
@@ -113,12 +113,12 @@ export function ColorsTab() {
         swatches={[
           {
             label: "border",
-            colorClass: "border-2 border-border bg-background",
+            colorClass: "border-2 border-edge bg-background",
             textClass: "text-foreground",
           },
           {
             label: "border-hover",
-            colorClass: "border-2 border-border-hover bg-background",
+            colorClass: "border-2 border-edge-hover bg-background",
             textClass: "text-foreground",
           },
         ]}

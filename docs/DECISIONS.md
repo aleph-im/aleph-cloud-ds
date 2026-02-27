@@ -18,6 +18,12 @@ Each entry includes:
 
 ---
 
+## Decision #17 — 2026-02-27
+
+**Context:** Semantic token `--border` produces Tailwind class `border-border` (utility prefix + token name stutter).
+**Decision:** Rename `--border`/`--border-hover` to `--edge`/`--edge-hover`. Add architecture rule: token names must not duplicate Tailwind utility prefixes.
+**Rationale:** `border-edge` reads clearly. The rule prevents future collisions with `bg-`, `text-`, `shadow-`, `ring-`, `outline-` prefixes.
+
 ## Decision #16 — 2026-02-27
 
 **Context:** Tailwind 4's `@utility` wraps `:hover` in `@media (hover: hover)`. Turbopack's CSS optimizer can't parse `var()` inside custom property assignments in that nesting, causing build errors. Also: Tailwind 4 auto-scans all project files for class names, including markdown docs with code examples.

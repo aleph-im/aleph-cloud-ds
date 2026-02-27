@@ -66,6 +66,16 @@ All source imports use the `@ac/*` prefix, resolved to `./src/*`.
 
 ---
 
+## Rules
+
+### No Tailwind Prefix Collisions in Token Names
+
+Semantic token names must not duplicate a Tailwind utility prefix. When a token name matches a prefix, the resulting class stutters (e.g., `border-border`). Check against: `bg-`, `text-`, `border-`, `shadow-`, `ring-`, `outline-`.
+
+**Example:** The border color token is named `edge`, not `border`, giving `border-edge` instead of `border-border`.
+
+---
+
 ## Patterns
 
 ### Three-Layer Token Architecture

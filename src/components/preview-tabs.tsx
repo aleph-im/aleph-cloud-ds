@@ -16,7 +16,7 @@ export function PreviewTabs() {
 
   return (
     <div>
-      <nav className="flex gap-1 border-b border-border mb-8">
+      <nav className="flex gap-1 border-b border-edge mb-8">
         {TABS.map((tab) => (
           <button
             key={tab}

@@ -80,8 +80,8 @@ Swap automatically between light and dark themes.
 | `muted-foreground` | `text-muted-foreground` | neutral-500 | neutral-400 | Subdued text, labels |
 | `card` | `bg-card` | `#ffffff` | neutral-900 | Card/panel backgrounds |
 | `card-foreground` | `text-card-foreground` | `#141421` | `#F9F4FF` | Card text |
-| `border` | `border-border` | primary-200 | neutral-800 | Borders, dividers |
-| `border-hover` | `border-border-hover` | primary-300 | neutral-700 | Hover state borders |
+| `edge` | `border-edge` | primary-200 | neutral-800 | Borders, dividers |
+| `edge-hover` | `border-edge-hover` | primary-300 | neutral-700 | Hover state borders |
 
 ### Usage Examples
 
@@ -95,7 +95,7 @@ Swap automatically between light and dark themes.
 <div className="bg-primary-600/20 text-primary-700 p-4 rounded">20% opacity</div>
 
 {/* Semantic colors — theme-aware */}
-<div className="bg-card text-card-foreground rounded-lg border border-border p-6">
+<div className="bg-card text-card-foreground rounded-lg border border-edge p-6">
   <h3 className="text-foreground font-bold">Title</h3>
   <p className="text-muted-foreground">Description text</p>
 </div>
@@ -266,7 +266,7 @@ Timing function: `var(--timing)` = `ease-in-out`
 ```tsx
 {/* Fast hover transition */}
 <button
-  className="border border-border hover:border-border-hover transition-colors"
+  className="border border-edge hover:border-edge-hover transition-colors"
   style={{ transitionDuration: "var(--duration-fast)" }}
 >
   Hover me
@@ -327,7 +327,7 @@ Size tokens for consistent icon sizing. No icon library included yet.
 ### Composing a Card
 
 ```tsx
-<div className="bg-card text-card-foreground rounded-lg border border-border
+<div className="bg-card text-card-foreground rounded-lg border border-edge
                 shadow-brand-sm hover:shadow-brand p-6"
      style={{ transitionDuration: "var(--duration-fast)" }}>
   <h3 className="font-heading text-xl font-extrabold italic mb-2">

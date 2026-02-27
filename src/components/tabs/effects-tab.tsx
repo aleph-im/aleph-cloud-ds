@@ -61,7 +61,7 @@ export function EffectsTab() {
           {TRANSITIONS.map(({ name, duration }) => (
             <div
               key={name}
-              className="rounded-lg border border-border p-4 hover:border-primary
+              className="rounded-lg border border-edge p-4 hover:border-primary
                          hover:shadow-brand cursor-pointer"
               style={{
                 transitionProperty: "border-color, box-shadow",

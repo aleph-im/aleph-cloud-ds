@@ -16,7 +16,7 @@ export function TypographyTab() {
         <h3 className="text-lg font-bold mb-4">Heading Scale</h3>
         <div className="space-y-4">
           {HEADINGS.map(({ tag, size, label }) => (
-            <div key={tag} className="border-b border-border pb-4">
+            <div key={tag} className="border-b border-edge pb-4">
               <p className="text-xs text-muted-foreground mb-1">{label}</p>
               <p
                 className="font-heading font-extrabold italic leading-none"
@@ -72,17 +72,17 @@ export function TypographyTab() {
       <section>
         <h3 className="text-lg font-bold mb-4">Font Families</h3>
         <div className="grid gap-4 md:grid-cols-3">
-          <div className="rounded-lg border border-border p-4">
+          <div className="rounded-lg border border-edge p-4">
             <p className="text-xs text-muted-foreground mb-2">font-heading</p>
             <p className="font-heading text-xl font-extrabold italic">
               rigid-square
             </p>
           </div>
-          <div className="rounded-lg border border-border p-4">
+          <div className="rounded-lg border border-edge p-4">
             <p className="text-xs text-muted-foreground mb-2">font-sans</p>
             <p className="font-sans text-xl">Titillium Web</p>
           </div>
-          <div className="rounded-lg border border-border p-4">
+          <div className="rounded-lg border border-edge p-4">
             <p className="text-xs text-muted-foreground mb-2">font-mono</p>
             <p className="font-mono text-xl">Source Code Pro</p>
           </div>

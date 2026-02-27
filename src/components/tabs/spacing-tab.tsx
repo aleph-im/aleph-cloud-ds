@@ -48,7 +48,7 @@ export function SpacingTab() {
         <div className="overflow-x-auto">
           <table className="text-sm">
             <thead>
-              <tr className="border-b border-border">
+              <tr className="border-b border-edge">
                 <th className="text-left py-2 pr-8 text-muted-foreground font-medium">
                   Name
                 </th>
@@ -62,7 +62,7 @@ export function SpacingTab() {
             </thead>
             <tbody>
               {BREAKPOINTS.map(({ name, px }) => (
-                <tr key={name} className="border-b border-border">
+                <tr key={name} className="border-b border-edge">
                   <td className="py-2 pr-8 font-mono">{name}</td>
                   <td className="py-2 pr-8">{px}</td>
                   <td className="py-2 font-mono text-muted-foreground">
