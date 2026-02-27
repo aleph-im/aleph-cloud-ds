@@ -21,12 +21,6 @@ Ideas and scope creep captured for later consideration.
 **Description:** Add 4 SVG logo variants (icon-only light/dark, icon+wordlogo light/dark).
 **Priority:** Medium
 
-### 2026-02-27 — Select dropdown animation classes are dead
-
-**Source:** Design audit after form components implementation
-**Description:** Select dropdown content uses `animate-in`/`fade-in-0`/`animate-out`/`fade-out-0` classes from `tailwindcss-animate`, which isn't installed. Either install the package or remove the dead classes. Per project philosophy ("no phantom features"), removing is preferred unless animations are specifically wanted.
-**Priority:** Low
-
 ### 2026-02-27 — Form components (remaining)
 
 **Source:** Identified while reviewing component coverage
@@ -69,5 +63,6 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-02-27 — Monorepo + preview restructure (pnpm workspaces, sidebar + routes)
 - [x] 2026-02-27 — Gradient button variants (primary=gradient-main, secondary=gradient-lime, outline=gradient border)
 - [x] 2026-02-27 — Form components: Checkbox, RadioGroup, Switch, Select (Radix UI wrappers)
+- [x] 2026-02-27 — Select dropdown animation classes are dead (removed, no phantom features)
 
 </details>

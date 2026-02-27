@@ -2,6 +2,67 @@
 
 A design system built with Tailwind CSS 4 + CSS custom properties + OKLCH colors. Includes design tokens, fonts, reusable components, and a preview app.
 
+## Design Methodology
+
+### Principles
+
+1. **Tokens first, components second.** Every visual decision (color, spacing, shadow, gradient) is a token before it's a component style. Components consume tokens — they never hardcode visual values. This means a rebrand changes one file (`tokens.css`), not every component.
+
+2. **CSS-native theming.** Themes are CSS custom property swaps, not JS runtime logic. The browser handles theme transitions for free. No React context, no provider wrappers, no hydration mismatch. Toggle a class on `<html>` and every token resolves to its new value instantly.
+
+3. **Tailwind as the utility layer, not the design language.** Tailwind classes are the delivery mechanism — the actual design lives in the token system. Components use Tailwind utilities to apply tokens, but the tokens define the visual language. This keeps the design system portable: if Tailwind is replaced, only the delivery layer changes.
+
+4. **Accessibility is structural, not decorative.** Interactive components wrap Radix UI primitives that provide keyboard navigation, ARIA attributes, and focus management by default. Accessibility isn't added after the fact — it's the foundation the visual layer is painted on.
+
+5. **No phantom features.** If a class, prop, or token doesn't resolve to working behavior, it's deleted. Dead code misleads both developers and tools. Better to have less that works than more that doesn't.
+
+### Three-Layer Token Architecture
+
+The token system has three layers, each with a distinct role:
+
+| Layer | CSS Construct | Role | Example |
+|-------|--------------|------|---------|
+| **1. Brand** | `@theme { }` | Raw brand values — colors, gradients, fonts, shadows. Same in all themes. | `--color-primary-600: oklch(0.44 0.28 285.48)` |
+| **2. Semantic** | `:root { }` / `.theme-dark { }` | Purpose-driven aliases that swap per theme. | `--primary: var(--color-primary-600)` (light) / `var(--color-primary-400)` (dark) |
+| **3. Tailwind Bridge** | `@theme inline { }` | Maps semantic tokens into Tailwind's `--color-*` namespace so utilities like `bg-primary` resolve at runtime. | `--color-primary: var(--primary)` |
+
+**Why three layers?** Layer 1 is the brand source of truth — it never changes between themes. Layer 2 is where theme-awareness lives — it decides which brand value to use in each context. Layer 3 is mechanical plumbing — it makes Tailwind utilities work with runtime CSS variables (via `inline`, which tells Tailwind to resolve at runtime instead of compile time).
+
+**Promotion rule:** If a Layer 1 value needs to change per theme, it must be promoted to Layer 2. Example: `--gradient-main` has a dark endpoint that blends into the dark mode background, so it was promoted to a semantic token with per-theme variants.
+
+### Component Architecture
+
+Components follow a consistent pattern:
+
+1. **CVA (Class Variance Authority)** defines variant maps — each variant is a key mapping to Tailwind class strings. TypeScript infers prop types from the variant keys automatically.
+
+2. **`forwardRef`** on every component — consumers can attach refs for focus management, measurements, or integration with form libraries.
+
+3. **`cn()` utility** (clsx + tailwind-merge) handles class composition. Always use `cn()` instead of template literals to ensure Tailwind conflict resolution.
+
+4. **Radix UI wrappers** for interactive controls. The DS component is the public API; Radix is an internal implementation detail consumers never import directly.
+
+5. **Flat props over compound children.** Where Radix uses nested `<Item>` components (like Select), the DS wrapper accepts a flat `options` array. This simplifies the consumer API at the cost of flexibility — a tradeoff that's right for most use cases.
+
+### Color Space
+
+All color scales use **OKLCH** — a perceptually uniform color space where equal numeric steps produce equal visual contrast steps. This means a 100-unit jump from `primary-400` to `primary-500` looks the same as from `primary-700` to `primary-800`, unlike HSL where lightness perception varies by hue.
+
+OKLCH also enables Tailwind's `/opacity` modifier (`bg-primary-600/50`) because the color components are expressed independently.
+
+### Testing Philosophy
+
+Test **behavior and accessibility**, not appearance. The preview app is the visual test suite. Automated tests verify:
+
+- Interactive logic (loading state shows spinner, hides icons)
+- Accessibility attributes (`aria-invalid`, `aria-busy`, `disabled`)
+- DOM structure (polymorphic rendering, prop forwarding)
+- Edge cases (empty states, disabled interactions)
+
+Tests never assert CSS class names — those are implementation details that break on every visual redesign without catching real bugs.
+
+---
+
 ## Installation
 
 Install the DS package in your app:

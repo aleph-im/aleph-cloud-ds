@@ -95,8 +95,6 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
             className={cn(
               "z-50 overflow-hidden rounded-2xl",
               "bg-card border border-edge shadow-brand",
-              "data-[state=open]:animate-in data-[state=open]:fade-in-0",
-              "data-[state=closed]:animate-out data-[state=closed]:fade-out-0",
             )}
             position="popper"
             sideOffset={4}
