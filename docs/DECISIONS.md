@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #27 — 2026-02-27
+
+**Context:** Building form components (Checkbox, RadioGroup, Switch, Select) that need rich accessibility — keyboard navigation, focus management, ARIA attributes, state management.
+**Decision:** Use Radix UI 1.4.3 as the headless primitive layer. DS components wrap Radix with `forwardRef`, CVA variants, and Tailwind styling. Consumers import the DS facade — Radix is an internal dependency they never touch.
+**Rationale:** Radix provides battle-tested accessibility for free. The unified `radix-ui` package is tree-shakeable. The `data-[state=*]` attributes map cleanly to Tailwind modifiers. The `asChild` pattern already matches our Button component's approach. Building these primitives from scratch would take weeks and produce worse accessibility.
+**Alternatives considered:** Headless UI (fewer primitives, Tailwind-specific), React Aria (heavier, more opinionated), building from scratch (accessibility debt).
+
 ## Decision #26 — 2026-02-27
 
 **Context:** Primary button dark mode — the dark end of `gradient-main` (`#141421`) is identical to the dark mode background, making the left edge of the button invisible. Tried various border stops (400–950) but none felt right. Initially overrode `--gradient-main` directly in `.theme-dark`, but this violated the three-layer architecture (Layer 1 values should not be theme-dependent).

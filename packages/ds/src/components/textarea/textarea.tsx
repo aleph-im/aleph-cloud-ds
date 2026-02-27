@@ -9,7 +9,7 @@ const textareaVariants = cva(
     "placeholder:text-muted-foreground",
     "hover:border-edge-hover",
     "focus-visible:outline-none focus-visible:ring-3",
-    "focus-visible:ring-primary-200",
+    "focus-visible:ring-primary-500",
     "disabled:opacity-50 disabled:pointer-events-none",
     "ring-0 resize-y transition-[color,border-color,box-shadow]",
   ].join(" "),

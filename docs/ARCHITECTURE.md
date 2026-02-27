@@ -32,9 +32,21 @@ aleph-cloud-ds/
 │       │   │   ├── button/
 │       │   │   │   ├── button.tsx
 │       │   │   │   └── button.test.tsx
+│       │   │   ├── checkbox/
+│       │   │   │   ├── checkbox.tsx
+│       │   │   │   └── checkbox.test.tsx
 │       │   │   ├── input/
 │       │   │   │   ├── input.tsx
 │       │   │   │   └── input.test.tsx
+│       │   │   ├── radio-group/
+│       │   │   │   ├── radio-group.tsx
+│       │   │   │   └── radio-group.test.tsx
+│       │   │   ├── select/
+│       │   │   │   ├── select.tsx
+│       │   │   │   └── select.test.tsx
+│       │   │   ├── switch/
+│       │   │   │   ├── switch.tsx
+│       │   │   │   └── switch.test.tsx
 │       │   │   ├── textarea/
 │       │   │   │   ├── textarea.tsx
 │       │   │   │   └── textarea.test.tsx
@@ -66,7 +78,11 @@ aleph-cloud-ds/
 │       │   │   │   └── icons/page.tsx
 │       │   │   └── components/
 │       │   │       ├── button/page.tsx
+│       │   │       ├── checkbox/page.tsx
 │       │   │       ├── input/page.tsx
+│       │   │       ├── radio-group/page.tsx
+│       │   │       ├── select/page.tsx
+│       │   │       ├── switch/page.tsx
 │       │   │       ├── textarea/page.tsx
 │       │   │       └── form-field/page.tsx
 │       │   └── components/
@@ -245,6 +261,55 @@ The overlay technique layers a semi-transparent `linear-gradient(solid, solid)` 
 
 **Rule:** Never use dynamic Tailwind class construction or inline `var()` styles for `@theme` variables. Always use a static safelist or lookup map.
 
+### Radix UI Wrapper Pattern
+
+**Context:** Form components need rich accessibility (keyboard navigation, ARIA states, focus management) that's expensive to build from scratch.
+
+**Approach:** Wrap Radix UI primitives with `forwardRef`, apply CVA variants via `className`, style Radix `data-[state=*]` attributes with Tailwind classes. Consumers import the DS wrapper — Radix is an internal dependency they never touch directly.
+
+**Key files:** `packages/ds/src/components/checkbox/checkbox.tsx`, `radio-group/radio-group.tsx`, `switch/switch.tsx`, `select/select.tsx`
+
+**Pattern:**
+```tsx
+import { forwardRef, type ComponentPropsWithoutRef } from "react";
+import { Checkbox as CheckboxPrimitive } from "radix-ui";
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@ac/lib/cn";
+
+const variants = cva(/* base + variants */);
+
+type Props = Omit<ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>, "size">
+  & VariantProps<typeof variants>
+  & { error?: boolean };
+
+const Checkbox = forwardRef<HTMLButtonElement, Props>(
+  ({ size, error, className, ...rest }, ref) => (
+    <CheckboxPrimitive.Root
+      ref={ref}
+      className={cn(variants({ size }), error && "...", className)}
+      aria-invalid={error || undefined}
+      {...rest}
+    >
+      <CheckboxPrimitive.Indicator>...</CheckboxPrimitive.Indicator>
+    </CheckboxPrimitive.Root>
+  ),
+);
+```
+
+**Notes:**
+- `Omit<..., "size">` removes Radix's native `size` to replace with CVA's typed version
+- `data-[state=checked]:` Tailwind modifiers style Radix's state attributes
+- `error` prop adds `aria-invalid` for accessibility and error border styling
+- Select uses a flat `options` prop wrapping Radix's compound children pattern
+
+### Test Environment for Radix Components
+
+**Context:** Radix Select uses DOM APIs not available in jsdom (PointerEvent, ResizeObserver, DOMRect, scrollIntoView).
+
+**Approach:** Polyfills are added at the top of `select.test.tsx` before any imports. The `vitest.setup.ts` file imports `@testing-library/jest-dom/vitest` for matchers like `toBeChecked()`, `toHaveAttribute()`, `toHaveClass()`.
+
+**Key files:** `packages/ds/vitest.setup.ts`, `packages/ds/src/components/select/select.test.tsx`
+
 ### cn() Utility
 
 **Context:** Tailwind classes can conflict (e.g., `bg-red-500` and `bg-blue-500` both present). Need predictable overrides when merging conditional classes.
@@ -313,7 +378,7 @@ Design system components are visual by nature — most of their code maps props 
 ### Adding a New Component
 
 1. Create `packages/ds/src/components/<name>/<name>.tsx` (or `packages/ds/src/components/ui/<name>.tsx` for primitives)
-2. Use CVA for variants, `cn()` for class merging, `forwardRef` for DOM access
+2. Use CVA for variants, `cn()` for class merging, `forwardRef` for DOM access. For interactive controls (checkboxes, selects, etc.), wrap a Radix UI primitive — see "Radix UI Wrapper Pattern" above.
 3. Colocate tests as `<name>.test.tsx` — test behavior and accessibility only (see Testing Philosophy above)
 4. Export from the component file directly — no barrel `index.ts` files
 5. Add subpath export to `packages/ds/package.json`: `"./<name>": "./src/components/<name>/<name>.tsx"`

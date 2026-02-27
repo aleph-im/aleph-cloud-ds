@@ -479,7 +479,7 @@ import { Input } from "@aleph-front/ds/input";
 
 **Error:** `error={true}` switches to 3px `border-error-400` border, sets `aria-invalid`.
 
-**Focus ring:** Flush `ring-3` in `primary-200`, animated via `box-shadow` transition. No offset.
+**Focus ring:** Flush `ring-3` in `primary-500`, animated via `box-shadow` transition. No offset.
 
 ### Textarea
 
@@ -515,6 +515,114 @@ import { Input } from "@aleph-front/ds/input";
 **Props:** `label` (required), `required`, `helperText`, `error`, `className`
 
 **Accessibility:** Auto-generates `id`, wires `htmlFor`, `aria-describedby`, and `role="alert"` on errors.
+
+### Checkbox
+
+Toggle control for boolean values. Wraps Radix UI Checkbox with CVA styling.
+
+```tsx
+import { Checkbox } from "@aleph-front/ds/checkbox";
+
+<Checkbox />
+<Checkbox defaultChecked />
+<Checkbox checked={value} onCheckedChange={setValue} />
+<Checkbox disabled />
+<Checkbox error />
+<Checkbox size="sm" />
+
+<FormField label="Accept terms" required>
+  <Checkbox />
+</FormField>
+```
+
+**Props:** `checked`, `defaultChecked`, `onCheckedChange`, `disabled`, `error`, `size` (sm/md), `className`. Forwards ref to `<button>`.
+
+**Sizes:** `sm` (16px) · `md` (20px, default)
+
+**Error:** `error={true}` switches to 3px `border-error-400` border, sets `aria-invalid`.
+
+### RadioGroup
+
+Mutually exclusive option set. Wraps Radix UI RadioGroup with CVA styling.
+
+```tsx
+import { RadioGroup, RadioGroupItem } from "@aleph-front/ds/radio-group";
+
+<RadioGroup defaultValue="a" onValueChange={setValue}>
+  <RadioGroupItem value="a" />
+  <RadioGroupItem value="b" />
+  <RadioGroupItem value="c" disabled />
+</RadioGroup>
+
+<FormField label="Plan" required>
+  <RadioGroup defaultValue="starter">
+    <RadioGroupItem value="starter" />
+    <RadioGroupItem value="pro" />
+  </RadioGroup>
+</FormField>
+```
+
+**RadioGroup props:** `value`, `defaultValue`, `onValueChange`, `disabled`, `className`. Forwards ref to `<div>`.
+
+**RadioGroupItem props:** `value`, `disabled`, `size` (sm/md), `className`. Forwards ref to `<button>`.
+
+**Sizes:** `sm` (16px) · `md` (20px, default)
+
+### Switch
+
+Toggle control for on/off states. Wraps Radix UI Switch with CVA styling and animated thumb.
+
+```tsx
+import { Switch } from "@aleph-front/ds/switch";
+
+<Switch />
+<Switch defaultChecked />
+<Switch checked={value} onCheckedChange={setValue} />
+<Switch disabled />
+<Switch size="sm" />
+
+<FormField label="Email notifications">
+  <Switch />
+</FormField>
+```
+
+**Props:** `checked`, `defaultChecked`, `onCheckedChange`, `disabled`, `size` (sm/md), `className`. Forwards ref to `<button>`.
+
+**Sizes:** `sm` (32x18px track, 12px thumb) · `md` (40x22px track, 16px thumb, default)
+
+**Visuals:** Pill track, sliding white thumb with `transition-transform`. Off = `bg-muted border-edge`, on = `bg-primary`.
+
+### Select
+
+Dropdown selector. Wraps Radix UI Select with flat `options` prop API.
+
+```tsx
+import { Select } from "@aleph-front/ds/select";
+
+<Select
+  placeholder="Choose..."
+  options={[
+    { value: "a", label: "Option A" },
+    { value: "b", label: "Option B" },
+    { value: "c", label: "Option C", disabled: true },
+  ]}
+/>
+<Select value={value} onValueChange={setValue} options={options} />
+<Select disabled options={options} />
+<Select error options={options} />
+
+<FormField label="Region" required error="Required">
+  <Select error placeholder="Select region" options={regions} />
+</FormField>
+```
+
+**Props:** `value`, `defaultValue`, `onValueChange`, `placeholder`, `options` (array of `{ value, label, disabled? }`), `disabled`, `error`, `size` (sm/md), `className`, `id`, `aria-describedby`. Forwards ref to trigger `<button>`.
+
+**Sizes:** `sm` (Input sm padding) · `md` (Input md padding, default)
+
+**Error:** `error={true}` switches to 3px `border-error-400` border, sets `aria-invalid`.
+
+**Dropdown:** `rounded-2xl`, `bg-card`, `border border-edge`, `shadow-brand`. Items highlight with `bg-muted`. Selected shows check icon.
 
 ### Spinner
 
@@ -557,6 +665,10 @@ Run `pnpm dev` and visit http://localhost:3000. Sidebar navigation with route-pe
 | `/components/button` | Variants, sizes, icons, loading, disabled, asChild |
 | `/components/input` | Sizes and states |
 | `/components/textarea` | Default, error, disabled |
+| `/components/checkbox` | Default, sizes, states, controlled, FormField |
+| `/components/radio-group` | Default, sizes, states, controlled, FormField |
+| `/components/switch` | Default, sizes, disabled, controlled, FormField |
+| `/components/select` | Default, sizes, states, controlled, FormField |
 | `/components/form-field` | Label, helper text, error |
 
 Theme switcher in the sticky header toggles light/dark.

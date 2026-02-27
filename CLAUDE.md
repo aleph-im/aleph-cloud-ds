@@ -201,6 +201,10 @@ docs/plans/                   # Design and implementation plans
 - cn() utility (clsx + tailwind-merge)
 - Input component with 2 sizes, error/disabled states
 - Textarea component with rows default, vertical resize, error/disabled states
+- Checkbox component (Radix UI) with 2 sizes, error/disabled states, check indicator
+- RadioGroup component (Radix UI) with 2 sizes, group/item-level disabled, dot indicator
+- Switch component (Radix UI) with 2 sizes, animated sliding thumb, disabled state
+- Select component (Radix UI) with flat options prop, 2 sizes, error/disabled, portal dropdown
 - FormField wrapper with label, required asterisk, helper text, error message, auto-wired accessibility
 - Preview app with sidebar navigation and route-per-page (10 pages)
 - Static export for deployment

@@ -21,10 +21,26 @@ Ideas and scope creep captured for later consideration.
 **Description:** Add 4 SVG logo variants (icon-only light/dark, icon+wordlogo light/dark).
 **Priority:** Medium
 
+### 2026-02-27 — Select dropdown animation classes are dead
+
+**Source:** Design audit after form components implementation
+**Description:** Select dropdown content uses `animate-in`/`fade-in-0`/`animate-out`/`fade-out-0` classes from `tailwindcss-animate`, which isn't installed. Either install the package or remove the dead classes. Per project philosophy ("no phantom features"), removing is preferred unless animations are specifically wanted.
+**Priority:** Low
+
+### 2026-02-27 — Form components (remaining)
+
+**Source:** Identified while reviewing component coverage
+**Description:** Build remaining form components using the token system and CVA architecture. Checkbox, RadioGroup, Switch, and Select are done. Remaining:
+- Combobox / Autocomplete — searchable select with filtering
+- Slider — range input with min/max/step
+- File Upload — drag-and-drop or click-to-upload area
+- Number Input / Stepper — numeric input with +/- buttons
+**Priority:** Medium
+
 ### 2026-02-27 — Component library (continued)
 
 **Source:** Design doc
-**Description:** Build remaining UI components (cards, modals, selects, etc.) using the token system. Button, Input, Textarea, and FormField are complete.
+**Description:** Build remaining non-form UI components (cards, modals, tooltips, etc.) using the token system.
 **Priority:** High
 
 ### 2026-02-26 — Button icon animations
@@ -52,5 +68,6 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-02-27 — Input, Textarea, FormField components (CVA, accessibility, TDD)
 - [x] 2026-02-27 — Monorepo + preview restructure (pnpm workspaces, sidebar + routes)
 - [x] 2026-02-27 — Gradient button variants (primary=gradient-main, secondary=gradient-lime, outline=gradient border)
+- [x] 2026-02-27 — Form components: Checkbox, RadioGroup, Switch, Select (Radix UI wrappers)
 
 </details>

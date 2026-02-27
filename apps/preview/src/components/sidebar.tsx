@@ -39,6 +39,10 @@ const NAV: NavEntry[] = [
         items: [
           { label: "Input", href: "/components/input" },
           { label: "Textarea", href: "/components/textarea" },
+          { label: "Checkbox", href: "/components/checkbox" },
+          { label: "Radio Group", href: "/components/radio-group" },
+          { label: "Switch", href: "/components/switch" },
+          { label: "Select", href: "/components/select" },
           { label: "FormField", href: "/components/form-field" },
         ],
       },

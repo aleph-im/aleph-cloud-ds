@@ -5,9 +5,13 @@
   "license": "MIT",
   "exports": {
     "./button": "./src/components/button/button.tsx",
+    "./checkbox": "./src/components/checkbox/checkbox.tsx",
     "./input": "./src/components/input/input.tsx",
     "./textarea": "./src/components/textarea/textarea.tsx",
+    "./select": "./src/components/select/select.tsx",
+    "./switch": "./src/components/switch/switch.tsx",
     "./form-field": "./src/components/form-field/form-field.tsx",
+    "./radio-group": "./src/components/radio-group/radio-group.tsx",
     "./ui/spinner": "./src/components/ui/spinner.tsx",
     "./lib/cn": "./src/lib/cn.ts",
     "./styles/tokens.css": "./src/styles/tokens.css"
@@ -29,6 +33,7 @@
     "tailwind-merge": "3.5.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "16.3.2",
     "@testing-library/user-event": "14.6.1",
     "@types/jsdom": "28.0.0",
