@@ -269,7 +269,7 @@ The overlay technique layers a semi-transparent `linear-gradient(solid, solid)` 
 **Context:** Preview app needs a sidebar that stays in place while only the main content scrolls, and works on mobile devices.
 
 **Approach:** `SidebarShell` is a client component that owns the mobile drawer state and renders both layouts:
-- **Desktop (`lg+`):** Fixed sidebar (`hidden lg:block w-60`) with independent scroll. The outer layout wrapper uses `h-screen flex-col` to lock to viewport height. Below the header, a `flex flex-1 overflow-hidden` container holds sidebar and main.
+- **Desktop (`lg+`):** Fixed sidebar (`hidden lg:block w-75`) with independent scroll. The outer layout wrapper uses `h-screen flex-col` to lock to viewport height. Below the header, a `flex flex-1 overflow-hidden` container holds sidebar and main.
 - **Mobile (`<lg`):** Slide-in drawer (`fixed inset-0 z-40`) with backdrop overlay, `translate-x` transition, and Escape key close. Touch targets bumped to `py-2 px-3` for 44px minimum. A hamburger menu button in a sub-header triggers the drawer.
 
 `SidebarShell` wraps `{children}` (the page content) so the layout component stays a server component — no client-side state leaks into the root layout.

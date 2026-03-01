@@ -208,7 +208,7 @@ function DesktopSidebar() {
   return (
     <nav
       aria-label="Design system"
-      className="hidden lg:block w-60 shrink-0 border-r border-edge overflow-y-auto py-6 px-4"
+      className="hidden lg:block w-75 shrink-0 border-r border-edge overflow-y-auto py-6 px-4"
     >
       <NavContent />
     </nav>
@@ -249,7 +249,7 @@ function MobileDrawer({
       {/* Drawer panel */}
       <nav
         aria-label="Design system"
-        className={`absolute inset-y-0 left-0 w-72 bg-background border-r border-edge
+        className={`absolute inset-y-0 left-0 w-80 bg-background border-r border-edge
                     overflow-y-auto py-6 px-4 shadow-brand-lg
                     transition-transform motion-reduce:transition-none ${
           open ? "translate-x-0" : "-translate-x-full"
