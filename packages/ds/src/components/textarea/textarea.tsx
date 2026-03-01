@@ -5,13 +5,12 @@ import { cn } from "@ac/lib/cn";
 const textareaVariants = cva(
   [
     "w-full font-sans text-foreground bg-card",
-    "border-3 border-edge rounded-2xl",
+    "border-0 shadow-brand rounded-2xl",
     "placeholder:text-muted-foreground",
-    "hover:border-edge-hover",
     "focus-visible:outline-none focus-visible:ring-3",
     "focus-visible:ring-primary-500",
     "disabled:opacity-50 disabled:pointer-events-none",
-    "ring-0 resize-y transition-[color,border-color,box-shadow]",
+    "ring-0 resize-y transition-[color,box-shadow]",
   ].join(" "),
   {
     variants: {

@@ -7,12 +7,11 @@ const triggerVariants = cva(
   [
     "inline-flex items-center justify-between",
     "w-full font-sans text-foreground bg-card",
-    "border-3 border-edge rounded-full",
-    "hover:border-edge-hover",
+    "border-0 shadow-brand rounded-full",
     "focus-visible:outline-none focus-visible:ring-3",
     "focus-visible:ring-primary-500",
     "disabled:opacity-50 disabled:pointer-events-none",
-    "ring-0 transition-[color,border-color,box-shadow]",
+    "ring-0 transition-[color,box-shadow]",
     "data-[placeholder]:text-muted-foreground",
   ].join(" "),
   {
