@@ -31,10 +31,18 @@ Ideas and scope creep captured for later consideration.
 - Number Input / Stepper — numeric input with +/- buttons
 **Priority:** Medium
 
-### 2026-02-27 — Component library (continued)
+### 2026-02-27 — Component library (remaining)
 
 **Source:** Design doc
-**Description:** Build remaining non-form UI components (cards, modals, tooltips, etc.) using the token system.
+**Description:** Build remaining UI components. Badge, StatusDot, Card, Skeleton, Table, Tooltip are done. Remaining:
+- Modal / Dialog — overlay with focus trap, close on escape
+- Tabs — tab list + panels, keyboard navigation
+- Accordion / Collapsible — expand/collapse sections
+- Alert / Banner — dismissible status messages
+- Avatar — user image with fallback initials
+- Pagination — page navigation for lists
+- Progress — determinate progress bar
+- Breadcrumb — navigation trail
 **Priority:** High
 
 ### 2026-02-26 — Button icon animations
@@ -64,5 +72,6 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-02-27 — Gradient button variants (primary=gradient-main, secondary=gradient-lime, outline=gradient border)
 - [x] 2026-02-27 — Form components: Checkbox, RadioGroup, Switch, Select (Radix UI wrappers)
 - [x] 2026-02-27 — Select dropdown animation classes are dead (removed, no phantom features)
+- [x] 2026-03-01 — Dashboard components: Badge, StatusDot, Card, Skeleton, Table, Tooltip
 
 </details>

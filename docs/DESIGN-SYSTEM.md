@@ -689,6 +689,192 @@ import { Select } from "@aleph-front/ds/select";
 
 **Dropdown:** `rounded-2xl`, `bg-card`, `border border-edge`, `shadow-brand`. Items highlight with `bg-muted`. Selected shows check icon.
 
+### Badge
+
+Semantic label for status, counts, and categories. Pill shape with color variants.
+
+```tsx
+import { Badge } from "@aleph-front/ds/badge";
+```
+
+#### Variants
+
+```tsx
+<Badge variant="default">Default</Badge>   {/* primary-100/700 bg/text */}
+<Badge variant="success">Healthy</Badge>   {/* success-100/700 bg/text */}
+<Badge variant="warning">Degraded</Badge>  {/* warning-100/800 bg/text */}
+<Badge variant="error">Offline</Badge>     {/* error-100/700 bg/text */}
+<Badge variant="info">3 VMs</Badge>        {/* neutral-100/700 bg/text */}
+```
+
+#### Sizes
+
+```tsx
+<Badge size="sm">Small</Badge>  {/* px-2, text-xs */}
+<Badge size="md">Medium</Badge> {/* px-2.5, text-sm (default) */}
+```
+
+#### Custom Composition with badgeVariants
+
+```tsx
+import { badgeVariants } from "@aleph-front/ds/badge";
+
+<span className={badgeVariants({ variant: "success", size: "sm" })}>Active</span>
+```
+
+### Card
+
+Content container with semantic background and border. Used for stat cards, panels, and layout grouping.
+
+```tsx
+import { Card } from "@aleph-front/ds/card";
+```
+
+#### Variants
+
+```tsx
+<Card variant="default">Bordered card</Card>  {/* bg-card, border-edge, rounded-2xl */}
+<Card variant="ghost">No border</Card>        {/* transparent, no border */}
+```
+
+#### Padding
+
+```tsx
+<Card padding="sm">Compact</Card>  {/* p-4 */}
+<Card padding="md">Medium</Card>   {/* p-6 (default) */}
+<Card padding="lg">Spacious</Card> {/* p-8 */}
+```
+
+#### With Title
+
+```tsx
+<Card title="Node Health">
+  <p>Card content below the heading.</p>
+</Card>
+```
+
+Renders an `<h3>` heading with `font-heading` and `mb-4` spacing.
+
+### StatusDot
+
+Small colored circle indicating health status. Used inline with text labels in tables and lists.
+
+```tsx
+import { StatusDot } from "@aleph-front/ds/status-dot";
+```
+
+#### Statuses
+
+```tsx
+<StatusDot status="healthy" />   {/* success-500, pulse animation */}
+<StatusDot status="degraded" />  {/* warning-500 */}
+<StatusDot status="error" />     {/* error-500 */}
+<StatusDot status="offline" />   {/* neutral-400 */}
+<StatusDot status="unknown" />   {/* neutral-300 */}
+```
+
+#### Sizes
+
+```tsx
+<StatusDot status="healthy" size="sm" />  {/* 8px (size-2) */}
+<StatusDot status="healthy" size="md" />  {/* 12px (size-3, default) */}
+```
+
+Always include `aria-label` for accessibility:
+
+```tsx
+<StatusDot status="healthy" aria-label="Node is healthy" />
+```
+
+### Table
+
+Generic typed table with sortable columns, alternating rows, hover highlight, and row click.
+
+```tsx
+import { Table, type Column } from "@aleph-front/ds/table";
+```
+
+#### Column Definition
+
+```tsx
+type Column<T> = {
+  header: string;            // Column header text
+  accessor: (row: T) => ReactNode;  // Cell renderer
+  sortable?: boolean;        // Enable sort on this column
+  sortValue?: (row: T) => string | number;  // Sort comparator
+  width?: string;            // CSS width
+  align?: "left" | "center" | "right";
+};
+```
+
+#### Usage
+
+```tsx
+const columns: Column<Node>[] = [
+  { header: "Name", accessor: (r) => r.name, sortable: true, sortValue: (r) => r.name },
+  { header: "CPU", accessor: (r) => `${r.cpu}%`, sortable: true, sortValue: (r) => r.cpu, align: "right" },
+];
+
+<Table
+  columns={columns}
+  data={nodes}
+  keyExtractor={(r) => r.id}
+  onRowClick={(row) => setSelected(row)}
+/>
+```
+
+**Visual style:** Alternating rows (`even:bg-muted/30`), hover highlight (`hover:bg-muted/50`), clickable rows with `cursor-pointer`. Header row `bg-muted/50 text-muted-foreground text-sm font-semibold uppercase tracking-wide`.
+
+### Tooltip
+
+Radix UI tooltip wrapper with DS styling. Composable API with four exports.
+
+```tsx
+import {
+  Tooltip, TooltipContent, TooltipProvider, TooltipTrigger,
+} from "@aleph-front/ds/tooltip";
+```
+
+#### Usage
+
+Wrap your app (or a subtree) with `TooltipProvider`, then compose tooltips:
+
+```tsx
+<TooltipProvider>
+  <Tooltip>
+    <TooltipTrigger asChild>
+      <button>Hover me</button>
+    </TooltipTrigger>
+    <TooltipContent>Tooltip text</TooltipContent>
+  </Tooltip>
+</TooltipProvider>
+```
+
+#### Placement
+
+```tsx
+<TooltipContent side="top" />     {/* default */}
+<TooltipContent side="right" />
+<TooltipContent side="bottom" />
+<TooltipContent side="left" />
+```
+
+**Styling:** `bg-neutral-900 text-white text-sm rounded-lg px-3 py-1.5 shadow-brand-sm` with Radix animation attributes.
+
+### Skeleton
+
+Animated loading placeholder. No width/height props — sizing is controlled by the consumer via `className`.
+
+```tsx
+import { Skeleton } from "@aleph-front/ds/ui/skeleton";
+
+<Skeleton className="h-4 w-32" />           {/* Text line */}
+<Skeleton className="h-10 w-full" />         {/* Input field */}
+<Skeleton className="size-12 rounded-full" /> {/* Avatar */}
+```
+
+Uses `animate-pulse bg-muted rounded-md`. Hidden from accessibility tree via `aria-hidden="true"`.
+
 ### Spinner
 
 Animated loading indicator. Used internally by Button but available standalone.
@@ -727,7 +913,9 @@ Run `pnpm dev` and visit http://localhost:3000. Sidebar navigation with route-pe
 | `/foundations/spacing` | Spacing scale, breakpoints table, border radius |
 | `/foundations/effects` | Shadow tokens, gradient swatches, transition demos |
 | `/foundations/icons` | Icon size tokens |
+| `/components/badge` | Variants, sizes, real-world examples |
 | `/components/button` | Variants, sizes, icons, loading, disabled, asChild |
+| `/components/card` | Default/ghost variants, padding sizes, stat card composition |
 | `/components/input` | Sizes and states |
 | `/components/textarea` | Default, error, disabled |
 | `/components/checkbox` | Default, sizes, states, controlled, FormField |
@@ -735,5 +923,9 @@ Run `pnpm dev` and visit http://localhost:3000. Sidebar navigation with route-pe
 | `/components/switch` | Default, sizes, disabled, controlled, FormField |
 | `/components/select` | Default, sizes, states, controlled, FormField |
 | `/components/form-field` | Label, helper text, error |
+| `/components/skeleton` | Basic shapes, card loading, table row loading |
+| `/components/table` | Sorting, row click, DS component composition |
+| `/components/status-dot` | Statuses, sizes, inline usage |
+| `/components/tooltip` | Basic, sides, truncated hash example |
 
 Theme switcher in the sticky header toggles light/dark.

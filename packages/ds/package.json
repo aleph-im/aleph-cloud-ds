@@ -11,7 +11,13 @@
     "./select": "./src/components/select/select.tsx",
     "./switch": "./src/components/switch/switch.tsx",
     "./form-field": "./src/components/form-field/form-field.tsx",
+    "./badge": "./src/components/badge/badge.tsx",
+    "./card": "./src/components/card/card.tsx",
+    "./status-dot": "./src/components/status-dot/status-dot.tsx",
+    "./table": "./src/components/table/table.tsx",
+    "./tooltip": "./src/components/tooltip/tooltip.tsx",
     "./radio-group": "./src/components/radio-group/radio-group.tsx",
+    "./ui/skeleton": "./src/components/ui/skeleton.tsx",
     "./ui/spinner": "./src/components/ui/spinner.tsx",
     "./lib/cn": "./src/lib/cn.ts",
     "./styles/tokens.css": "./src/styles/tokens.css"

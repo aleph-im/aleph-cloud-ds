@@ -29,9 +29,15 @@ aleph-cloud-ds/
 │   └── ds/                       # @aleph-front/ds
 │       ├── src/
 │       │   ├── components/
+│       │   │   ├── badge/
+│       │   │   │   ├── badge.tsx
+│       │   │   │   └── badge.test.tsx
 │       │   │   ├── button/
 │       │   │   │   ├── button.tsx
 │       │   │   │   └── button.test.tsx
+│       │   │   ├── card/
+│       │   │   │   ├── card.tsx
+│       │   │   │   └── card.test.tsx
 │       │   │   ├── checkbox/
 │       │   │   │   ├── checkbox.tsx
 │       │   │   │   └── checkbox.test.tsx
@@ -53,7 +59,18 @@ aleph-cloud-ds/
 │       │   │   ├── form-field/
 │       │   │   │   ├── form-field.tsx
 │       │   │   │   └── form-field.test.tsx
+│       │   │   ├── table/
+│       │   │   │   ├── table.tsx
+│       │   │   │   └── table.test.tsx
+│       │   │   ├── status-dot/
+│       │   │   │   ├── status-dot.tsx
+│       │   │   │   └── status-dot.test.tsx
+│       │   │   ├── tooltip/
+│       │   │   │   ├── tooltip.tsx
+│       │   │   │   └── tooltip.test.tsx
 │       │   │   └── ui/
+│       │   │       ├── skeleton.tsx
+│       │   │       ├── skeleton.test.tsx
 │       │   │       └── spinner.tsx
 │       │   ├── styles/
 │       │   │   └── tokens.css
@@ -77,14 +94,20 @@ aleph-cloud-ds/
 │       │   │   │   ├── effects/page.tsx
 │       │   │   │   └── icons/page.tsx
 │       │   │   └── components/
+│       │   │       ├── badge/page.tsx
 │       │   │       ├── button/page.tsx
+│       │   │       ├── card/page.tsx
 │       │   │       ├── checkbox/page.tsx
 │       │   │       ├── input/page.tsx
 │       │   │       ├── radio-group/page.tsx
 │       │   │       ├── select/page.tsx
 │       │   │       ├── switch/page.tsx
 │       │   │       ├── textarea/page.tsx
-│       │   │       └── form-field/page.tsx
+│       │   │       ├── form-field/page.tsx
+│       │   │       ├── skeleton/page.tsx
+│       │   │       ├── table/page.tsx
+│       │   │       ├── status-dot/page.tsx
+│       │   │       └── tooltip/page.tsx
 │       │   └── components/
 │       │       ├── sidebar.tsx
 │       │       ├── page-header.tsx
@@ -333,6 +356,57 @@ const Checkbox = forwardRef<HTMLButtonElement, Props>(
 
 **Key files:** `packages/ds/vitest.setup.ts`, `packages/ds/src/components/select/select.test.tsx`
 
+### Generic Typed Table
+
+**Context:** Dashboard pages need data tables with sortable columns, but pulling in TanStack Table or AG Grid for simple use cases adds unnecessary bundle size and API complexity.
+
+**Approach:** A single `Table<T>` component accepts `Column<T>[]` and `T[]` data. Each column defines an `accessor` function for rendering and an optional `sortValue` function for sorting. Sorting is client-side, managed with React state (`useState` for column index and direction). Columns without `sortValue` are not sortable even if `sortable` is set.
+
+**Key files:** `packages/ds/src/components/table/table.tsx`
+
+**Pattern:**
+```tsx
+export type Column<T> = {
+  header: string;
+  accessor: (row: T) => ReactNode;   // Cell renderer
+  sortable?: boolean;
+  sortValue?: (row: T) => string | number;  // Sort comparator
+  width?: string;
+  align?: "left" | "center" | "right";
+};
+
+<Table<Node>
+  columns={columns}
+  data={nodes}
+  keyExtractor={(r) => r.id}
+  onRowClick={(row) => setSelected(row)}
+/>
+```
+
+**Notes:** The generic type parameter flows from `columns` to `data` to `keyExtractor` to `onRowClick` — TypeScript enforces that all four agree on the row type. No `forwardRef` — the outermost element is a `<div>` wrapper for `overflow-x-auto`, not a single semantic element worth ref-forwarding.
+
+### Composable Radix Re-export
+
+**Context:** Tooltip has a naturally composable API (trigger + content can wrap any element) where flattening into a single component would lose flexibility. Different tradeoff from Select, where flat `options` simplified the consumer API.
+
+**Approach:** Re-export Radix primitives directly (`Provider`, `Root`, `Trigger`), only wrapping the `Content` part with DS styling and `forwardRef`. Consumers compose the pieces explicitly.
+
+**Key files:** `packages/ds/src/components/tooltip/tooltip.tsx`
+
+**When to use which pattern:**
+- **Flat props wrapper** (Select, Checkbox): When the component has a single primary interaction and compound children add ceremony without flexibility.
+- **Composable re-export** (Tooltip): When the trigger can be any arbitrary element and the composition pattern is inherently flexible.
+
+### Minimal forwardRef Wrapper
+
+**Context:** Some components are thin wrappers that apply DS defaults (animation, colors, accessibility attributes) without any variant logic.
+
+**Approach:** `forwardRef` + `cn()` to merge a base class string with consumer `className`. No CVA — there are no variants. Consumer controls sizing entirely via `className`.
+
+**Key files:** `packages/ds/src/components/ui/skeleton.tsx`
+
+**Notes:** Skeleton has no `size` or `variant` prop by design. Width and height are layout concerns that vary per usage context, so the consumer provides them. The DS only controls the visual treatment (pulse animation, muted background, rounded corners).
+
 ### cn() Utility
 
 **Context:** Tailwind classes can conflict (e.g., `bg-red-500` and `bg-blue-500` both present). Need predictable overrides when merging conditional classes.
@@ -400,11 +474,26 @@ Design system components are visual by nature — most of their code maps props 
 
 ### Adding a New Component
 
+**Build:**
 1. Create `packages/ds/src/components/<name>/<name>.tsx` (or `packages/ds/src/components/ui/<name>.tsx` for primitives)
 2. Use CVA for variants, `cn()` for class merging, `forwardRef` for DOM access. For interactive controls (checkboxes, selects, etc.), wrap a Radix UI primitive — see "Radix UI Wrapper Pattern" above.
 3. Colocate tests as `<name>.test.tsx` — test behavior and accessibility only (see Testing Philosophy above)
 4. Export from the component file directly — no barrel `index.ts` files
 5. Add subpath export to `packages/ds/package.json`: `"./<name>": "./src/components/<name>/<name>.tsx"`
+
+**Preview:**
 6. Create a preview page at `apps/preview/src/app/components/<name>/page.tsx`
 7. Add sidebar entry in `apps/preview/src/components/sidebar.tsx` (use a `group` entry for related components like Forms)
-8. Document usage in `docs/DESIGN-SYSTEM.md` § Components
+8. Run `pnpm dev` and verify the preview page renders correctly — ask the user to check before proceeding
+
+**Verify:**
+9. Run `pnpm check` (lint + typecheck + test) — all must pass
+
+**Document (all required — do not skip any):**
+10. `docs/DESIGN-SYSTEM.md` § Components — usage examples, props, variants
+11. `docs/ARCHITECTURE.md` — add new patterns if this component introduced one (see Patterns section)
+12. `docs/DECISIONS.md` — log design decisions (why this API shape, why these variants, alternatives rejected)
+13. `docs/BACKLOG.md` — move completed items to archive, add deferred ideas
+14. `CLAUDE.md` Current Features list — add component with brief description, update preview page count
+
+**This recipe is the single source of truth.** External projects that add DS components should reference it, not maintain their own copy.

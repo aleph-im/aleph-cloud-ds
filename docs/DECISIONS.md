@@ -18,6 +18,27 @@ Each entry includes:
 
 ---
 
+## Decision #31 — 2026-03-01
+
+**Context:** Skeleton component needs to show loading placeholders for text lines, input fields, avatars, table rows, etc. — all with different dimensions.
+**Decision:** No `size` or `variant` props. Skeleton is a minimal `forwardRef` wrapper that applies pulse animation and muted background. Consumer controls all sizing via `className` (e.g., `className="h-4 w-32"` for a text line, `className="size-12 rounded-full"` for an avatar).
+**Rationale:** Width and height are layout-specific — a skeleton for a table cell is different from one for a card title. Baking size variants into the component would either cover too few cases or explode into dozens of presets. `className` is the natural API for layout dimensions in a Tailwind system.
+**Alternatives considered:** `width`/`height` props (adds prop API surface without value over className), preset shapes like `variant="circle"` (too limiting, `rounded-full` in className handles it).
+
+## Decision #30 — 2026-03-01
+
+**Context:** Tooltip wraps Radix UI like the form components, but its usage pattern is different — the trigger can be any arbitrary element and the content appears in a portal.
+**Decision:** Use a composable re-export pattern: re-export `Provider`, `Root`, `Trigger` directly from Radix, only wrap `Content` with DS styling and `forwardRef`. Consumers compose the four pieces explicitly.
+**Rationale:** Tooltip's trigger is inherently flexible — it can wrap a button, icon, truncated text, or any element. A flat-props API (`<Tooltip text="..." trigger={<button/>}`) would force consumers to extract the trigger into a separate variable and lose the natural JSX nesting. The composable pattern matches React's composition model. This is the opposite tradeoff from Select, where flat `options` simplified a naturally complex API.
+**Alternatives considered:** Single-component API with `trigger` prop (loses JSX composition), fully custom tooltip without Radix (reinvents portal management, collision detection, keyboard handling).
+
+## Decision #29 — 2026-03-01
+
+**Context:** Dashboard pages need sortable data tables. Could use TanStack Table, AG Grid, or a custom component.
+**Decision:** Build a lightweight generic `Table<T>` component with client-side sorting. No external table library. Columns define `accessor` (cell renderer) and `sortValue` (sort comparator) as separate functions.
+**Rationale:** The dashboard tables have <100 rows — client-side sorting in React state is trivial and instant. TanStack Table adds ~45KB (min+gzip) and a complex headless API that's overkill for rendering rows with optional sort. Separating `accessor` from `sortValue` lets the cell render rich content (JSX with badges, status dots) while sorting on the underlying primitive value. The generic `<T>` parameter ensures type safety flows from column definitions to data to callbacks without manual annotation.
+**Alternatives considered:** TanStack Table (powerful but heavy for simple tables), no sorting (too limiting for dashboard use cases), sort by accessor return value (can't sort on underlying number when cell renders formatted string).
+
 ## Decision #28 — 2026-02-27
 
 **Context:** Checkbox, RadioGroup, and Switch components had smaller dimensions (sm=16px, md=20px) than front-core and only 2 size tiers. Indicators had no entry animation. All form fields used `border-2` (2px) borders.

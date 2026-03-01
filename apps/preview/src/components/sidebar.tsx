@@ -33,7 +33,13 @@ const NAV: NavEntry[] = [
   {
     section: "Components",
     items: [
+      { label: "Badge", href: "/components/badge" },
       { label: "Button", href: "/components/button" },
+      { label: "Card", href: "/components/card" },
+      { label: "Skeleton", href: "/components/skeleton" },
+      { label: "Table", href: "/components/table" },
+      { label: "StatusDot", href: "/components/status-dot" },
+      { label: "Tooltip", href: "/components/tooltip" },
       {
         group: "Forms",
         items: [
