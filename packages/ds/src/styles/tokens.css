@@ -80,6 +80,11 @@
   --color-neutral-900: oklch(0.21 0.008 265);
   --color-neutral-950: oklch(0.14 0.005 265);
 
+  /* Base (dark indigo, H: 280) — tone-sur-tone dark surface palette */
+  --color-base-900: oklch(0.22 0.025 280);
+  --color-base-800: oklch(0.28 0.030 280);
+  --color-base-700: oklch(0.34 0.034 280);
+
   /* Gradients */
   --gradient-main-base: linear-gradient(90deg, #141421 8.24%, #5100CD 71.81%);
   --gradient-main-dark: linear-gradient(90deg, #1C1C32 8.24%, #5100CD 71.81%);
@@ -132,12 +137,12 @@
   --primary-foreground: #ffffff;
   --accent: var(--color-accent-300);
   --accent-foreground: #141421;
-  --muted: var(--color-neutral-900);
+  --muted: var(--color-base-900);
   --muted-foreground: var(--color-neutral-400);
-  --card: var(--color-neutral-900);
+  --card: var(--color-base-900);
   --card-foreground: #F9F4FF;
-  --edge: var(--color-neutral-800);
-  --edge-hover: var(--color-neutral-700);
+  --edge: var(--color-base-800);
+  --edge-hover: var(--color-base-700);
 
   --gradient-main: var(--gradient-main-dark);
 }

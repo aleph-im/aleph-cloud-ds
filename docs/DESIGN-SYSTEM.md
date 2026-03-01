@@ -121,6 +121,7 @@ Full OKLCH 50–950 scales. Each scale has 11 stops, available as Tailwind class
 | `warning` | 75 (amber) | 500 = #FBAE18 | Warning states |
 | `error` | 12 (red) | 600 = #DE3668 | Error states |
 | `neutral` | 265 (purple-tinted gray) | — | Borders, backgrounds, text |
+| `base` | 280 (dark indigo) | — | Dark surface palette (tone-sur-tone with `#141421`) |
 
 ### Semantic Colors
 
@@ -134,12 +135,12 @@ Swap automatically between light and dark themes.
 | `primary-foreground` | `text-primary-foreground` | `#ffffff` | `#ffffff` | Text on primary backgrounds |
 | `accent` | `bg-accent`, `text-accent` | accent-300 | accent-300 | Highlights, emphasis |
 | `accent-foreground` | `text-accent-foreground` | `#141421` | `#141421` | Text on accent backgrounds |
-| `muted` | `bg-muted` | primary-100 | neutral-900 | Subdued backgrounds |
+| `muted` | `bg-muted` | primary-100 | base-900 | Subdued backgrounds |
 | `muted-foreground` | `text-muted-foreground` | neutral-500 | neutral-400 | Subdued text, labels |
-| `card` | `bg-card` | `#ffffff` | neutral-900 | Card/panel backgrounds |
+| `card` | `bg-card` | `#ffffff` | base-900 | Card/panel backgrounds |
 | `card-foreground` | `text-card-foreground` | `#141421` | `#F9F4FF` | Card text |
-| `edge` | `border-edge` | primary-200 | neutral-800 | Borders, dividers |
-| `edge-hover` | `border-edge-hover` | primary-300 | neutral-700 | Hover state borders |
+| `edge` | `border-edge` | primary-200 | base-800 | Borders, dividers |
+| `edge-hover` | `border-edge-hover` | primary-300 | base-700 | Hover state borders |
 
 ### Usage Examples
 

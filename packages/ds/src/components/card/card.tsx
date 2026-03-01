@@ -2,7 +2,7 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@ac/lib/cn";
 
-const cardVariants = cva("rounded-2xl", {
+const cardVariants = cva("rounded-xl", {
   variants: {
     variant: {
       default: "bg-card text-card-foreground border border-edge",
