@@ -18,6 +18,27 @@ Each entry includes:
 
 ---
 
+## Decision #47 — 2026-03-02
+
+**Context:** Setting up npm publishing for `@aleph-front/ds`. Need to choose how version numbers are managed.
+**Decision:** Version in `package.json` stays `0.0.0` in the repo. The publish workflow extracts the version from the git tag (`v0.1.0` → `0.1.0`) and patches `package.json` at publish time.
+**Rationale:** Single source of truth (the tag) eliminates version bump commits and the risk of tag/package.json mismatch. The committed `package.json` version is meaningless — only the published version matters. Consumers see the correct version on npm.
+**Alternatives considered:** Manual version bump in `package.json` before tagging (easy to forget, creates "bump version" commits), release-please automation (heavy for a small team).
+
+## Decision #46 — 2026-03-02
+
+**Context:** Choosing the release trigger mechanism for npm publishing.
+**Decision:** GitHub Release creation triggers the publish workflow. No automated changelog or conventional commit enforcement.
+**Rationale:** The team is small and releases are infrequent. GitHub Releases provide a natural UI for writing release notes. Conventional commits + release-please adds process overhead that isn't justified yet. Can be adopted later if release frequency increases.
+**Alternatives considered:** Changesets (heavy for small team), manual `npm publish` from CLI (not reproducible, no CI checks).
+
+## Decision #45 — 2026-03-02
+
+**Context:** Whether to ship the npm package as compiled JS or raw TypeScript source.
+**Decision:** Ship raw `.tsx`/`.ts`/`.css` source. No build step. Consumers compile via `transpilePackages` in their bundler config.
+**Rationale:** All known consumers are Next.js apps with bundlers that handle TSX natively. A build step adds complexity (tsup config, source maps, declaration files) without benefit for this consumer base. If non-bundler consumers appear, a build step can be added later without changing the source structure.
+**Alternatives considered:** Pre-compiled JS + `.d.ts` (standard but unnecessary overhead), dual export (complex package structure for no current benefit).
+
 ## Decision #44 — 2026-03-02
 
 **Context:** scheduler-dashboard used `var(--color-destructive)` for sparkline colors — a name from the shadcn/Tailwind convention. The DS uses `error` for the same color. The token resolved to nothing, causing invisible sparklines.

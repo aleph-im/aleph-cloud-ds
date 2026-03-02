@@ -477,6 +477,31 @@ Design system components are visual by nature — most of their code maps props 
 
 ---
 
+## CI/CD
+
+### CI Workflow (`.github/workflows/ci.yml`)
+
+Runs on every push to `main` and every PR targeting `main`. Steps: lint, typecheck, test, build preview. Uses concurrency groups to cancel redundant runs.
+
+### Publish Workflow (`.github/workflows/publish.yml`)
+
+Triggered by GitHub Release creation (tag pattern `v*`). Extracts the version from the git tag, patches `packages/ds/package.json`, runs full checks, then publishes to npm.
+
+**Version source of truth:** The git tag. `package.json` stays at `0.0.0` in the repo — the workflow patches it at publish time. This avoids version bump commits and merge conflicts.
+
+**Release process:**
+1. Merge PRs to `main`
+2. Create a GitHub Release with tag `v<semver>` (e.g., `v0.1.0`)
+3. The workflow validates semver, runs checks, publishes `@aleph-front/ds@<version>` to npm
+
+**Required secrets:** `NPM_TOKEN` — a granular npm automation token with publish-only scope for the `@aleph-front` org.
+
+### Package Contents
+
+The published npm package contains raw TypeScript source (no build step). Consumers compile it with their bundler via `transpilePackages`. Test files are excluded via negation patterns in `"files"`.
+
+---
+
 ## Recipes
 
 ### Adding a New Semantic Token

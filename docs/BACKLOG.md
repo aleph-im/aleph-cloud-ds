@@ -69,12 +69,6 @@ Ideas and scope creep captured for later consideration.
 **Description:** Add hover/focus animations to button icons (e.g., arrow slide on hover, plus rotate on focus).
 **Priority:** Low
 
-### 2026-02-26 — Package publishing
-
-**Source:** Design doc
-**Description:** Publish `@aleph-front/ds` to npm. Monorepo structure is in place — needs tsup build step for compiled dist.
-**Priority:** Medium
-
 ### 2026-03-01 — FX grain backgrounds (card-noise + variants)
 
 **Source:** Reverse-engineered from Aleph Cloud console (`fx-grain-*` classes)
@@ -99,5 +93,6 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-03-01 — Dashboard components: Badge, StatusDot, Card, Skeleton, Table, Tooltip
 - [x] 2026-03-01 — Accessibility audit & hardening (StatusDot a11y, FormField error injection, Table keyboard nav, motion-reduce support, responsive mobile layout)
 - [x] 2026-03-02 — Align color token naming with Tailwind conventions (`destructive` → `error` alias)
+- [x] 2026-03-02 — Package publishing to npm (CI/CD pipeline, raw TS source, GitHub Release trigger)
 
 </details>

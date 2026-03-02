@@ -215,3 +215,5 @@ docs/plans/                   # Design and implementation plans
 - All animated components respect prefers-reduced-motion via motion-reduce: variants
 - Preview app with responsive sidebar navigation (desktop fixed + mobile drawer) and route-per-page (20 pages)
 - Static export for deployment
+- CI workflow (GitHub Actions): lint + typecheck + test + build on PRs and main pushes
+- Publish workflow: triggered by GitHub Release, patches version from git tag, publishes `@aleph-front/ds` to npm as raw TypeScript source
