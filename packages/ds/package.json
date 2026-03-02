@@ -3,7 +3,11 @@
   "version": "0.0.0",
   "type": "module",
   "license": "MIT",
-  "files": ["src/"],
+  "files": [
+    "src/",
+    "!src/**/*.test.tsx",
+    "!src/**/*.test.ts"
+  ],
   "publishConfig": { "access": "public" },
   "repository": {
     "type": "git",
