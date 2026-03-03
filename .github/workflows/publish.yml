@@ -4,27 +4,26 @@ on:
   release:
     types: [published]
 
+permissions:
+  id-token: write
+  packages: write
+  contents: read
+
 jobs:
   publish:
     name: Publish @aleph-front/ds
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write
-      packages: write
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4.3.1
+      - uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          fetch-depth: 0
 
-      - uses: pnpm/action-setup@9fd676a19091d4595eefd76e4bd31c97133911f1  # v4.2.0
-
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4.4.0
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: pnpm
+          registry-url: 'https://registry.npmjs.org'
 
-      - run: pnpm install --frozen-lockfile
+      - run: npm ci
 
       - name: Extract and validate version
         id: version
@@ -42,7 +41,7 @@ jobs:
         working-directory: packages/ds
 
       - name: Run checks
-        run: pnpm check
+        run: npm run check -w @aleph-front/ds
 
       - name: Publish
         run: npm publish

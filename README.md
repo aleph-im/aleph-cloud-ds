@@ -7,26 +7,25 @@ Tokens-first design system for [Aleph Cloud](https://aleph.im), built with Tailw
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) 22 LTS
-- [pnpm](https://pnpm.io/) 10 — install with `corepack enable && corepack prepare pnpm@latest --activate`
 
 ## Quick Start
 
 ```bash
-pnpm install
-pnpm dev          # http://localhost:3000 — preview app with theme switcher
-pnpm check        # lint + typecheck + test
+npm install
+npm run dev       # http://localhost:3000 — preview app with theme switcher
+npm run check     # lint + typecheck + test
 ```
 
 ## Scripts
 
 | Command | Description |
 |---------|-------------|
-| `pnpm dev` | Start dev server (Turbopack) |
-| `pnpm build` | Static export of the preview app |
-| `pnpm test` | Run tests (Vitest) |
-| `pnpm lint` | Lint all workspaces (oxlint) |
-| `pnpm typecheck` | Type-check all workspaces |
-| `pnpm check` | lint + typecheck + test |
+| `npm run dev` | Start dev server (Turbopack) |
+| `npm run build` | Static export of the preview app |
+| `npm run test` | Run tests (Vitest) |
+| `npm run lint` | Lint all workspaces (oxlint) |
+| `npm run typecheck` | Type-check all workspaces |
+| `npm run check` | lint + typecheck + test |
 
 ## Project Structure
 
@@ -59,13 +58,13 @@ From the DS repo, register the package globally:
 
 ```bash
 cd packages/ds
-pnpm link --global
+npm link
 ```
 
 From your other project, link it:
 
 ```bash
-pnpm link --global @aleph-front/ds
+npm link @aleph-front/ds
 ```
 
 ### 2. Configure your bundler

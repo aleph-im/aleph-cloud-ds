@@ -161,7 +161,7 @@ Tokens-only design system for Aleph Cloud, with a Next.js preview app to visuali
 
 ### Tech Stack
 
-- **Monorepo:** pnpm workspaces (`packages/ds` + `apps/preview`)
+- **Monorepo:** npm workspaces (`packages/ds` + `apps/preview`)
 - **Framework:** Next.js 16 (App Router, static export)
 - **Language:** TypeScript 5.9 (strict)
 - **Styling:** Tailwind CSS 4 + CSS custom properties
@@ -171,12 +171,12 @@ Tokens-only design system for Aleph Cloud, with a Next.js preview app to visuali
 ### Commands
 
 ```bash
-pnpm dev          # Dev server (Turbopack) — preview app
-pnpm build        # Static export — preview app
-pnpm test         # vitest — DS package
-pnpm lint         # oxlint — all workspaces
-pnpm typecheck    # tsc --noEmit — all workspaces
-pnpm check        # lint + typecheck + test — all workspaces
+npm run dev       # Dev server (Turbopack) — preview app
+npm run build     # Static export — preview app
+npm run test      # vitest — DS package
+npm run lint      # oxlint — all workspaces
+npm run typecheck # tsc --noEmit — all workspaces
+npm run check     # lint + typecheck + test — all workspaces
 ```
 
 ### Key Directories
@@ -192,7 +192,7 @@ docs/plans/                   # Design and implementation plans
 
 ### Current Features
 
-- pnpm monorepo with source-level subpath exports (`@aleph-front/ds/*`)
+- npm workspaces monorepo with source-level subpath exports (`@aleph-front/ds/*`)
 - Three-layer token system (OKLCH color scales 50–950, semantic tokens incl. `--surface` for elevated backgrounds, Tailwind mapping)
 - OKLCH color scales for primary, accent, success, warning, error, neutral
 - Light/dark theme switching via `.theme-dark` class with `@custom-variant dark`

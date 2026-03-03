@@ -8,10 +8,10 @@
     "build": "next build",
     "lint": "oxlint --import-plugin src/",
     "typecheck": "tsc --noEmit",
-    "check": "pnpm lint && pnpm typecheck"
+    "check": "npm run lint && npm run typecheck"
   },
   "dependencies": {
-    "@aleph-front/ds": "workspace:*",
+    "@aleph-front/ds": "*",
     "next": "16.1.6",
     "react": "19.2.4",
     "react-dom": "19.2.4"

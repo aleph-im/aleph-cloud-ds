@@ -2,14 +2,16 @@
   "name": "aleph-cloud-ds",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.29.2",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "scripts": {
-    "dev": "pnpm --filter @aleph-front/preview dev",
-    "build": "pnpm --filter @aleph-front/preview build",
-    "test": "pnpm --filter @aleph-front/ds test",
-    "lint": "pnpm -r lint",
-    "typecheck": "pnpm -r typecheck",
-    "check": "pnpm -r check"
-  },
-  "version": "0.0.3"
+    "dev": "npm run dev -w apps/preview",
+    "build": "npm run build -w apps/preview",
+    "test": "npm run test -w packages/ds",
+    "lint": "npm run lint --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "check": "npm run check --workspaces --if-present"
+  }
 }

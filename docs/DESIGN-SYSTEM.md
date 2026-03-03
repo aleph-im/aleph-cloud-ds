@@ -68,7 +68,7 @@ Tests never assert CSS class names — those are implementation details that bre
 Install the DS package in your app:
 
 ```bash
-pnpm add @aleph-front/ds
+npm install @aleph-front/ds
 ```
 
 Import tokens in your CSS and components via subpath exports:
@@ -922,7 +922,7 @@ To modify tokens, edit `packages/ds/src/styles/tokens.css` directly. Changes pro
 
 ## Preview App
 
-Run `pnpm dev` and visit http://localhost:3000. Sidebar navigation with route-per-page:
+Run `npm run dev` and visit http://localhost:3000. Sidebar navigation with route-per-page:
 
 | Route | Content |
 |-------|---------|

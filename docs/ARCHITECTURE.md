@@ -8,7 +8,7 @@ Technical patterns and decisions.
 
 | Layer | Technology |
 |-------|------------|
-| Monorepo | pnpm workspaces |
+| Monorepo | npm workspaces |
 | Framework | Next.js 16 (App Router, static export) |
 | Language | TypeScript 5.9 (strict) |
 | Styling | Tailwind CSS 4 + CSS custom properties |
@@ -21,7 +21,7 @@ Technical patterns and decisions.
 
 ```
 aleph-cloud-ds/
-├── pnpm-workspace.yaml           # Workspace config
+├── package-lock.json             # Lockfile
 ├── tsconfig.base.json            # Shared TS compiler options
 ├── package.json                  # Root scripts (delegates to workspaces)
 │
@@ -473,7 +473,7 @@ Design system components are visual by nature — most of their code maps props 
 | Browser APIs | `classList.toggle` works | Testing the platform, not your code |
 | Theme switching | Dark class toggles correctly | Too trivial; covered by manual preview |
 
-**Colocate tests** with components as `<name>.test.tsx`. Run with `pnpm test` (vitest).
+**Colocate tests** with components as `<name>.test.tsx`. Run with `npm run test` (vitest).
 
 ---
 
@@ -540,10 +540,10 @@ The published npm package contains raw TypeScript source (no build step). Consum
 **Preview:**
 6. Create a preview page at `apps/preview/src/app/components/<name>/page.tsx`
 7. Add sidebar entry in `apps/preview/src/components/sidebar.tsx` (use a `group` entry for related components like Forms)
-8. Run `pnpm dev` and verify the preview page renders correctly — ask the user to check before proceeding
+8. Run `npm run dev` and verify the preview page renders correctly — ask the user to check before proceeding
 
 **Verify:**
-9. Run `pnpm check` (lint + typecheck + test) — all must pass
+9. Run `npm run check` (lint + typecheck + test) — all must pass
 
 **Document (all required — do not skip any):**
 10. `docs/DESIGN-SYSTEM.md` § Components — usage examples, props, variants
