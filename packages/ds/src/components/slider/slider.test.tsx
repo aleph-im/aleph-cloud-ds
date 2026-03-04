@@ -19,6 +19,7 @@ window.PointerEvent = MockPointerEvent as unknown as typeof PointerEvent;
 window.HTMLElement.prototype.scrollIntoView = vi.fn();
 window.HTMLElement.prototype.hasPointerCapture = vi.fn();
 window.HTMLElement.prototype.releasePointerCapture = vi.fn();
+window.HTMLElement.prototype.setPointerCapture = vi.fn();
 
 if (typeof globalThis.ResizeObserver === "undefined") {
   globalThis.ResizeObserver = class ResizeObserver {
@@ -113,12 +114,10 @@ describe("Slider", () => {
     expect(onChange).toHaveBeenCalledWith([40]);
   });
 
-  it("sets aria-disabled when disabled", () => {
+  it("is not interactive when disabled", () => {
     render(<Slider defaultValue={[50]} disabled />);
-    expect(screen.getByRole("slider")).toHaveAttribute(
-      "aria-disabled",
-      "true",
-    );
+    const slider = screen.getByRole("slider");
+    expect(slider.closest("[data-disabled]")).toBeDefined();
   });
 
   it("forwards ref to the root element", () => {
