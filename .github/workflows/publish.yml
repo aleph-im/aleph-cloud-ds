@@ -1,29 +1,49 @@
 name: Publish to npm
 
 on:
-  push:
-    branches: [main]
+  release:
+    types: [published]
 
-permissions:
-  id-token: write
-  contents: read
+permissions: {}
 
 jobs:
   publish:
     name: Publish @aleph-front/ds
     runs-on: ubuntu-latest
+    environment: npm-publish
+    permissions:
+      id-token: write
+      contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4.3.1
         with:
           fetch-depth: 0
+          persist-credentials: false
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020  # v4.4.0
         with:
           node-version: 22
-          registry-url: 'https://registry.npmjs.org'
+          # No registry-url — it auto-sets NODE_AUTH_TOKEN which blocks OIDC
+
+      - name: Upgrade npm (OIDC requires >= 11.5.1)
+        run: npm install -g npm@latest
 
       - run: npm ci
 
+      - name: Extract and validate version
+        id: version
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          VERSION="${TAG#v}"
+          if ! echo "$VERSION" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z0-9.]+)?$'; then
+            echo "::error::Invalid semver tag: $TAG"
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Patch package version
+        run: npm version "${{ steps.version.outputs.version }}" --no-git-tag-version
+        working-directory: packages/ds
 
       - name: Run checks
         run: npm run check -w @aleph-front/ds
