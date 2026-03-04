@@ -2,11 +2,12 @@
 
 Tokens-first design system for [Aleph Cloud](https://aleph.im), built with Tailwind CSS 4, OKLCH color scales, and CSS custom properties. Ships as a component library (`@aleph-front/ds`) with a Next.js preview app for visual reference.
 
-**Status:** Pre-release (`0.0.0`). Not yet published to npm.
+**Status:** Published on npm as [`@aleph-front/ds`](https://www.npmjs.com/package/@aleph-front/ds).
 
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) 22 LTS
+- [React](https://react.dev/) 19+ and React DOM 19+ (peer dependencies)
 
 ## Quick Start
 
