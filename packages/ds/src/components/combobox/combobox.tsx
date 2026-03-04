@@ -135,7 +135,7 @@ const Combobox = forwardRef<HTMLButtonElement, ComboboxProps>(
                   <Command.Item
                     key={option.value}
                     value={option.label}
-                    disabled={option.disabled}
+                    {...(option.disabled ? { disabled: true } : {})}
                     onSelect={() => {
                       onValueChange?.(option.value);
                       setOpen(false);

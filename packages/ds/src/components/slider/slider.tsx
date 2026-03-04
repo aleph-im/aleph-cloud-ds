@@ -78,7 +78,7 @@ const Slider = forwardRef<
     return (
       <SliderPrimitive.Root
         ref={ref}
-        disabled={disabled}
+        {...(disabled ? { disabled: true } : {})}
         className={cn(
           "relative flex w-full touch-none select-none items-center",
           disabled && "opacity-50 pointer-events-none",
