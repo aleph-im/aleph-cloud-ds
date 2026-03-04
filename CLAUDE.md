@@ -206,7 +206,7 @@ docs/plans/                   # Design and implementation plans
 - Switch component (Radix UI) with 3 sizes (xs/sm/md), animated sliding thumb, disabled state
 - Select component (Radix UI) with flat options prop, 2 sizes, shadow-brand (borderless), error/disabled, portal dropdown
 - Combobox component (cmdk + Radix Popover) with searchable dropdown, flat options prop, 2 sizes, shadow-brand, error/disabled, check icon on selected
-- Slider component (Radix Slider) with CVA track/thumb variants, 2 sizes (sm/md), optional hover tooltip, error state, keyboard accessible
+- Slider component (Radix Slider) with CVA track/thumb variants, 2 sizes (sm/md), single or range (two-thumb) mode, optional hover tooltip, error state, keyboard accessible
 - FormField wrapper with label, required asterisk, helper text, error message, auto-wired accessibility, auto-injects error/aria-invalid into child
 - Badge component with 5 semantic variants (default/success/warning/error/info), 2 sizes, rounded corners
 - StatusDot component with 5 health status variants (healthy/degraded/error/offline/unknown), pulse animation on healthy, 2 sizes, built-in role="status" and auto aria-label

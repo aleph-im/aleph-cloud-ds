@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #51 — 2026-03-04
+
+**Context:** Slider track background used `bg-base-200` but the `base` color scale only defines `base-700/800/900` (dark surface palette). Tailwind silently ignored the non-existent class, making the unselected track area invisible. Also, Slider only rendered one thumb — no range selection support.
+**Decision:** Fix track background to `bg-neutral-200` (a real token). Add dynamic thumb rendering — one `<Thumb>` per value in the array — enabling range sliders with two thumbs. Remove thumb hover shadow (tested `shadow-sm`, `shadow-md`, `shadow-brand-sm`, `shadow-brand` — none added visible value on a 20px element).
+**Rationale:** `neutral-200` (`oklch(0.90)`) provides visible contrast against the page background in light mode. Range support is free from Radix — it natively constrains thumbs from crossing and fills the `<Range>` between them. The component just needed to render the right number of thumbs.
+**Alternatives considered:** `bg-neutral-300` for track (too dark), thumb hover shadow (tested all shadow tokens — imperceptible on small elements).
+
 ## Decision #50 — 2026-03-04
 
 **Context:** Combobox component needs a searchable dropdown. Could use Radix Select (no search), Downshift (low-level), or cmdk (command palette with filtering).

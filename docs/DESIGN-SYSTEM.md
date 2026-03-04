@@ -933,14 +933,21 @@ import { Combobox } from "@aleph-front/ds/combobox";
 
 ### Slider
 
-Range input for selecting a numeric value. Wraps Radix Slider primitive with CVA track/thumb variants.
+Range input for selecting numeric values. Wraps Radix Slider primitive with CVA track/thumb variants. Supports single-value and range (two-thumb) modes.
 
 ```tsx
 import { Slider } from "@aleph-front/ds/slider";
 
+{/* Single thumb */}
 <Slider defaultValue={[50]} />
 <Slider min={0} max={1000} step={10} defaultValue={[500]} />
 <Slider value={value} onValueChange={setValue} showTooltip />
+
+{/* Range (two thumbs) */}
+<Slider defaultValue={[25, 75]} />
+<Slider min={0} max={1000} step={10} value={range} onValueChange={setRange} showTooltip />
+
+{/* States */}
 <Slider disabled defaultValue={[50]} />
 <Slider error defaultValue={[50]} />
 
@@ -951,13 +958,15 @@ import { Slider } from "@aleph-front/ds/slider";
 
 **Props:** All Radix Slider Root props (`defaultValue`, `value`, `onValueChange`, `min`, `max`, `step`, `disabled`) plus `size` (sm/md), `error`, `showTooltip`, `className`. Forwards ref to root `<span>`.
 
+**Range mode:** Pass a two-element array (e.g., `defaultValue={[25, 75]}`) to render two thumbs. The filled range spans between the thumbs. Radix prevents thumbs from crossing each other.
+
 **Sizes:** `sm` (1.5px track, 16px thumb) · `md` (2px track, 20px thumb, default)
 
-**Tooltip:** `showTooltip` shows the current value above the thumb on hover. Styled as a dark pill.
+**Tooltip:** `showTooltip` shows each thumb's current value on hover. Styled as a dark pill.
 
 **Error:** `error={true}` adds `ring-2 ring-error-400` to the track.
 
-**Keyboard:** Arrow left/right adjusts by `step`. Fully accessible via Radix.
+**Keyboard:** Arrow left/right adjusts by `step`. Tab between thumbs in range mode. Fully accessible via Radix.
 
 ### Spinner
 
