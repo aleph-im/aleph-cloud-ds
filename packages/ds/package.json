@@ -29,6 +29,7 @@
     "./status-dot": "./src/components/status-dot/status-dot.tsx",
     "./table": "./src/components/table/table.tsx",
     "./tooltip": "./src/components/tooltip/tooltip.tsx",
+    "./combobox": "./src/components/combobox/combobox.tsx",
     "./radio-group": "./src/components/radio-group/radio-group.tsx",
     "./ui/skeleton": "./src/components/ui/skeleton.tsx",
     "./ui/spinner": "./src/components/ui/spinner.tsx",
