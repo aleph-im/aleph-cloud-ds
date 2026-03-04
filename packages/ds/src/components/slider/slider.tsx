@@ -6,7 +6,7 @@ import { cn } from "@ac/lib/cn";
 const trackVariants = cva(
   [
     "relative w-full grow overflow-hidden rounded-full",
-    "bg-neutral-200 dark:bg-base-700",
+    "bg-neutral-200 dark:bg-neutral-700",
   ].join(" "),
   {
     variants: {
@@ -108,7 +108,7 @@ const Slider = forwardRef<
               <span
                 className={cn(
                   "absolute bottom-full left-1/2 -translate-x-1/2 mb-2",
-                  "rounded-md bg-neutral-900 dark:bg-base-700 px-2 py-1",
+                  "rounded-md bg-neutral-900 dark:bg-neutral-700 px-2 py-1",
                   "text-xs text-white whitespace-nowrap pointer-events-none",
                 )}
               >
