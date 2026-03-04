@@ -6,7 +6,7 @@ import { cn } from "@ac/lib/cn";
 const trackVariants = cva(
   [
     "relative w-full grow overflow-hidden rounded-full",
-    "bg-base-200 dark:bg-base-700",
+    "bg-neutral-200 dark:bg-base-700",
   ].join(" "),
   {
     variants: {
@@ -23,12 +23,11 @@ const trackVariants = cva(
 
 const thumbVariants = cva(
   [
-    "block rounded-full bg-white shadow-sm",
+    "block rounded-full bg-white",
     "border-2 border-primary-500",
     "focus-visible:outline-none focus-visible:ring-3",
     "focus-visible:ring-primary-500",
     "disabled:pointer-events-none",
-    "transition-[box-shadow] motion-reduce:transition-none",
   ].join(" "),
   {
     variants: {
@@ -100,21 +99,24 @@ const Slider = forwardRef<
         >
           <SliderPrimitive.Range className="absolute h-full bg-primary-500 rounded-full" />
         </SliderPrimitive.Track>
-        <SliderPrimitive.Thumb
-          className={cn(thumbVariants({ size }), "relative")}
-        >
-          {showTooltip && hovering && (
-            <span
-              className={cn(
-                "absolute bottom-full left-1/2 -translate-x-1/2 mb-2",
-                "rounded-md bg-neutral-900 dark:bg-base-700 px-2 py-1",
-                "text-xs text-white whitespace-nowrap pointer-events-none",
-              )}
-            >
-              {displayValue[0]}
-            </span>
-          )}
-        </SliderPrimitive.Thumb>
+        {displayValue.map((val, i) => (
+          <SliderPrimitive.Thumb
+            key={i}
+            className={cn(thumbVariants({ size }), "relative")}
+          >
+            {showTooltip && hovering && (
+              <span
+                className={cn(
+                  "absolute bottom-full left-1/2 -translate-x-1/2 mb-2",
+                  "rounded-md bg-neutral-900 dark:bg-base-700 px-2 py-1",
+                  "text-xs text-white whitespace-nowrap pointer-events-none",
+                )}
+              >
+                {val}
+              </span>
+            )}
+          </SliderPrimitive.Thumb>
+        ))}
       </SliderPrimitive.Root>
     );
   },

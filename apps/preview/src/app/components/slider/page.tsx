@@ -9,6 +9,7 @@ import { DemoSection } from "@preview/components/demo-section";
 export default function SliderPage() {
   const [volume, setVolume] = useState([50]);
   const [price, setPrice] = useState([250]);
+  const [range, setRange] = useState([200, 800]);
 
   return (
     <>
@@ -68,6 +69,30 @@ export default function SliderPage() {
                 step={50}
                 showTooltip
               />
+            </div>
+          </div>
+        </DemoSection>
+
+        <DemoSection title="Range (two thumbs)">
+          <div className="max-w-sm space-y-6">
+            <div>
+              <p className="text-sm text-muted-foreground mb-2">
+                Default range
+              </p>
+              <Slider defaultValue={[25, 75]} />
+            </div>
+            <div>
+              <Slider
+                min={0}
+                max={1000}
+                step={10}
+                value={range}
+                onValueChange={setRange}
+                showTooltip
+              />
+              <p className="text-sm text-muted-foreground mt-2">
+                Price: ${range[0]} – ${range[1]}
+              </p>
             </div>
           </div>
         </DemoSection>
