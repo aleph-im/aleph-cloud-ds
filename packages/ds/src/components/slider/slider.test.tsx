@@ -125,4 +125,17 @@ describe("Slider", () => {
     render(<Slider ref={ref} defaultValue={[50]} />);
     expect(ref.current).toBeInstanceOf(HTMLSpanElement);
   });
+
+  it("renders two thumbs for a range slider", () => {
+    render(<Slider defaultValue={[25, 75]} />);
+    const sliders = screen.getAllByRole("slider");
+    expect(sliders).toHaveLength(2);
+  });
+
+  it("sets correct values on range thumbs", () => {
+    render(<Slider min={0} max={100} defaultValue={[20, 80]} />);
+    const sliders = screen.getAllByRole("slider");
+    expect(sliders[0]).toHaveAttribute("aria-valuenow", "20");
+    expect(sliders[1]).toHaveAttribute("aria-valuenow", "80");
+  });
 });
