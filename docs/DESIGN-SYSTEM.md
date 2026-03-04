@@ -894,6 +894,71 @@ import { Skeleton } from "@aleph-front/ds/ui/skeleton";
 
 Uses `animate-pulse bg-muted rounded-md`. Hidden from accessibility tree via `aria-hidden="true"`. Respects `prefers-reduced-motion` via `motion-reduce:animate-none`.
 
+### Combobox
+
+Searchable dropdown selector. Wraps cmdk + Radix Popover with flat `options` prop API.
+
+```tsx
+import { Combobox } from "@aleph-front/ds/combobox";
+
+<Combobox
+  placeholder="Search tokens..."
+  options={[
+    { value: "btc", label: "Bitcoin" },
+    { value: "eth", label: "Ethereum" },
+    { value: "sol", label: "Solana" },
+    { value: "dot", label: "Polkadot", disabled: true },
+  ]}
+/>
+<Combobox value={value} onValueChange={setValue} options={options} />
+<Combobox disabled options={options} />
+<Combobox error options={options} />
+
+<FormField label="Token" required error="Required">
+  <Combobox error placeholder="Select a token..." options={tokens} />
+</FormField>
+```
+
+**Props:** `value`, `onValueChange`, `placeholder`, `searchPlaceholder`, `emptyMessage`, `options` (array of `{ value, label, disabled? }`), `disabled`, `error`, `size` (sm/md), `className`, `id`, `aria-describedby`. Forwards ref to trigger `<button>`.
+
+**Sizes:** `sm` (Input sm padding) · `md` (Input md padding, default)
+
+**Visuals:** Borderless with `shadow-brand`, matching Input/Textarea/Select. `rounded-full` pill shape. Dark mode uses `bg-base-800`. Chevron rotates on open.
+
+**Search:** Type to filter options by label. `emptyMessage` shown when no options match (default: "No results found.").
+
+**Error:** `error={true}` adds 3px `border-error-400` border, sets `aria-invalid`.
+
+**Dropdown:** `rounded-2xl`, `bg-surface`, `border border-edge`, `shadow-brand`. Items highlight with `bg-muted`. Selected shows check icon.
+
+### Slider
+
+Range input for selecting a numeric value. Wraps Radix Slider primitive with CVA track/thumb variants.
+
+```tsx
+import { Slider } from "@aleph-front/ds/slider";
+
+<Slider defaultValue={[50]} />
+<Slider min={0} max={1000} step={10} defaultValue={[500]} />
+<Slider value={value} onValueChange={setValue} showTooltip />
+<Slider disabled defaultValue={[50]} />
+<Slider error defaultValue={[50]} />
+
+<FormField label="Volume" helperText="Adjust the volume level">
+  <Slider defaultValue={[50]} showTooltip />
+</FormField>
+```
+
+**Props:** All Radix Slider Root props (`defaultValue`, `value`, `onValueChange`, `min`, `max`, `step`, `disabled`) plus `size` (sm/md), `error`, `showTooltip`, `className`. Forwards ref to root `<span>`.
+
+**Sizes:** `sm` (1.5px track, 16px thumb) · `md` (2px track, 20px thumb, default)
+
+**Tooltip:** `showTooltip` shows the current value above the thumb on hover. Styled as a dark pill.
+
+**Error:** `error={true}` adds `ring-2 ring-error-400` to the track.
+
+**Keyboard:** Arrow left/right adjusts by `step`. Fully accessible via Radix.
+
 ### Spinner
 
 Animated loading indicator. Used internally by Button but available standalone.
@@ -941,6 +1006,8 @@ Run `npm run dev` and visit http://localhost:3000. Sidebar navigation with route
 | `/components/radio-group` | Default, sizes, states, controlled, FormField |
 | `/components/switch` | Default, sizes, disabled, controlled, FormField |
 | `/components/select` | Default, sizes, states, controlled, FormField |
+| `/components/combobox` | Default, sizes, states, controlled, FormField |
+| `/components/slider` | Default, sizes, tooltip, custom range/step, states, controlled, FormField |
 | `/components/form-field` | Label, helper text, error |
 | `/components/skeleton` | Basic shapes, card loading, table row loading |
 | `/components/table` | Sorting, row click, DS component composition |

@@ -205,6 +205,8 @@ docs/plans/                   # Design and implementation plans
 - RadioGroup component (Radix UI) with 3 sizes (xs/sm/md), group/item-level disabled, clip-path reveal animation
 - Switch component (Radix UI) with 3 sizes (xs/sm/md), animated sliding thumb, disabled state
 - Select component (Radix UI) with flat options prop, 2 sizes, shadow-brand (borderless), error/disabled, portal dropdown
+- Combobox component (cmdk + Radix Popover) with searchable dropdown, flat options prop, 2 sizes, shadow-brand, error/disabled, check icon on selected
+- Slider component (Radix Slider) with CVA track/thumb variants, 2 sizes (sm/md), optional hover tooltip, error state, keyboard accessible
 - FormField wrapper with label, required asterisk, helper text, error message, auto-wired accessibility, auto-injects error/aria-invalid into child
 - Badge component with 5 semantic variants (default/success/warning/error/info), 2 sizes, rounded corners
 - StatusDot component with 5 health status variants (healthy/degraded/error/offline/unknown), pulse animation on healthy, 2 sizes, built-in role="status" and auto aria-label
@@ -213,7 +215,7 @@ docs/plans/                   # Design and implementation plans
 - Table component with generic typing, sortable columns, keyboard-accessible sorting (Enter/Space), aria-sort, alternating rows, hover, row click (keyboard Enter), activeKey row highlight (aria-current), emptyState prop
 - Tooltip component wrapping Radix UI with DS styling, dark mode contrast fix (composable API: Provider, Root, Trigger, Content)
 - All animated components respect prefers-reduced-motion via motion-reduce: variants
-- Preview app with responsive sidebar navigation (desktop fixed + mobile drawer) and route-per-page (20 pages)
+- Preview app with responsive sidebar navigation (desktop fixed + mobile drawer) and route-per-page (22 pages)
 - Static export for deployment
 - CI workflow (GitHub Actions): lint + typecheck + test + build on PRs and main pushes
 - Publish workflow: triggered by GitHub Release, patches version from git tag, publishes `@aleph-front/ds` to npm as raw TypeScript source

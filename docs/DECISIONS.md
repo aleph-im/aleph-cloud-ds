@@ -18,6 +18,26 @@ Each entry includes:
 
 ---
 
+## Decision #50 — 2026-03-04
+
+**Context:** Combobox component needs a searchable dropdown. Could use Radix Select (no search), Downshift (low-level), or cmdk (command palette with filtering).
+**Decision:** Use cmdk 1.1.1 + Radix Popover for the Combobox. cmdk handles search/filter/keyboard-navigation; Radix Popover handles dropdown positioning and focus management.
+**Rationale:** Radix doesn't ship a Combobox primitive. cmdk is the de facto standard for searchable selects in the React ecosystem (used by Vercel, shadcn/ui). It provides accessible keyboard nav + built-in fuzzy filtering out of the box. cmdk's `Command.Item` uses `value` prop for search matching — we pass `option.label` so typing filters by display text.
+**Alternatives considered:** Downshift (more boilerplate, no built-in filtering UI), custom implementation (accessibility risk), Radix Select with external filter (Select doesn't support search input).
+
+## Decision #49 — 2026-03-04
+
+**Context:** Slider component for single-value range selection. Could use Radix Slider, React Aria slider, or custom implementation.
+**Decision:** Wrap Radix Slider primitive with CVA track/thumb variants. Simple hover-based tooltip (not Radix Tooltip) for displaying current value.
+**Rationale:** Radix Slider provides full keyboard accessibility and ARIA attributes for free. The simple tooltip approach avoids the overhead of Radix Tooltip (portal, collision detection) for a tooltip that only needs to appear directly above the thumb on hover. sm/md sizes match the existing Select sizing convention.
+**Alternatives considered:** React Aria slider (heavier dependency), custom HTML range input (poor styling control), Radix Tooltip for value display (overkill for a simple hover label).
+
+## Decision #48 — 2026-03-04
+
+**Context:** Combobox and Slider both have optional `disabled` props typed as `boolean | undefined` by TypeScript. With `exactOptionalPropertyTypes: true`, passing this to cmdk/Radix components that declare `disabled?: boolean` causes type errors.
+**Decision:** Use conditional spread `{...(disabled ? { disabled: true } : {})}` when passing optional boolean props to third-party components.
+**Rationale:** This is the established pattern in this codebase (see Decision #41). The truthy branch narrows to `boolean` (specifically `true`); the empty object skips the prop entirely when undefined. Zero-cost at runtime and fully type-safe.
+
 ## Decision #47 — 2026-03-02
 
 **Context:** Setting up npm publishing for `@aleph-front/ds`. Need to choose how version numbers are managed.

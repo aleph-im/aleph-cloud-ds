@@ -29,6 +29,8 @@
     "./status-dot": "./src/components/status-dot/status-dot.tsx",
     "./table": "./src/components/table/table.tsx",
     "./tooltip": "./src/components/tooltip/tooltip.tsx",
+    "./combobox": "./src/components/combobox/combobox.tsx",
+    "./slider": "./src/components/slider/slider.tsx",
     "./radio-group": "./src/components/radio-group/radio-group.tsx",
     "./ui/skeleton": "./src/components/ui/skeleton.tsx",
     "./ui/spinner": "./src/components/ui/spinner.tsx",
@@ -48,6 +50,7 @@
   "dependencies": {
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
+    "cmdk": "1.1.1",
     "radix-ui": "1.4.3",
     "tailwind-merge": "3.5.0"
   },
