@@ -41,6 +41,9 @@ aleph-cloud-ds/
 │       │   │   ├── checkbox/
 │       │   │   │   ├── checkbox.tsx
 │       │   │   │   └── checkbox.test.tsx
+│       │   │   ├── combobox/
+│       │   │   │   ├── combobox.tsx
+│       │   │   │   └── combobox.test.tsx
 │       │   │   ├── input/
 │       │   │   │   ├── input.tsx
 │       │   │   │   └── input.test.tsx
@@ -50,6 +53,9 @@ aleph-cloud-ds/
 │       │   │   ├── select/
 │       │   │   │   ├── select.tsx
 │       │   │   │   └── select.test.tsx
+│       │   │   ├── slider/
+│       │   │   │   ├── slider.tsx
+│       │   │   │   └── slider.test.tsx
 │       │   │   ├── switch/
 │       │   │   │   ├── switch.tsx
 │       │   │   │   └── switch.test.tsx
@@ -100,7 +106,9 @@ aleph-cloud-ds/
 │       │   │       ├── checkbox/page.tsx
 │       │   │       ├── input/page.tsx
 │       │   │       ├── radio-group/page.tsx
+│       │   │       ├── combobox/page.tsx
 │       │   │       ├── select/page.tsx
+│       │   │       ├── slider/page.tsx
 │       │   │       ├── switch/page.tsx
 │       │   │       ├── textarea/page.tsx
 │       │   │       ├── form-field/page.tsx
@@ -321,7 +329,7 @@ The overlay technique layers a semi-transparent `linear-gradient(solid, solid)` 
 
 **Approach:** Wrap Radix UI primitives with `forwardRef`, apply CVA variants via `className`, style Radix `data-[state=*]` attributes with Tailwind classes. Consumers import the DS wrapper — Radix is an internal dependency they never touch directly.
 
-**Key files:** `packages/ds/src/components/checkbox/checkbox.tsx`, `radio-group/radio-group.tsx`, `switch/switch.tsx`, `select/select.tsx`
+**Key files:** `packages/ds/src/components/checkbox/checkbox.tsx`, `radio-group/radio-group.tsx`, `switch/switch.tsx`, `select/select.tsx`, `combobox/combobox.tsx`, `slider/slider.tsx`
 
 **Pattern:**
 ```tsx
@@ -385,7 +393,9 @@ const Checkbox = forwardRef<HTMLButtonElement, Props>(
 
 **Approach:** Polyfills are added at the top of `select.test.tsx` before any imports. The `vitest.setup.ts` file imports `@testing-library/jest-dom/vitest` for matchers like `toBeChecked()`, `toHaveAttribute()`, `toHaveClass()`.
 
-**Key files:** `packages/ds/vitest.setup.ts`, `packages/ds/src/components/select/select.test.tsx`
+**Key files:** `packages/ds/vitest.setup.ts`, `packages/ds/src/components/select/select.test.tsx`, `combobox/combobox.test.tsx`, `slider/slider.test.tsx`
+
+**Note:** Radix Slider additionally requires a `setPointerCapture` polyfill (`window.HTMLElement.prototype.setPointerCapture = vi.fn()`) because it uses pointer capture for drag interactions.
 
 ### Generic Typed Table
 

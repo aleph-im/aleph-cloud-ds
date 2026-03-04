@@ -48,7 +48,7 @@ Ideas and scope creep captured for later consideration.
 ### 2026-02-27 — Form components (remaining)
 
 **Source:** Identified while reviewing component coverage
-**Description:** Build remaining form components using the token system and CVA architecture. Checkbox, RadioGroup, Switch, Select, Combobox, and Slider are done (or in progress). Remaining:
+**Description:** Build remaining form components using the token system and CVA architecture. Checkbox, RadioGroup, Switch, Select, Combobox, and Slider are done. Remaining:
 - File Upload — drag-and-drop or click-to-upload area
 - Number Input / Stepper — numeric input with +/- buttons
 **Priority:** Medium
@@ -98,5 +98,7 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-03-01 — Accessibility audit & hardening (StatusDot a11y, FormField error injection, Table keyboard nav, motion-reduce support, responsive mobile layout)
 - [x] 2026-03-02 — Align color token naming with Tailwind conventions (`destructive` → `error` alias)
 - [x] 2026-03-02 — Package publishing to npm (CI/CD pipeline, raw TS source, GitHub Release trigger)
+- [x] 2026-03-04 — Combobox component (cmdk + Radix Popover, searchable dropdown, sm/md sizes)
+- [x] 2026-03-04 — Slider component (Radix Slider wrapper, track/thumb CVA, tooltip, sm/md sizes)
 
 </details>
