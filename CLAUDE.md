@@ -60,8 +60,9 @@ When the conversation drifts from the stated task:
 
 **Branching:**
 - Brainstorm and plan on main
+- **Push main before branching** — unpushed commits on main cause divergence after squash merge
 - When dev starts, create feature branch from main before any file edits
-- Branch naming: `feature/[plan-name]`
+- Branch naming: `<type>/[name]` (e.g. `feature/`, `fix/`, `chore/`, `refactor/`)
 
 **Before merging:** Update ALL docs before squash merging to main.
 - `docs/DESIGN-SYSTEM.md` -- add/update tokens, components, hooks, or patterns
@@ -83,9 +84,20 @@ When the conversation drifts from the stated task:
 - **Feature complete:** When user says "done" or "that's it" -> squash merge to main
 - **Pre-break:** When user says "break", "later", "tomorrow" -> "Push before you go?"
 
-**Completion:** Squash merge keeps main history clean (one commit per feature).
+**Completion:** `gh pr merge --squash` keeps main history clean (one commit per feature). Never push directly to main — always go through a PR.
 
 Never interrupt based on file count or commit count.
+
+**Finishing a branch** (overrides the `finishing-a-development-branch` skill options):
+
+1. Run project checks (lint, typecheck, test) — stop if anything fails
+2. Push branch: `git push -u origin <branch>`
+3. Create PR if none exists: `gh pr create --title "..." --body "..."`
+4. Squash-merge: `gh pr merge <number> --squash --delete-branch`
+5. Sync local main: `git checkout main && git pull --ff-only origin main`
+6. Delete local branch: `git branch -D <branch>`
+
+**Never merge locally.** Option 1 ("Merge back to main locally") from the finishing skill is not allowed — hooks block direct pushes to main, and local merges cause SHA divergence after squash-merge. Always go through the PR.
 
 ---
 
@@ -131,7 +143,7 @@ Skills (superpowers) are tools, not separate processes. Use them naturally:
 Brainstorming, planning, and implementation happen across separate sessions:
 
 1. **Brainstorm + Plan (current session):** Explore design, write the plan to `docs/plans/`. This session ends after the plan is written.
-2. **Implement (new session):** Start a fresh session, say "sync up", then execute the plan using `executing-plans`, `subagent-driven-development`, or `dispatching-parallel-agents` (for larger plans with independent tasks). The plan file on disk is the handoff artifact — no brainstorm context carries over.
+2. **Implement (new session):** Start a fresh session, say "sync up", then execute the plan using `executing-plans` or `subagent-driven-development`. The plan file on disk is the handoff artifact — no brainstorm context carries over.
 
 Why: brainstorm sessions accumulate rejected ideas, design exploration, and back-and-forth that wastes context window during implementation. A clean session starts with only what matters: the plan + project docs.
 
