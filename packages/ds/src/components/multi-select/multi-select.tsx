@@ -134,7 +134,7 @@ const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
             aria-invalid={error || undefined}
             className={cn(
               triggerVariants({ size }),
-              "flex-wrap cursor-pointer",
+              "cursor-pointer",
               error &&
                 "border-3 border-error-400 hover:border-error-500",
               !hasSelection && "text-muted-foreground",
@@ -144,55 +144,57 @@ const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
           >
           {hasSelection ? (
             <>
-              {displayedTags.map((opt) => (
-                <span
-                  key={opt.value}
-                  className={tagVariants({ size })}
-                >
-                  <span className="truncate">{opt.label}</span>
-                  <button
-                    type="button"
-                    aria-label={`Remove ${opt.label}`}
-                    onClick={(e) => removeTag(e, opt.value)}
-                    className={cn(
-                      "shrink-0 rounded-full",
-                      "hover:bg-foreground/10 transition-colors",
-                      size === "sm" ? "size-3.5" : "size-4",
-                    )}
-                    tabIndex={-1}
+              <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-hidden">
+                {displayedTags.map((opt) => (
+                  <span
+                    key={opt.value}
+                    className={cn(tagVariants({ size }), "shrink-0")}
                   >
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2.5}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="size-full"
-                      aria-hidden="true"
+                    <span className="truncate">{opt.label}</span>
+                    <button
+                      type="button"
+                      aria-label={`Remove ${opt.label}`}
+                      onClick={(e) => removeTag(e, opt.value)}
+                      className={cn(
+                        "shrink-0 rounded-full",
+                        "hover:bg-foreground/10 transition-colors",
+                        size === "sm" ? "size-3.5" : "size-4",
+                      )}
+                      tabIndex={-1}
                     >
-                      <line x1="18" y1="6" x2="6" y2="18" />
-                      <line x1="6" y1="6" x2="18" y2="18" />
-                    </svg>
-                  </button>
-                </span>
-              ))}
-              {overflowCount > 0 && (
-                <span
-                  className={cn(
-                    "text-muted-foreground shrink-0",
-                    size === "sm" ? "text-xs" : "text-sm",
-                  )}
-                >
-                  +{overflowCount} more
-                </span>
-              )}
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={2.5}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="size-full"
+                        aria-hidden="true"
+                      >
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                      </svg>
+                    </button>
+                  </span>
+                ))}
+                {overflowCount > 0 && (
+                  <span
+                    className={cn(
+                      "text-muted-foreground shrink-0",
+                      size === "sm" ? "text-xs" : "text-sm",
+                    )}
+                  >
+                    +{overflowCount} more
+                  </span>
+                )}
+              </div>
               <button
                 type="button"
                 aria-label="Clear all"
                 onClick={clearAll}
                 className={cn(
-                  "ml-auto shrink-0 rounded-full",
+                  "shrink-0 rounded-full",
                   "text-muted-foreground",
                   "hover:text-foreground transition-colors",
                   size === "sm" ? "size-4" : "size-5",
@@ -228,7 +230,7 @@ const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 className={cn(
-                  "ml-auto size-4 shrink-0 text-muted-foreground",
+                  "size-4 shrink-0 text-muted-foreground",
                   "transition-transform",
                   "motion-reduce:transition-none",
                   open && "rotate-180",
