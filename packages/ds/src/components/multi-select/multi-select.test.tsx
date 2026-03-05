@@ -148,8 +148,10 @@ describe("MultiSelect", () => {
         onValueChange={onChange}
       />,
     );
-    await user.click(screen.getByRole("button"));
-    await user.click(screen.getByText("Solana"));
+    // Multiple buttons exist (trigger + tag dismiss + clear-all)
+    await user.click(screen.getAllByRole("button")[0]!);
+    // "Solana" exists in both the tag and dropdown — target the option
+    await user.click(screen.getByRole("option", { name: /Solana/ }));
     expect(onChange).toHaveBeenCalledWith(["btc"]);
   });
 
