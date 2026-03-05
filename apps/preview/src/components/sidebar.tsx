@@ -50,6 +50,7 @@ const NAV: NavEntry[] = [
           { label: "Switch", href: "/components/switch" },
           { label: "Select", href: "/components/select" },
           { label: "Combobox", href: "/components/combobox" },
+          { label: "MultiSelect", href: "/components/multi-select" },
           { label: "Slider", href: "/components/slider" },
           { label: "FormField", href: "/components/form-field" },
         ],

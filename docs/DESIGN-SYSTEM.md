@@ -967,6 +967,47 @@ import { Slider } from "@aleph-front/ds/slider";
 
 **Keyboard:** Arrow left/right adjusts by `step`. Tab between thumbs in range mode. Fully accessible via Radix.
 
+### MultiSelect
+
+Searchable multi-selection dropdown with tag display, checkbox indicators, and clear-all action. Wraps cmdk + Radix Popover (same stack as Combobox).
+
+```tsx
+import { MultiSelect } from "@aleph-front/ds/multi-select";
+
+<MultiSelect
+  placeholder="Select tokens..."
+  options={[
+    { value: "btc", label: "Bitcoin" },
+    { value: "eth", label: "Ethereum" },
+    { value: "sol", label: "Solana" },
+    { value: "dot", label: "Polkadot", disabled: true },
+  ]}
+/>
+<MultiSelect value={value} onValueChange={setValue} options={options} />
+<MultiSelect disabled options={options} />
+<MultiSelect error options={options} />
+
+<FormField label="Tokens" required error="Required">
+  <MultiSelect error placeholder="Select tokens..." options={tokens} />
+</FormField>
+```
+
+**Props:** `value` (string[]), `onValueChange`, `placeholder`, `searchPlaceholder`, `emptyMessage`, `options` (array of `{ value, label, disabled? }`), `maxDisplayedTags` (default: 2), `disabled`, `error`, `size` (sm/md), `className`, `id`, `aria-describedby`. Forwards ref to trigger `<div>`.
+
+**Sizes:** `sm` (Input sm padding) · `md` (Input md padding, default)
+
+**Trigger:** Shows selected items as tags (pills) with per-tag dismiss buttons. When more items are selected than `maxDisplayedTags`, shows "+N more" overflow text. Clear-all button appears when any items are selected; chevron shows when empty. Single-row layout — tags overflow-clip rather than growing trigger height.
+
+**Search:** Type to filter options by label. `emptyMessage` shown when no options match (default: "No results found."). Search clears after each selection.
+
+**Selection:** Clicking an item toggles it (adds or removes). Dropdown stays open after selection for multi-toggle. Checkbox visuals on each item indicate selected state.
+
+**Visuals:** Borderless with `shadow-brand`, `rounded-2xl`. Dark mode uses `bg-neutral-800`. Trigger uses `<div role="button">` (not `<button>`) to allow nested dismiss buttons without HTML nesting violations.
+
+**Error:** `error={true}` adds 3px `border-error-400` border, sets `aria-invalid`.
+
+**Dropdown:** `rounded-2xl`, `bg-surface`, `border border-edge`, `shadow-brand`. Items highlight with `bg-muted`. Selected items show filled checkbox with check icon.
+
 ### Spinner
 
 Animated loading indicator. Used internally by Button but available standalone.
@@ -1015,6 +1056,7 @@ Run `npm run dev` and visit http://localhost:3000. Sidebar navigation with route
 | `/components/switch` | Default, sizes, disabled, controlled, FormField |
 | `/components/select` | Default, sizes, states, controlled, FormField |
 | `/components/combobox` | Default, sizes, states, controlled, FormField |
+| `/components/multi-select` | Default, pre-selected, overflow, sizes, states, controlled, FormField |
 | `/components/slider` | Default, sizes, tooltip, custom range/step, states, controlled, FormField |
 | `/components/form-field` | Label, helper text, error |
 | `/components/skeleton` | Basic shapes, card loading, table row loading |

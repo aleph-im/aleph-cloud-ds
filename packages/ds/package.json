@@ -34,6 +34,7 @@
     "./radio-group": "./src/components/radio-group/radio-group.tsx",
     "./ui/skeleton": "./src/components/ui/skeleton.tsx",
     "./ui/spinner": "./src/components/ui/spinner.tsx",
+    "./multi-select": "./src/components/multi-select/multi-select.tsx",
     "./lib/cn": "./src/lib/cn.ts",
     "./styles/tokens.css": "./src/styles/tokens.css"
   },

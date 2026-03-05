@@ -18,6 +18,19 @@ Each entry includes:
 
 ---
 
+## Decision #54 — 2026-03-05
+
+**Context:** MultiSelect trigger contains tag dismiss buttons and a clear-all button. Radix `Popover.Trigger` renders as `<button>`, causing invalid nested `<button>` elements and React hydration errors.
+**Decision:** Use `Popover.Trigger asChild` with a `<div role="button" tabIndex={0}>` instead of the default `<button>`. Disabled state uses `aria-disabled` instead of the native `disabled` attribute.
+**Rationale:** HTML spec forbids `<button>` inside `<button>`. Using `asChild` with a div preserves all Radix popover behavior (aria-haspopup, aria-expanded, click handling) while allowing nested interactive elements. `aria-disabled` is the standard approach for non-native-button elements with the `button` role.
+
+## Decision #53 — 2026-03-05
+
+**Context:** Multi-select dropdown component. Could reuse Combobox stack (cmdk + Radix Popover) or use Radix Select, Downshift, or Listbox pattern.
+**Decision:** Built on cmdk + Radix Popover (same as Combobox). Tags with overflow in trigger, visual-only checkbox indicators in dropdown, clear-all action, search clears after each selection. Default `maxDisplayedTags` is 2 with single-row overflow-clip layout.
+**Rationale:** Reuses proven stack. cmdk handles filtering/keyboard, Radix Popover handles positioning/focus. Dropdown stays open for multi-toggle (unlike Combobox which closes on select). Two visible tags keeps the trigger compact — overflow count communicates how many more are selected.
+**Alternatives considered:** Radix Select (no multi-select support), Downshift (more boilerplate), Listbox pattern (no search), flex-wrap trigger (grows height unpredictably).
+
 ## Decision #52 — 2026-03-04
 
 **Context:** The `base` color scale only defined 3 stops (700/800/900) while every other scale had a full 50-950 OKLCH ramp. `base` (H:280) and `neutral` (H:265) were nearly identical in hue, creating redundancy. The incomplete `base` scale couldn't appear on the color preview page and violated the system's own methodology.
