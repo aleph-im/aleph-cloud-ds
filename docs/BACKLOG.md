@@ -100,6 +100,5 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-03-02 — Package publishing to npm (CI/CD pipeline, raw TS source, GitHub Release trigger)
 - [x] 2026-03-04 — Combobox component (cmdk + Radix Popover, searchable dropdown, sm/md sizes)
 - [x] 2026-03-04 — Slider component (Radix Slider wrapper, track/thumb CVA, tooltip, sm/md sizes)
-- [x] 2026-03-04 — Base color scale expansion (merged base into neutral at H:280, full 50-950 ramp)
 
 </details>

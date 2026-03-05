@@ -194,7 +194,7 @@ docs/plans/                   # Design and implementation plans
 
 - npm workspaces monorepo with source-level subpath exports (`@aleph-front/ds/*`)
 - Three-layer token system (OKLCH color scales 50–950, semantic tokens incl. `--surface` for elevated backgrounds, Tailwind mapping)
-- OKLCH color scales for primary, accent, success, warning, error, neutral (unified brand-tinted scale at H:280)
+- OKLCH color scales for primary, accent, success, warning, error, neutral
 - Light/dark theme switching via `.theme-dark` class with `@custom-variant dark`
 - Button component with 6 variants, 4 sizes, CVA architecture (primary/secondary use gradient fills, outline uses gradient border)
 - Spinner component for loading states

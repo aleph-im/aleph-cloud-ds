@@ -7,7 +7,7 @@ import { cn } from "@ac/lib/cn";
 const triggerVariants = cva(
   [
     "inline-flex items-center justify-between",
-    "w-full font-sans text-foreground bg-surface dark:bg-neutral-800",
+    "w-full font-sans text-foreground bg-surface dark:bg-base-800",
     "border-0 shadow-brand rounded-full",
     "focus-visible:outline-none focus-visible:ring-3",
     "focus-visible:ring-primary-500",

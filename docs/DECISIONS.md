@@ -18,13 +18,6 @@ Each entry includes:
 
 ---
 
-## Decision #52 — 2026-03-04
-
-**Context:** The `base` color scale only defined 3 stops (700/800/900) while every other scale had a full 50-950 OKLCH ramp. `base` (H:280) and `neutral` (H:265) were nearly identical in hue, creating redundancy. The incomplete `base` scale couldn't appear on the color preview page and violated the system's own methodology.
-**Decision:** Absorb `base` into `neutral` by shifting neutral's hue from H:265 to H:280 (matching base) with slightly higher chroma, and removing the `base` scale entirely. Keep the `neutral` name. All `base-` component references updated to `neutral-`.
-**Rationale:** With only 15 degrees of hue difference and similar chroma, maintaining two separate gray scales added complexity without visual distinction. The unified scale at H:280 gives every gray a subtle brand indigo warmth, which is more cohesive than the near-achromatic H:265. Keeping the `neutral` name minimizes blast radius — only 6 component files with `base-` dark mode overrides needed updating, while all existing `neutral-` references stayed untouched.
-**Alternatives considered:** Version 1 — keep both scales, rename base→canvas and expand to full ramp (rejected: the two scales were too similar to justify both). Version 2 — merge both into a new `canvas` name (rejected: renaming neutral→canvas would touch far more files for no functional benefit).
-
 ## Decision #51 — 2026-03-04
 
 **Context:** Slider track background used `bg-base-200` but the `base` color scale only defines `base-700/800/900` (dark surface palette). Tailwind silently ignored the non-existent class, making the unselected track area invisible. Also, Slider only rendered one thumb — no range selection support.

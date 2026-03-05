@@ -4,7 +4,7 @@ import { cn } from "@ac/lib/cn";
 
 const textareaVariants = cva(
   [
-    "w-full font-sans text-foreground bg-surface dark:bg-neutral-800",
+    "w-full font-sans text-foreground bg-surface dark:bg-base-800",
     "border-0 shadow-brand rounded-2xl",
     "placeholder:text-muted-foreground",
     "focus-visible:outline-none focus-visible:ring-3",
