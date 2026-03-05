@@ -194,7 +194,7 @@ docs/plans/                   # Design and implementation plans
 
 - npm workspaces monorepo with source-level subpath exports (`@aleph-front/ds/*`)
 - Three-layer token system (OKLCH color scales 50–950, semantic tokens incl. `--surface` for elevated backgrounds, Tailwind mapping)
-- OKLCH color scales for primary, accent, success, warning, error, neutral
+- OKLCH color scales for primary, accent, success, warning, error, neutral (unified brand-tinted scale at H:280)
 - Light/dark theme switching via `.theme-dark` class with `@custom-variant dark`
 - Button component with 6 variants, 4 sizes, CVA architecture (primary/secondary use gradient fills, outline uses gradient border)
 - Spinner component for loading states
@@ -206,6 +206,7 @@ docs/plans/                   # Design and implementation plans
 - Switch component (Radix UI) with 3 sizes (xs/sm/md), animated sliding thumb, disabled state
 - Select component (Radix UI) with flat options prop, 2 sizes, shadow-brand (borderless), error/disabled, portal dropdown
 - Combobox component (cmdk + Radix Popover) with searchable dropdown, flat options prop, 2 sizes, shadow-brand, error/disabled, check icon on selected
+- MultiSelect component (cmdk + Radix Popover) with searchable multi-select dropdown, flat options prop, tags with overflow (maxDisplayedTags=2), per-tag dismiss, clear-all action, checkbox indicators, 2 sizes, shadow-brand, error/disabled
 - Slider component (Radix Slider) with CVA track/thumb variants, 2 sizes (sm/md), single or range (two-thumb) mode, optional hover tooltip, error state, keyboard accessible
 - FormField wrapper with label, required asterisk, helper text, error message, auto-wired accessibility, auto-injects error/aria-invalid into child
 - Badge component with 5 semantic variants (default/success/warning/error/info), 2 sizes, rounded corners
@@ -215,7 +216,7 @@ docs/plans/                   # Design and implementation plans
 - Table component with generic typing, sortable columns, keyboard-accessible sorting (Enter/Space), aria-sort, alternating rows, hover, row click (keyboard Enter), activeKey row highlight (aria-current), emptyState prop
 - Tooltip component wrapping Radix UI with DS styling, dark mode contrast fix (composable API: Provider, Root, Trigger, Content)
 - All animated components respect prefers-reduced-motion via motion-reduce: variants
-- Preview app with responsive sidebar navigation (desktop fixed + mobile drawer) and route-per-page (22 pages)
+- Preview app with responsive sidebar navigation (desktop fixed + mobile drawer) and route-per-page (23 pages)
 - Static export for deployment
 - CI workflow (GitHub Actions): lint + typecheck + test + build on PRs and main pushes
 - Publish workflow: triggered by GitHub Release, patches version from git tag, publishes `@aleph-front/ds` to npm as raw TypeScript source

@@ -121,8 +121,7 @@ Full OKLCH 50–950 scales. Each scale has 11 stops, available as Tailwind class
 | `warning` | 75 (amber) | 500 = #FBAE18 | Warning states |
 | `error` | 12 (red) | 600 = #DE3668 | Error states |
 | `destructive` | (alias → `error`) | — | Convenience alias for shadcn/Tailwind convention |
-| `neutral` | 265 (purple-tinted gray) | — | Borders, backgrounds, text |
-| `base` | 280 (dark indigo) | — | Dark surface palette (tone-sur-tone with `#141421`) |
+| `neutral` | 280 (brand indigo tint) | — | Borders, backgrounds, text, dark surfaces |
 
 ### Semantic Colors
 
@@ -136,12 +135,12 @@ Swap automatically between light and dark themes.
 | `primary-foreground` | `text-primary-foreground` | `#ffffff` | `#ffffff` | Text on primary backgrounds |
 | `accent` | `bg-accent`, `text-accent` | accent-300 | accent-300 | Highlights, emphasis |
 | `accent-foreground` | `text-accent-foreground` | `#141421` | `#141421` | Text on accent backgrounds |
-| `muted` | `bg-muted` | primary-100 | base-900 | Subdued backgrounds |
+| `muted` | `bg-muted` | primary-100 | neutral-900 | Subdued backgrounds |
 | `muted-foreground` | `text-muted-foreground` | neutral-500 | neutral-400 | Subdued text, labels |
-| `surface` | `bg-surface` | primary-50 | base-900 | Elevated/interactive surface backgrounds (cards, form fields) |
+| `surface` | `bg-surface` | primary-50 | neutral-900 | Elevated/interactive surface backgrounds (cards, form fields) |
 | `surface-foreground` | `text-surface-foreground` | `#141421` | `#F9F4FF` | Text on elevated surfaces |
-| `edge` | `border-edge` | primary-200 | base-800 | Borders, dividers |
-| `edge-hover` | `border-edge-hover` | primary-300 | base-700 | Hover state borders |
+| `edge` | `border-edge` | primary-200 | neutral-800 | Borders, dividers |
+| `edge-hover` | `border-edge-hover` | primary-300 | neutral-700 | Hover state borders |
 
 ### Usage Examples
 
@@ -541,7 +540,7 @@ import { Input } from "@aleph-front/ds/input";
 
 **Sizes:** `sm` (py-1.5, text-sm) · `md` (py-2, text-base, default)
 
-**Visuals:** Borderless with `shadow-brand` (purple-tinted shadow). `rounded-full` pill shape. Dark mode uses `bg-base-800` for a slightly elevated fill.
+**Visuals:** Borderless with `shadow-brand` (purple-tinted shadow). `rounded-full` pill shape. Dark mode uses `bg-neutral-800` for a slightly elevated fill.
 
 **Error:** `error={true}` adds 3px `border-error-400` border, sets `aria-invalid`.
 
@@ -549,7 +548,7 @@ import { Input } from "@aleph-front/ds/input";
 
 ### Textarea
 
-Multi-line text input. Same API as Input, `rounded-2xl`, `shadow-brand`, vertical resize. Dark mode uses `bg-base-800`.
+Multi-line text input. Same API as Input, `rounded-2xl`, `shadow-brand`, vertical resize. Dark mode uses `bg-neutral-800`.
 
 ```tsx
 import { Textarea } from "@aleph-front/ds/textarea";
@@ -690,7 +689,7 @@ import { Select } from "@aleph-front/ds/select";
 
 **Sizes:** `sm` (Input sm padding) · `md` (Input md padding, default)
 
-**Visuals:** Borderless with `shadow-brand`, matching Input/Textarea. `rounded-full` pill shape. Dark mode uses `bg-base-800`.
+**Visuals:** Borderless with `shadow-brand`, matching Input/Textarea. `rounded-full` pill shape. Dark mode uses `bg-neutral-800`.
 
 **Error:** `error={true}` adds 3px `border-error-400` border, sets `aria-invalid`.
 
@@ -878,7 +877,7 @@ Wrap your app (or a subtree) with `TooltipProvider`, then compose tooltips:
 <TooltipContent side="left" />
 ```
 
-**Styling:** `bg-neutral-900 text-white text-sm rounded-lg px-3 py-1.5 shadow-brand-sm` with Radix animation attributes. Dark mode uses `bg-base-700` for contrast against the dark page background.
+**Styling:** `bg-neutral-900 text-white text-sm rounded-lg px-3 py-1.5 shadow-brand-sm` with Radix animation attributes. Dark mode uses `bg-neutral-700` for contrast against the dark page background.
 
 ### Skeleton
 
@@ -923,7 +922,7 @@ import { Combobox } from "@aleph-front/ds/combobox";
 
 **Sizes:** `sm` (Input sm padding) · `md` (Input md padding, default)
 
-**Visuals:** Borderless with `shadow-brand`, matching Input/Textarea/Select. `rounded-full` pill shape. Dark mode uses `bg-base-800`. Chevron rotates on open.
+**Visuals:** Borderless with `shadow-brand`, matching Input/Textarea/Select. `rounded-full` pill shape. Dark mode uses `bg-neutral-800`. Chevron rotates on open.
 
 **Search:** Type to filter options by label. `emptyMessage` shown when no options match (default: "No results found.").
 
@@ -967,6 +966,47 @@ import { Slider } from "@aleph-front/ds/slider";
 **Error:** `error={true}` adds `ring-2 ring-error-400` to the track.
 
 **Keyboard:** Arrow left/right adjusts by `step`. Tab between thumbs in range mode. Fully accessible via Radix.
+
+### MultiSelect
+
+Searchable multi-selection dropdown with tag display, checkbox indicators, and clear-all action. Wraps cmdk + Radix Popover (same stack as Combobox).
+
+```tsx
+import { MultiSelect } from "@aleph-front/ds/multi-select";
+
+<MultiSelect
+  placeholder="Select tokens..."
+  options={[
+    { value: "btc", label: "Bitcoin" },
+    { value: "eth", label: "Ethereum" },
+    { value: "sol", label: "Solana" },
+    { value: "dot", label: "Polkadot", disabled: true },
+  ]}
+/>
+<MultiSelect value={value} onValueChange={setValue} options={options} />
+<MultiSelect disabled options={options} />
+<MultiSelect error options={options} />
+
+<FormField label="Tokens" required error="Required">
+  <MultiSelect error placeholder="Select tokens..." options={tokens} />
+</FormField>
+```
+
+**Props:** `value` (string[]), `onValueChange`, `placeholder`, `searchPlaceholder`, `emptyMessage`, `options` (array of `{ value, label, disabled? }`), `maxDisplayedTags` (default: 2), `disabled`, `error`, `size` (sm/md), `className`, `id`, `aria-describedby`. Forwards ref to trigger `<div>`.
+
+**Sizes:** `sm` (Input sm padding) · `md` (Input md padding, default)
+
+**Trigger:** Shows selected items as tags (pills) with per-tag dismiss buttons. When more items are selected than `maxDisplayedTags`, shows "+N more" overflow text. Clear-all button appears when any items are selected; chevron shows when empty. Single-row layout — tags overflow-clip rather than growing trigger height.
+
+**Search:** Type to filter options by label. `emptyMessage` shown when no options match (default: "No results found."). Search clears after each selection.
+
+**Selection:** Clicking an item toggles it (adds or removes). Dropdown stays open after selection for multi-toggle. Checkbox visuals on each item indicate selected state.
+
+**Visuals:** Borderless with `shadow-brand`, `rounded-2xl`. Dark mode uses `bg-neutral-800`. Trigger uses `<div role="button">` (not `<button>`) to allow nested dismiss buttons without HTML nesting violations.
+
+**Error:** `error={true}` adds 3px `border-error-400` border, sets `aria-invalid`.
+
+**Dropdown:** `rounded-2xl`, `bg-surface`, `border border-edge`, `shadow-brand`. Items highlight with `bg-muted`. Selected items show filled checkbox with check icon.
 
 ### Spinner
 
@@ -1016,6 +1056,7 @@ Run `npm run dev` and visit http://localhost:3000. Sidebar navigation with route
 | `/components/switch` | Default, sizes, disabled, controlled, FormField |
 | `/components/select` | Default, sizes, states, controlled, FormField |
 | `/components/combobox` | Default, sizes, states, controlled, FormField |
+| `/components/multi-select` | Default, pre-selected, overflow, sizes, states, controlled, FormField |
 | `/components/slider` | Default, sizes, tooltip, custom range/step, states, controlled, FormField |
 | `/components/form-field` | Label, helper text, error |
 | `/components/skeleton` | Basic shapes, card loading, table row loading |
