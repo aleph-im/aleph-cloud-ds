@@ -77,7 +77,7 @@ const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
       placeholder = "Select...",
       searchPlaceholder = "Search...",
       emptyMessage = "No results found.",
-      maxDisplayedTags = 3,
+      maxDisplayedTags = 2,
       size,
       error = false,
       disabled = false,

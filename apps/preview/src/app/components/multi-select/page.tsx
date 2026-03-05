@@ -55,13 +55,12 @@ export default function MultiSelectPage() {
           </div>
         </DemoSection>
 
-        <DemoSection title="Overflow (maxDisplayedTags=2)">
+        <DemoSection title="Overflow">
           <div className="max-w-sm">
             <MultiSelect
               options={TOKENS}
               value={["btc", "eth", "sol", "avax", "atom"]}
               onValueChange={() => {}}
-              maxDisplayedTags={2}
               placeholder="Select tokens..."
             />
           </div>
