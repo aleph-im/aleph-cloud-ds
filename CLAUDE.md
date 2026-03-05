@@ -96,6 +96,7 @@ Never interrupt based on file count or commit count.
 4. Squash-merge: `gh pr merge <number> --squash --delete-branch`
 5. Sync local main: `git checkout main && git pull --ff-only origin main`
 6. Delete local branch: `git branch -D <branch>`
+7. Remove any associated worktrees: `git worktree list` and `git worktree remove <path> --force` for stale entries
 
 **Never merge locally.** Option 1 ("Merge back to main locally") from the finishing skill is not allowed — hooks block direct pushes to main, and local merges cause SHA divergence after squash-merge. Always go through the PR.
 
