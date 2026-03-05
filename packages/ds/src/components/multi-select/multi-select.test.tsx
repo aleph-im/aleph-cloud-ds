@@ -236,12 +236,15 @@ describe("MultiSelect", () => {
 
   it("is disabled when disabled prop is true", () => {
     render(<MultiSelect options={OPTIONS} disabled />);
-    expect(screen.getByRole("button")).toBeDisabled();
+    expect(screen.getByRole("button")).toHaveAttribute(
+      "aria-disabled",
+      "true",
+    );
   });
 
-  it("forwards ref to trigger button", () => {
-    const ref = createRef<HTMLButtonElement>();
+  it("forwards ref to trigger element", () => {
+    const ref = createRef<HTMLDivElement>();
     render(<MultiSelect ref={ref} options={OPTIONS} />);
-    expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+    expect(ref.current).toBeInstanceOf(HTMLDivElement);
   });
 });

@@ -11,7 +11,7 @@ const triggerVariants = cva(
     "border-0 shadow-brand rounded-2xl",
     "focus-visible:outline-none focus-visible:ring-3",
     "focus-visible:ring-primary-500",
-    "disabled:opacity-50 disabled:pointer-events-none",
+    "aria-disabled:opacity-50 aria-disabled:pointer-events-none",
     "ring-0 transition-[color,box-shadow]",
   ].join(" "),
   {
@@ -68,7 +68,7 @@ type MultiSelectProps = VariantProps<typeof triggerVariants> & {
   "aria-invalid"?: boolean;
 };
 
-const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
+const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
   (
     {
       options,
@@ -123,22 +123,25 @@ const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
 
     return (
       <Popover.Root open={open} onOpenChange={setOpen}>
-        <Popover.Trigger
-          ref={ref}
-          id={id}
-          disabled={disabled}
-          aria-describedby={ariaDescribedBy}
-          aria-invalid={error || undefined}
-          className={cn(
-            triggerVariants({ size }),
-            "flex-wrap",
-            error &&
-              "border-3 border-error-400 hover:border-error-500",
-            !hasSelection && "text-muted-foreground",
-            className,
-          )}
-          {...rest}
-        >
+        <Popover.Trigger asChild>
+          <div
+            ref={ref}
+            id={id}
+            role="button"
+            tabIndex={disabled ? -1 : 0}
+            aria-disabled={disabled || undefined}
+            aria-describedby={ariaDescribedBy}
+            aria-invalid={error || undefined}
+            className={cn(
+              triggerVariants({ size }),
+              "flex-wrap cursor-pointer",
+              error &&
+                "border-3 border-error-400 hover:border-error-500",
+              !hasSelection && "text-muted-foreground",
+              className,
+            )}
+            {...rest}
+          >
           {hasSelection ? (
             <>
               {displayedTags.map((opt) => (
@@ -236,6 +239,7 @@ const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(
               </svg>
             </>
           )}
+          </div>
         </Popover.Trigger>
         <Popover.Portal>
           <Popover.Content
