@@ -1,6 +1,6 @@
 import { render, screen, act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
+import { describe, expect, it, vi, afterEach } from "vitest";
 import { CopyableText } from "./copyable-text";
 
 const LONG_TEXT = "0x1234567890abcdef1234567890abcdef12345678";
