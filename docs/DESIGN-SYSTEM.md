@@ -801,6 +801,53 @@ import { Card } from "@aleph-front/ds/card";
 
 Renders an `<h3>` heading with `font-heading` and `mb-4` spacing.
 
+### CopyableText
+
+Truncated text display with copy-to-clipboard and optional external link. Designed for hashes, wallet addresses, API keys, and other long strings that need to be copiable but not fully visible. Uses a clip-path circle-reveal micro-animation on copy with spring easing.
+
+```tsx
+import { CopyableText } from "@aleph-front/ds/copyable-text";
+```
+
+#### Sizes
+
+```tsx
+<CopyableText text={hash} size="sm" />  {/* text-xs, gap-1 */}
+<CopyableText text={hash} size="md" />  {/* text-sm, gap-1.5 (default) */}
+```
+
+#### Custom Truncation
+
+```tsx
+{/* Default: startChars=6, endChars=4 → "0x1234...5678" */}
+<CopyableText text={hash} />
+
+{/* Custom: startChars=8, endChars=6 → "0x123456...345678" */}
+<CopyableText text={hash} startChars={8} endChars={6} />
+
+{/* Short text (no truncation when text.length <= startChars + endChars) */}
+<CopyableText text="0x1a2b3c" />
+```
+
+#### With External Link
+
+```tsx
+<CopyableText
+  text={walletAddress}
+  href="https://etherscan.io/address/..."
+/>
+```
+
+Renders an ArrowUpRight icon that opens in a new tab (`target="_blank"`, `rel="noopener noreferrer"`).
+
+#### Animation
+
+Copy button uses a two-layer stack:
+1. Default layer: Copy icon in muted color
+2. Reveal layer: `bg-foreground` circle expanding via `clip-path: circle(0% → 50%)` with spring `cubic-bezier(0.34, 1.56, 0.64, 1)`, plus a Check icon that scales in with 75ms delay
+
+Hover state uses `bg-foreground/10` for visibility in both light and dark themes.
+
 ### StatusDot
 
 Small colored circle indicating health status. Used inline with text labels in tables and lists. Accessible by default — includes `role="status"` and auto-derived `aria-label` from the status prop.

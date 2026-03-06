@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #56 — 2026-03-06
+
+**Context:** Building a CopyableText component for displaying truncated hashes, addresses, and API keys with copy-to-clipboard and optional external link.
+**Decision:** Use middle-ellipsis truncation (`startChars...endChars`), ArrowUpRight icon for external links, clip-path circle reveal with `bg-foreground` for the copy feedback animation, and `bg-foreground/10` for hover states. No custom keyframes — only CSS transitions with spring `cubic-bezier(0.34, 1.56, 0.64, 1)`.
+**Rationale:** Middle-ellipsis preserves both prefix (protocol/type identifier) and suffix (checksum/disambiguation) which is standard for blockchain addresses. ArrowUpRight is the conventional "open externally" direction. The clip-path circle reveal reuses the same proven pattern from checkbox/radio-group. `bg-foreground/10` for hover solves the dark mode visibility problem where `bg-muted` (base-900) is indistinguishable from the background. Spring cubic-bezier provides bounce overshoot without keyframe complexity.
+**Alternatives considered:** ArrowSquareOut icon (rejected — too heavy for inline use), full `circle(100%)` reveal (rejected — too large, tightened to 50% which fills just the button area), `bg-muted` for hover (rejected — invisible in dark mode), custom `@keyframes` for bounce (rejected — spring cubic-bezier achieves the same effect with less code).
+
 ## Decision #55 — 2026-03-06
 
 **Context:** DS components used hand-drawn inline SVGs for icons (chevrons, checkmarks, X/close) scattered across Select, Combobox, MultiSelect, and Table. No icon library was integrated. Needed a consistent, high-quality icon set for the design system.

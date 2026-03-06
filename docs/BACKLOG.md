@@ -61,12 +61,6 @@ Ideas and scope creep captured for later consideration.
 - Breadcrumb — navigation trail
 **Priority:** High
 
-### 2026-03-06 — CopyableText component with micro-animations
-
-**Source:** Extracted from scheduler-dashboard during UI fixes
-**Description:** Promote the `CopyableHash` pattern from the dashboard into a generic DS component (`CopyableText` or `CopyToClipboard`). Features: truncated text with copy-to-clipboard button, optional external link icon, Modern UI-inspired micro-animation (scale 0.8→1 + opacity, 150ms) on icon swap (clipboard → checkmark). Currently implemented with inline SVGs and a CSS keyframe in the dashboard — should use Phosphor Icons (`Copy`, `Check`, `ArrowSquareOut`) for consistency with the new icon foundation, and the animation keyframe should live in the DS token layer so consumers get it for free.
-**Priority:** Medium
-
 ### 2026-02-26 — Button icon animations
 
 **Source:** Deferred from button component design
@@ -103,5 +97,6 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-03-04 — Base color scale expansion (merged base into neutral at H:280, full 50-950 ramp)
 - [x] 2026-03-05 — Multi-select dropdown with checkboxes (cmdk + Radix Popover, tags with overflow, clear-all)
 - [x] 2026-03-06 — Phosphor Icons integration (replaced inline SVGs, added to DS as dependency, preview showcase)
+- [x] 2026-03-06 — CopyableText component (middle-ellipsis truncation, clip-path circle reveal, optional external link)
 
 </details>
