@@ -39,8 +39,8 @@ const iconSize: Record<"sm" | "md", string> = {
 };
 
 const buttonSize: Record<"sm" | "md", string> = {
-  sm: "size-6",
-  md: "size-7",
+  sm: "size-5",
+  md: "size-6",
 };
 
 function truncateMiddle(
@@ -137,7 +137,7 @@ const CopyableText = forwardRef<HTMLSpanElement, CopyableTextProps>(
                 "transition-[clip-path] duration-200",
                 "[transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]",
                 "motion-reduce:transition-none",
-                copied && "[clip-path:circle(55%_at_50%_50%)]",
+                copied && "[clip-path:circle(50%_at_50%_50%)]",
               )}
               aria-hidden="true"
             >
