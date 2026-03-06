@@ -134,15 +134,23 @@ const CopyableText = forwardRef<HTMLSpanElement, CopyableTextProps>(
                 "absolute inset-0 flex items-center justify-center",
                 "rounded-full bg-foreground",
                 "[clip-path:circle(0%_at_50%_50%)]",
-                "transition-[clip-path] duration-200 ease-out",
+                "transition-[clip-path] duration-200",
+                "[transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]",
                 "motion-reduce:transition-none",
-                copied && "[clip-path:circle(100%_at_50%_50%)]",
+                copied && "[clip-path:circle(55%_at_50%_50%)]",
               )}
               aria-hidden="true"
             >
               <Check
                 weight="bold"
-                className={cn(iconCn, "text-background")}
+                className={cn(
+                  iconCn,
+                  "text-background",
+                  "scale-0 transition-transform duration-150 delay-75",
+                  "[transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]",
+                  "motion-reduce:transition-none",
+                  copied && "scale-100",
+                )}
               />
             </span>
           </button>
