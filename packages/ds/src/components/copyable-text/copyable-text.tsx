@@ -9,7 +9,7 @@ import {
   type HTMLAttributes,
 } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { ArrowUpLeft, Check, Copy } from "@phosphor-icons/react";
+import { ArrowUpRight, Check, Copy } from "@phosphor-icons/react";
 import {
   Tooltip,
   TooltipContent,
@@ -168,7 +168,7 @@ const CopyableText = forwardRef<HTMLSpanElement, CopyableTextProps>(
               )}
               aria-label="Open in new tab"
             >
-              <ArrowUpLeft
+              <ArrowUpRight
                 weight="bold"
                 className={iconCn}
                 aria-hidden="true"
