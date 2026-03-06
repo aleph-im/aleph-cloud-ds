@@ -178,6 +178,7 @@ Tokens-only design system for Aleph Cloud, with a Next.js preview app to visuali
 - **Framework:** Next.js 16 (App Router, static export)
 - **Language:** TypeScript 5.9 (strict)
 - **Styling:** Tailwind CSS 4 + CSS custom properties
+- **Icons:** Phosphor Icons (`@phosphor-icons/react`)
 - **Testing:** Vitest + Testing Library
 - **Deployment:** Static export (`out/` directory)
 
@@ -228,6 +229,7 @@ docs/plans/                   # Design and implementation plans
 - Skeleton loading placeholder with consumer-driven sizing via className
 - Table component with generic typing, sortable columns, keyboard-accessible sorting (Enter/Space), aria-sort, alternating rows, hover, row click (keyboard Enter), activeKey row highlight (aria-current), emptyState prop
 - Tooltip component wrapping Radix UI with DS styling, dark mode contrast fix (composable API: Provider, Root, Trigger, Content)
+- Phosphor Icons integration — 7,000+ icons in 6 weights (Thin/Light/Regular/Bold/Fill/Duotone), MIT licensed, used internally for UI chrome (CaretDown, Check, X, CaretUp)
 - All animated components respect prefers-reduced-motion via motion-reduce: variants
 - Preview app with responsive sidebar navigation (desktop fixed + mobile drawer) and route-per-page (23 pages)
 - Static export for deployment

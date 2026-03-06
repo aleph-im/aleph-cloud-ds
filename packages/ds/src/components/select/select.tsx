@@ -1,6 +1,7 @@
 import { forwardRef, type ComponentPropsWithoutRef } from "react";
 import { Select as SelectPrimitive } from "radix-ui";
 import { cva, type VariantProps } from "class-variance-authority";
+import { CaretDown, Check } from "@phosphor-icons/react";
 import { cn } from "@ac/lib/cn";
 
 const triggerVariants = cva(
@@ -75,18 +76,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
         >
           <SelectPrimitive.Value placeholder={placeholder} />
           <SelectPrimitive.Icon className="ml-2 shrink-0 text-muted-foreground">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={2}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="size-4"
-            >
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
+            <CaretDown weight="bold" className="size-4" />
           </SelectPrimitive.Icon>
         </SelectPrimitive.Trigger>
         <SelectPrimitive.Portal>
@@ -117,18 +107,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
                     {option.label}
                   </SelectPrimitive.ItemText>
                   <SelectPrimitive.ItemIndicator className="ml-auto">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={2.5}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      className="size-4"
-                    >
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
+                    <Check weight="bold" className="size-4" />
                   </SelectPrimitive.ItemIndicator>
                 </SelectPrimitive.Item>
               ))}

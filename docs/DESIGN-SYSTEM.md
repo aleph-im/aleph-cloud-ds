@@ -379,18 +379,57 @@ Uses Tailwind defaults. No custom breakpoints.
 
 ---
 
-## Icon Sizes
+## Icons
 
-Size tokens for consistent icon sizing. No icon library included yet.
+The DS uses [Phosphor Icons](https://phosphoricons.com/) — 7,000+ icons in 6 weights (Thin, Light, Regular, Bold, Fill, Duotone), MIT licensed.
 
-| Name | Size |
-|------|------|
-| `2xl` | 36px |
-| `xl` | 24px |
-| `lg` | 16px |
-| `md` | 14px |
-| `sm` | 12px |
-| `xs` | 8px |
+### Installation
+
+Phosphor is a regular dependency of `@aleph-front/ds`. Consumers who need additional icons beyond what the DS uses internally can import directly from `@phosphor-icons/react` (installed transitively).
+
+### Usage
+
+```tsx
+import { Star, CaretDown, Check } from "@phosphor-icons/react";
+
+<Star weight="bold" className="size-5" />
+<CaretDown weight="bold" className="size-4 text-muted-foreground" />
+<Check weight="bold" className="size-4" />
+```
+
+### Weight Recommendations
+
+| Weight | Use for |
+|--------|---------|
+| `bold` | DS internal icons (chevrons, checkmarks, close). Default for UI controls. |
+| `regular` | Body content icons, navigation items |
+| `light` / `thin` | Decorative, large display icons |
+| `fill` | Filled state indicators, active states |
+| `duotone` | Branded illustrations, feature highlights |
+
+### Size Tokens
+
+Control icon size via Tailwind's `size-*` utilities or `className`:
+
+| Name | Size | Tailwind |
+|------|------|----------|
+| `2xl` | 36px | `size-9` |
+| `xl` | 24px | `size-6` |
+| `lg` | 16px | `size-4` |
+| `md` | 14px | `size-3.5` |
+| `sm` | 12px | `size-3` |
+| `xs` | 8px | `size-2` |
+
+### Internal Usage
+
+DS components use Phosphor icons internally for UI chrome:
+
+| Icon | Component | Purpose |
+|------|-----------|---------|
+| `CaretDown` (bold) | Select, Combobox, MultiSelect | Dropdown indicator |
+| `CaretUp` (bold) | Table | Sort direction indicator |
+| `Check` (bold) | Select, Combobox, MultiSelect | Selected item indicator |
+| `X` (bold) | MultiSelect | Tag dismiss, clear all |
 
 ---
 
@@ -1045,7 +1084,7 @@ Run `npm run dev` and visit http://localhost:3000. Sidebar navigation with route
 | `/foundations/typography` | Heading scale (Header–H7), body styles, font families |
 | `/foundations/spacing` | Spacing scale, breakpoints table, border radius |
 | `/foundations/effects` | Shadow tokens, gradient swatches, transition demos |
-| `/foundations/icons` | Icon size tokens |
+| `/foundations/icons` | Phosphor Icons showcase — weights, sizes, usage |
 | `/components/badge` | Variants, sizes, real-world examples |
 | `/components/button` | Variants, sizes, icons, loading, disabled, asChild |
 | `/components/card` | Default/ghost variants, padding sizes, stat card composition |

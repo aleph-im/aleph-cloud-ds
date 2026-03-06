@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #55 — 2026-03-06
+
+**Context:** DS components used hand-drawn inline SVGs for icons (chevrons, checkmarks, X/close) scattered across Select, Combobox, MultiSelect, and Table. No icon library was integrated. Needed a consistent, high-quality icon set for the design system.
+**Decision:** Integrate Phosphor Icons (`@phosphor-icons/react` 2.1.10) as a regular dependency. Replace all inline SVGs with Phosphor components. Use `weight="bold"` for all internal UI icons. No wrapper component, no re-export — consumers import Phosphor directly for their own icon needs.
+**Rationale:** Phosphor offers 7,000+ icons in 6 weights (Thin, Light, Regular, Bold, Fill, Duotone), MIT licensed, with tree-shaking. The multiple weight system enables visual hierarchy without mixing libraries. Regular dependency (not peer) because the DS uses Phosphor internally — consumers get it transitively. No wrapper because Phosphor's API already accepts `className`, `weight`, `size`, and `aria-hidden`. Bold weight matches the original inline SVGs' stroke widths (2–3px).
+**Alternatives considered:** Lucide (widely adopted but stroke-only, risk of "generic AI app" look), Heroicons (only 450 icons, limiting), Iconoir (1,600 icons, minimal but fewer weights), Tabler Icons (large set but less stylistic flexibility than Phosphor's 6 weights). Wrapper component (rejected — adds abstraction without value). Re-exporting Phosphor through DS subpaths (rejected — 7,000+ icons, maintenance burden). Peer dependency (rejected — adds friction for consumers who may never use icons directly).
+
 ## Decision #54 — 2026-03-05
 
 **Context:** MultiSelect trigger contains tag dismiss buttons and a clear-all button. Radix `Popover.Trigger` renders as `<button>`, causing invalid nested `<button>` elements and React hydration errors.

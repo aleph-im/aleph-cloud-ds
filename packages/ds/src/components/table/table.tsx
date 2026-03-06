@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type KeyboardEvent, type ReactNode } from "react";
+import { CaretUp } from "@phosphor-icons/react";
 import { cn } from "@ac/lib/cn";
 
 type SortDirection = "asc" | "desc";
@@ -24,26 +25,21 @@ type TableProps<T> = {
   className?: string;
 };
 
-function ChevronIcon({
+function SortIcon({
   direction,
 }: {
   direction: SortDirection | null;
 }) {
   return (
-    <svg
+    <CaretUp
+      weight="bold"
       className={cn(
         "ml-1 inline size-3 transition-transform motion-reduce:transition-none",
         direction === "desc" && "rotate-180",
         direction === null && "opacity-0",
       )}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      strokeWidth={2.5}
       aria-hidden="true"
-    >
-      <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
-    </svg>
+    />
   );
 }
 
@@ -144,7 +140,7 @@ export function Table<T>({
               >
                 {col.header}
                 {col.sortable && (
-                  <ChevronIcon
+                  <SortIcon
                     direction={sortCol === i ? sortDir : null}
                   />
                 )}

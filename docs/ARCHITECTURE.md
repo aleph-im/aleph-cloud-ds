@@ -12,6 +12,7 @@ Technical patterns and decisions.
 | Framework | Next.js 16 (App Router, static export) |
 | Language | TypeScript 5.9 (strict) |
 | Styling | Tailwind CSS 4 + CSS custom properties |
+| Icons | Phosphor Icons (`@phosphor-icons/react`) |
 | Testing | Vitest + Testing Library |
 | Deployment | Static export (`out/` directory) |
 
@@ -447,6 +448,16 @@ export type Column<T> = {
 **Key files:** `packages/ds/src/components/ui/skeleton.tsx`
 
 **Notes:** Skeleton has no `size` or `variant` prop by design. Width and height are layout concerns that vary per usage context, so the consumer provides them. The DS only controls the visual treatment (pulse animation, muted background, rounded corners).
+
+### Phosphor Icons Integration
+
+**Context:** DS components need icons for UI chrome (dropdown indicators, checkmarks, close buttons). Previously used hand-drawn inline SVGs scattered across components.
+
+**Approach:** `@phosphor-icons/react` is a regular dependency of the DS package. Components import specific icons (`CaretDown`, `Check`, `X`, `CaretUp`) and apply `weight="bold"` with Tailwind sizing via `className`. No wrapper component — Phosphor's API is already well-suited (accepts `className`, `weight`, `size`, `aria-hidden`).
+
+**Key files:** `select.tsx`, `combobox.tsx`, `multi-select.tsx`, `table.tsx`
+
+**Notes:** Consumers who need additional icons import directly from `@phosphor-icons/react` (transitive dependency). The DS does not re-export Phosphor icons. For Next.js Server Components, import from `@phosphor-icons/react/ssr` instead.
 
 ### cn() Utility
 

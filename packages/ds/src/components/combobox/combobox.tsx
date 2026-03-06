@@ -2,6 +2,7 @@ import { forwardRef, useState } from "react";
 import { Popover } from "radix-ui";
 import { Command } from "cmdk";
 import { cva, type VariantProps } from "class-variance-authority";
+import { CaretDown, Check } from "@phosphor-icons/react";
 import { cn } from "@ac/lib/cn";
 
 const triggerVariants = cva(
@@ -90,23 +91,15 @@ const Combobox = forwardRef<HTMLButtonElement, ComboboxProps>(
           <span className="truncate">
             {selectedLabel ?? placeholder}
           </span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
+          <CaretDown
+            weight="bold"
             className={cn(
               "ml-2 size-4 shrink-0 text-muted-foreground",
               "transition-transform motion-reduce:transition-none",
               open && "rotate-180",
             )}
             aria-hidden="true"
-          >
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
+          />
         </Popover.Trigger>
         <Popover.Portal>
           <Popover.Content
@@ -151,19 +144,11 @@ const Combobox = forwardRef<HTMLButtonElement, ComboboxProps>(
                   >
                     <span className="flex-1">{option.label}</span>
                     {value === option.value && (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth={2.5}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
+                      <Check
+                        weight="bold"
                         className="ml-auto size-4"
                         aria-hidden="true"
-                      >
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
+                      />
                     )}
                   </Command.Item>
                 ))}

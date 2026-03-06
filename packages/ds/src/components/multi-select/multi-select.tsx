@@ -2,6 +2,7 @@ import { forwardRef, useState } from "react";
 import { Popover } from "radix-ui";
 import { Command } from "cmdk";
 import { cva, type VariantProps } from "class-variance-authority";
+import { CaretDown, Check, X } from "@phosphor-icons/react";
 import { cn } from "@ac/lib/cn";
 
 const triggerVariants = cva(
@@ -162,19 +163,11 @@ const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
                       )}
                       tabIndex={-1}
                     >
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth={2.5}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
+                      <X
+                        weight="bold"
                         className="size-full"
                         aria-hidden="true"
-                      >
-                        <line x1="18" y1="6" x2="6" y2="18" />
-                        <line x1="6" y1="6" x2="18" y2="18" />
-                      </svg>
+                      />
                     </button>
                   </span>
                 ))}
@@ -201,19 +194,11 @@ const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
                 )}
                 tabIndex={-1}
               >
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                <X
+                  weight="bold"
                   className="size-full"
                   aria-hidden="true"
-                >
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
+                />
               </button>
             </>
           ) : (
@@ -221,14 +206,8 @@ const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
               <span className="truncate flex-1 text-left">
                 {placeholder}
               </span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
+              <CaretDown
+                weight="bold"
                 className={cn(
                   "size-4 shrink-0 text-muted-foreground",
                   "transition-transform",
@@ -236,9 +215,7 @@ const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
                   open && "rotate-180",
                 )}
                 aria-hidden="true"
-              >
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
+              />
             </>
           )}
           </div>
@@ -304,17 +281,10 @@ const MultiSelect = forwardRef<HTMLDivElement, MultiSelectProps>(
                         aria-hidden="true"
                       >
                         {selected && (
-                          <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={3}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
+                          <Check
+                            weight="bold"
                             className="size-3"
-                          >
-                            <polyline points="20 6 9 17 4 12" />
-                          </svg>
+                          />
                         )}
                       </span>
                       <span className="flex-1">
