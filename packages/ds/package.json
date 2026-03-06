@@ -1,6 +1,6 @@
 {
   "name": "@aleph-front/ds",
-  "version": "0.0.2",
+  "version": "0.3.1",
   "type": "module",
   "license": "MIT",
   "files": [
