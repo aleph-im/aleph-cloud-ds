@@ -36,6 +36,7 @@ const NAV: NavEntry[] = [
       { label: "Badge", href: "/components/badge" },
       { label: "Button", href: "/components/button" },
       { label: "Card", href: "/components/card" },
+      { label: "CopyableText", href: "/components/copyable-text" },
       { label: "Skeleton", href: "/components/skeleton" },
       { label: "Table", href: "/components/table" },
       { label: "StatusDot", href: "/components/status-dot" },
