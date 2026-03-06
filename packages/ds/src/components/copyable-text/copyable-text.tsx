@@ -116,7 +116,7 @@ const CopyableText = forwardRef<HTMLSpanElement, CopyableTextProps>(
             className={cn(
               "relative inline-flex items-center justify-center",
               "rounded-full cursor-pointer",
-              "hover:bg-muted transition-colors",
+              "hover:bg-foreground/10 transition-colors",
               btnCn,
             )}
             aria-label={copied ? "Copied" : "Copy to clipboard"}
@@ -163,7 +163,7 @@ const CopyableText = forwardRef<HTMLSpanElement, CopyableTextProps>(
               className={cn(
                 "inline-flex items-center justify-center rounded-full",
                 "text-muted-foreground hover:text-foreground",
-                "hover:bg-muted transition-colors",
+                "hover:bg-foreground/10 transition-colors",
                 btnCn,
               )}
               aria-label="Open in new tab"
