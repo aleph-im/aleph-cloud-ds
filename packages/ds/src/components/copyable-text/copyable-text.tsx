@@ -82,7 +82,8 @@ const CopyableText = forwardRef<HTMLSpanElement, CopyableTextProps>(
       };
     }, []);
 
-    const handleCopy = useCallback(() => {
+    const handleCopy = useCallback((e: React.MouseEvent) => {
+      e.stopPropagation();
       void navigator.clipboard.writeText(text).then(() => {
         setCopied(true);
         if (timerRef.current) clearTimeout(timerRef.current);
@@ -160,6 +161,7 @@ const CopyableText = forwardRef<HTMLSpanElement, CopyableTextProps>(
               href={href}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
               className={cn(
                 "inline-flex items-center justify-center rounded-full",
                 "text-muted-foreground hover:text-foreground",
