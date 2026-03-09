@@ -262,23 +262,23 @@
   background-image: radial-gradient(
     50% 50%,
     var(--color-primary-100) 0%,
-    var(--color-primary-50) 100%
+    oklch(from var(--color-primary-100) l c h / 0.40) 100%
   );
 }
 
 .fx-grain-xs {
   background-image: radial-gradient(
     50% 50%,
-    var(--color-primary-50) 0%,
-    var(--color-primary-50) 100%
+    oklch(from var(--color-primary-100) l c h / 0.40) 0%,
+    oklch(from var(--color-primary-100) l c h / 0.40) 100%
   );
 }
 
 .fx-grain-sm {
   background-image: radial-gradient(
     50% 50%,
-    var(--color-primary-50) 0%,
-    oklch(from var(--color-primary-50) l c h / 0.57) 100%
+    oklch(from var(--color-primary-100) l c h / 0.40) 0%,
+    oklch(from var(--color-primary-100) l c h / 0.23) 100%
   );
 }
 
@@ -288,7 +288,7 @@
       oklch(from var(--color-primary-100) l c h / 0.40) 0%,
       oklch(from var(--color-primary-100) l c h / 0.05) 100%
     ),
-    var(--color-primary-50);
+    oklch(from var(--color-primary-100) l c h / 0.40);
 }
 
 /* ── Dark mode gradients ── */
