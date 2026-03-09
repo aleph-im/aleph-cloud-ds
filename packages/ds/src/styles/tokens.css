@@ -236,16 +236,16 @@
 /* ── FX Grain Textures ───────────────────────────────── */
 
 /* Shared base: stacking context */
-.fx-grain-1,
-.fx-grain-2,
-.fx-grain-3,
-.fx-grain-5 {
+.fx-grain-lg,
+.fx-grain-xs,
+.fx-grain-sm,
+.fx-grain-md {
   position: relative;
   isolation: isolate;
 }
 
 /* Shared ::after: texture overlay */
-:is(.fx-grain-1, .fx-grain-2, .fx-grain-3, .fx-grain-5)::after {
+:is(.fx-grain-lg, .fx-grain-xs, .fx-grain-sm, .fx-grain-md)::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -258,7 +258,7 @@
 
 /* ── Light mode gradients ── */
 
-.fx-grain-1 {
+.fx-grain-lg {
   background-image: radial-gradient(
     50% 50%,
     var(--color-primary-100) 0%,
@@ -266,7 +266,7 @@
   );
 }
 
-.fx-grain-2 {
+.fx-grain-xs {
   background-image: radial-gradient(
     50% 50%,
     var(--color-primary-50) 0%,
@@ -274,7 +274,7 @@
   );
 }
 
-.fx-grain-3 {
+.fx-grain-sm {
   background-image: radial-gradient(
     50% 50%,
     var(--color-primary-50) 0%,
@@ -282,7 +282,7 @@
   );
 }
 
-.fx-grain-5 {
+.fx-grain-md {
   background: radial-gradient(
       50% 50%,
       oklch(from var(--color-primary-100) l c h / 0.40) 0%,
@@ -293,7 +293,7 @@
 
 /* ── Dark mode gradients ── */
 
-.theme-dark .fx-grain-1 {
+.theme-dark .fx-grain-lg {
   background-image: radial-gradient(
     50% 50%,
     var(--surface) 0%,
@@ -301,7 +301,7 @@
   );
 }
 
-.theme-dark .fx-grain-2 {
+.theme-dark .fx-grain-xs {
   background-image: radial-gradient(
     50% 50%,
     var(--surface) 0%,
@@ -309,7 +309,7 @@
   );
 }
 
-.theme-dark .fx-grain-3 {
+.theme-dark .fx-grain-sm {
   background-image: radial-gradient(
     50% 50%,
     var(--surface) 0%,
@@ -317,7 +317,7 @@
   );
 }
 
-.theme-dark .fx-grain-5 {
+.theme-dark .fx-grain-md {
   background: radial-gradient(
       50% 50%,
       oklch(from var(--surface) l c h / 0.40) 0%,
@@ -328,41 +328,41 @@
 
 /* ── Dark mode texture opacity overrides ── */
 
-.theme-dark .fx-grain-1::after {
+.theme-dark .fx-grain-lg::after {
   opacity: 1;
 }
 
-.theme-dark .fx-grain-2::after {
+.theme-dark .fx-grain-xs::after {
   opacity: 0.5;
 }
 
-.theme-dark .fx-grain-3::after {
+.theme-dark .fx-grain-sm::after {
   opacity: 0.5;
 }
 
-.theme-dark .fx-grain-5::after {
+.theme-dark .fx-grain-md::after {
   opacity: 0.7;
 }
 
 /* ── Texture overlays (::after) ── */
 
 /* Texture: scattered purple dots */
-.fx-grain-1::after {
+.fx-grain-lg::after {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDAwIiB3aWR0aD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii4yNSIgdHlwZT0iZnJhY3RhbE5vaXNlIiBudW1PY3RhdmVzPSIzIi8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAuMSAwIDAgMCAwIDAgMCAwIDAgMCAwLjgwIDAgMCAwIDEwIC03LjI1Ii8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2YpIi8+PC9zdmc+");
   opacity: 1;
 }
 
-.fx-grain-2::after {
+.fx-grain-xs::after {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDAwIiB3aWR0aD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii4yNSIgdHlwZT0iZnJhY3RhbE5vaXNlIiBudW1PY3RhdmVzPSIzIi8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAuMSAwIDAgMCAwIDAgMCAwIDAgMCAwLjgwIDAgMCAwIDEwIC03LjI1Ii8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2YpIi8+PC9zdmc+");
   opacity: 0.3;
 }
 
-.fx-grain-3::after {
+.fx-grain-sm::after {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDAwIiB3aWR0aD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii4yNSIgdHlwZT0iZnJhY3RhbE5vaXNlIiBudW1PY3RhdmVzPSIzIi8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAuMSAwIDAgMCAwIDAgMCAwIDAgMCAwLjgwIDAgMCAwIDEwIC03LjI1Ii8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2YpIi8+PC9zdmc+");
   opacity: 0.3;
 }
 
-.fx-grain-5::after {
+.fx-grain-md::after {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDAwIiB3aWR0aD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii4yNSIgdHlwZT0iZnJhY3RhbE5vaXNlIiBudW1PY3RhdmVzPSIzIi8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAuMSAwIDAgMCAwIDAgMCAwIDAgMCAwLjgwIDAgMCAwIDEwIC03LjI1Ii8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2YpIi8+PC9zdmc+");
   opacity: 0.5;
 }

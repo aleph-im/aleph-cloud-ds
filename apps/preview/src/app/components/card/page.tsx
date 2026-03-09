@@ -32,7 +32,7 @@ export default function CardPage() {
         <Card variant="noise">
           <p className="text-sm">
             Noise card — purple-tinted radial gradient with scattered grain
-            texture overlay. Uses fx-grain-1 under the hood.
+            texture overlay. Uses fx-grain-lg under the hood.
           </p>
         </Card>
       </DemoSection>

@@ -6,7 +6,7 @@ const cardVariants = cva("rounded-xl", {
   variants: {
     variant: {
       default: "bg-surface text-surface-foreground border border-edge",
-      noise: "fx-grain-1 text-surface-foreground",
+      noise: "fx-grain-lg text-surface-foreground",
       ghost: "bg-transparent",
     },
     padding: {
