@@ -6,3 +6,5 @@ out/
 .env.local
 .template-version
 .worktrees/
+.DS_Store
+.playwright-mcp/
