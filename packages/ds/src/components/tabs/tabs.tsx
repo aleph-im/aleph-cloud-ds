@@ -104,7 +104,7 @@ const TabsTrigger = forwardRef<
     ref={ref}
     className={cn(
       [
-        "inline-flex items-center gap-2 px-3 py-3",
+        "inline-flex items-center gap-2 px-4 py-3",
         "font-heading font-bold text-lg",
         "text-foreground",
         "transition-[color,transform] duration-200 ease-out",
