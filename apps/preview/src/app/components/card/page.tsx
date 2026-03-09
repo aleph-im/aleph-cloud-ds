@@ -11,7 +11,7 @@ export default function CardPage() {
     <>
       <PageHeader
         title="Card"
-        description="Content container with 2 variants, 3 padding sizes, and an optional title."
+        description="Content container with 3 variants, 3 padding sizes, and an optional title."
       />
       <DemoSection title="Default Variant">
         <div className="space-y-4">
@@ -26,6 +26,14 @@ export default function CardPage() {
       <DemoSection title="Ghost Variant">
         <Card variant="ghost">
           <p className="text-sm">Ghost card — transparent, no border. Useful for layout grouping.</p>
+        </Card>
+      </DemoSection>
+      <DemoSection title="Noise Variant">
+        <Card variant="noise">
+          <p className="text-sm">
+            Noise card — purple-tinted radial gradient with scattered grain
+            texture overlay. Uses fx-grain-1 under the hood.
+          </p>
         </Card>
       </DemoSection>
       <DemoSection title="Padding Sizes">
