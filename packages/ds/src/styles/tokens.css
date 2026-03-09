@@ -303,19 +303,35 @@
 }
 
 .theme-dark .fx-grain-2 {
-  background-image: radial-gradient(50% 50%, #1a0a2e 0%, #1a0a2e91 100%);
+  background-image: radial-gradient(
+    50% 50%,
+    var(--color-primary-950) 0%,
+    oklch(from var(--color-primary-950) l c h / 0.57) 100%
+  );
 }
 
 .theme-dark .fx-grain-3 {
-  background-image: radial-gradient(50% 50%, #1a0a2e 0%, #1a0a2e40 100%);
+  background-image: radial-gradient(
+    50% 50%,
+    var(--color-primary-950) 0%,
+    oklch(from var(--color-primary-950) l c h / 0.25) 100%
+  );
 }
 
 .theme-dark .fx-grain-4 {
-  background-image: radial-gradient(50% 50%, #1a0a2e 0%, #1a0a2e0d 100%);
+  background-image: radial-gradient(
+    50% 50%,
+    var(--color-primary-950) 0%,
+    oklch(from var(--color-primary-950) l c h / 0.05) 100%
+  );
 }
 
 .theme-dark .fx-grain-5 {
-  background: radial-gradient(50% 50%, #1a0a2e66 0%, #1a0a2e0d 100%),
+  background: radial-gradient(
+      50% 50%,
+      oklch(from var(--color-primary-950) l c h / 0.40) 0%,
+      oklch(from var(--color-primary-950) l c h / 0.05) 100%
+    ),
     var(--color-primary-950);
 }
 
