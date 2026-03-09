@@ -67,12 +67,6 @@ Ideas and scope creep captured for later consideration.
 **Description:** Add hover/focus animations to button icons (e.g., arrow slide on hover, plus rotate on focus).
 **Priority:** Low
 
-### 2026-03-01 — FX grain backgrounds (card-noise + variants)
-
-**Source:** Reverse-engineered from Aleph Cloud console (`fx-grain-*` classes)
-**Description:** The `card-noise` CSS class and Card `noise` variant are implemented in `tokens.css` and `card.tsx` but not shown in the preview app. Uses SVG `feTurbulence` + `feColorMatrix` alpha thresholding to create scattered purple dots. Dissect the grain effect to create multiple selectable background textures/variants (different frequencies, colors, opacities). Consider extracting the grain as a standalone CSS utility independent of Card.
-**Priority:** Medium
-
 ---
 
 ## Completed / Rejected
@@ -99,5 +93,6 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-03-06 — Phosphor Icons integration (replaced inline SVGs, added to DS as dependency, preview showcase)
 - [x] 2026-03-06 — CopyableText component (middle-ellipsis truncation, clip-path circle reveal, optional external link)
 - [x] 2026-03-09 — Logo components (icon mark + full logo, currentColor, 2 components instead of 4 SVGs)
+- [x] 2026-03-09 — FX grain backgrounds (4 size variants xs/sm/md/lg, DS token colors, dark mode, preview showcase)
 
 </details>

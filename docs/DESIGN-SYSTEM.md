@@ -268,6 +268,30 @@ CSS classes for gradient backgrounds with interactive hover/active states. Hover
 </button>
 ```
 
+### FX Grain Textures
+
+CSS utility classes that apply a radial gradient background with an SVG `feTurbulence` noise overlay via `::after`. The element gets `position: relative` and `isolation: isolate` automatically. The overlay inherits `border-radius` from the parent.
+
+| Class | Effect | Light overlay | Dark overlay |
+|-------|--------|--------------|-------------|
+| `fx-grain-xs` | Subtle dots | 0.3 | 0.5 |
+| `fx-grain-sm` | Fading edge dots | 0.3 | 0.5 |
+| `fx-grain-md` | Sparse dots | 0.5 | 0.7 |
+| `fx-grain-lg` | Strong dots | 1.0 | 1.0 |
+
+**Light mode:** Radial gradients from `primary-100`/`primary-50` center to `primary-50` edge.
+**Dark mode:** Radial gradients from `var(--surface)` center to transparent edge. All colors derived from DS tokens — no hardcoded hex values.
+
+```tsx
+{/* Grain background on any element */}
+<div className="fx-grain-lg rounded-xl p-6">
+  Content with strong grain texture
+</div>
+
+{/* Card component uses fx-grain-lg for its noise variant */}
+<Card variant="noise">Card with grain</Card>
+```
+
 ### Usage Examples
 
 ```tsx

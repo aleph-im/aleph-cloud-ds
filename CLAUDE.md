@@ -225,7 +225,8 @@ docs/plans/                   # Design and implementation plans
 - FormField wrapper with label, required asterisk, helper text, error message, auto-wired accessibility, auto-injects error/aria-invalid into child
 - Badge component with 5 semantic variants (default/success/warning/error/info), 2 sizes, rounded corners
 - StatusDot component with 5 health status variants (healthy/degraded/error/offline/unknown), pulse animation on healthy, 2 sizes, built-in role="status" and auto aria-label
-- Card component with 3 variants (default/noise/ghost), 3 padding sizes, optional title prop
+- Card component with 3 variants (default/noise/ghost), 3 padding sizes, optional title prop — noise variant uses `fx-grain-lg`
+- FX Grain texture utilities (`fx-grain-xs/sm/md/lg`) — SVG feTurbulence purple dot overlays with radial gradient backgrounds, 4 intensity levels, dark mode support, all colors from DS tokens
 - Skeleton loading placeholder with consumer-driven sizing via className
 - Table component with generic typing, sortable columns, keyboard-accessible sorting (Enter/Space), aria-sort, alternating rows, hover, row click (keyboard Enter), activeKey row highlight (aria-current), emptyState prop
 - Tooltip component wrapping Radix UI with DS styling, dark mode contrast fix (composable API: Provider, Root, Trigger, Content)

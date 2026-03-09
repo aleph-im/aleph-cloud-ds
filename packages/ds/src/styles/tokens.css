@@ -233,35 +233,136 @@
     var(--gradient-lime) border-box;
 }
 
-/* ── Card Noise (fx-grain) ─────────────────────────────── */
+/* ── FX Grain Textures ───────────────────────────────── */
 
-.card-noise {
+/* Shared base: stacking context */
+.fx-grain-lg,
+.fx-grain-xs,
+.fx-grain-sm,
+.fx-grain-md {
   position: relative;
   isolation: isolate;
-  background-image: radial-gradient(
-    50% 50%,
-    var(--color-primary-100) 0%,
-    oklch(from var(--color-primary-100) l c h / 0.57) 100%
-  );
 }
 
-.theme-dark .card-noise {
-  background-image: radial-gradient(
-    50% 50%,
-    var(--color-primary-950) 0%,
-    oklch(from var(--color-primary-950) l c h / 0.57) 100%
-  );
-}
-
-.card-noise::after {
+/* Shared ::after: texture overlay */
+:is(.fx-grain-lg, .fx-grain-xs, .fx-grain-sm, .fx-grain-md)::after {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
   border-radius: inherit;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDAwIiB3aWR0aD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii4yNSIgdHlwZT0iZnJhY3RhbE5vaXNlIiBudW1PY3RhdmVzPSIzIi8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAuMSAwIDAgMCAwIDAgMCAwIDAgMCAwLjgwIDAgMCAwIDEwIC03LjI1Ii8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2YpIi8+PC9zdmc+");
   background-size: 400px 400px;
   background-repeat: repeat;
-  opacity: 0.3;
   pointer-events: none;
+}
+
+/* ── Light mode gradients ── */
+
+.fx-grain-lg {
+  background-image: radial-gradient(
+    50% 50%,
+    var(--color-primary-100) 0%,
+    var(--color-primary-50) 100%
+  );
+}
+
+.fx-grain-xs {
+  background-image: radial-gradient(
+    50% 50%,
+    var(--color-primary-50) 0%,
+    var(--color-primary-50) 100%
+  );
+}
+
+.fx-grain-sm {
+  background-image: radial-gradient(
+    50% 50%,
+    var(--color-primary-50) 0%,
+    oklch(from var(--color-primary-50) l c h / 0.57) 100%
+  );
+}
+
+.fx-grain-md {
+  background: radial-gradient(
+      50% 50%,
+      oklch(from var(--color-primary-100) l c h / 0.40) 0%,
+      oklch(from var(--color-primary-100) l c h / 0.05) 100%
+    ),
+    var(--color-primary-50);
+}
+
+/* ── Dark mode gradients ── */
+
+.theme-dark .fx-grain-lg {
+  background-image: radial-gradient(
+    50% 50%,
+    var(--surface) 0%,
+    oklch(from var(--surface) l c h / 0.57) 100%
+  );
+}
+
+.theme-dark .fx-grain-xs {
+  background-image: radial-gradient(
+    50% 50%,
+    var(--surface) 0%,
+    oklch(from var(--surface) l c h / 0.57) 100%
+  );
+}
+
+.theme-dark .fx-grain-sm {
+  background-image: radial-gradient(
+    50% 50%,
+    var(--surface) 0%,
+    oklch(from var(--surface) l c h / 0.25) 100%
+  );
+}
+
+.theme-dark .fx-grain-md {
+  background: radial-gradient(
+      50% 50%,
+      oklch(from var(--surface) l c h / 0.40) 0%,
+      oklch(from var(--surface) l c h / 0.05) 100%
+    ),
+    var(--surface);
+}
+
+/* ── Dark mode texture opacity overrides ── */
+
+.theme-dark .fx-grain-lg::after {
+  opacity: 1;
+}
+
+.theme-dark .fx-grain-xs::after {
+  opacity: 0.5;
+}
+
+.theme-dark .fx-grain-sm::after {
+  opacity: 0.5;
+}
+
+.theme-dark .fx-grain-md::after {
+  opacity: 0.7;
+}
+
+/* ── Texture overlays (::after) ── */
+
+/* Texture: scattered purple dots */
+.fx-grain-lg::after {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDAwIiB3aWR0aD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii4yNSIgdHlwZT0iZnJhY3RhbE5vaXNlIiBudW1PY3RhdmVzPSIzIi8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAuMSAwIDAgMCAwIDAgMCAwIDAgMCAwLjgwIDAgMCAwIDEwIC03LjI1Ii8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2YpIi8+PC9zdmc+");
+  opacity: 1;
+}
+
+.fx-grain-xs::after {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDAwIiB3aWR0aD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii4yNSIgdHlwZT0iZnJhY3RhbE5vaXNlIiBudW1PY3RhdmVzPSIzIi8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAuMSAwIDAgMCAwIDAgMCAwIDAgMCAwLjgwIDAgMCAwIDEwIC03LjI1Ii8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2YpIi8+PC9zdmc+");
+  opacity: 0.3;
+}
+
+.fx-grain-sm::after {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDAwIiB3aWR0aD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii4yNSIgdHlwZT0iZnJhY3RhbE5vaXNlIiBudW1PY3RhdmVzPSIzIi8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAuMSAwIDAgMCAwIDAgMCAwIDAgMCAwLjgwIDAgMCAwIDEwIC03LjI1Ii8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2YpIi8+PC9zdmc+");
+  opacity: 0.3;
+}
+
+.fx-grain-md::after {
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDAwIiB3aWR0aD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii4yNSIgdHlwZT0iZnJhY3RhbE5vaXNlIiBudW1PY3RhdmVzPSIzIi8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAuMSAwIDAgMCAwIDAgMCAwIDAgMCAwLjgwIDAgMCAwIDEwIC03LjI1Ii8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2YpIi8+PC9zdmc+");
+  opacity: 0.5;
 }
