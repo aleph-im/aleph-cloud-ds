@@ -362,10 +362,6 @@
 
 /* ── Dark mode texture opacity overrides ── */
 
-.theme-dark .fx-grain-0::after {
-  opacity: 0.5;
-}
-
 .theme-dark .fx-grain-1::after {
   opacity: 1;
 }
@@ -391,7 +387,8 @@
 /* Texture A: fine white static */
 .fx-grain-0::after {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDAwIiB3aWR0aD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9IjEiIHR5cGU9ImZyYWN0YWxOb2lzZSIgbnVtT2N0YXZlcz0iMyIvPjxmZUNvbG9yTWF0cml4IHZhbHVlcz0iMCAwIDAgMCAxIDAgMCAwIDAgMSAwIDAgMCAwIDEgMCAwIDAgMTAgLTYiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjZikiLz48L3N2Zz4=");
-  opacity: 0.35;
+  opacity: 0.5;
+  mix-blend-mode: soft-light;
 }
 
 /* Texture B: scattered purple dots */
