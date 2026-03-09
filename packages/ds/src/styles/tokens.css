@@ -314,31 +314,31 @@
 .theme-dark .fx-grain-0 {
   background-image: radial-gradient(
     50% 50%,
-    var(--color-base-800) 0%,
-    var(--surface) 100%
+    var(--surface) 0%,
+    oklch(from var(--surface) l c h / 0.57) 100%
   );
 }
 
 .theme-dark .fx-grain-1 {
   background-image: radial-gradient(
     50% 50%,
-    var(--color-base-800) 0%,
-    var(--surface) 100%
+    var(--surface) 0%,
+    oklch(from var(--surface) l c h / 0.57) 100%
   );
 }
 
 .theme-dark .fx-grain-2 {
   background-image: radial-gradient(
     50% 50%,
-    var(--color-base-800) 0%,
-    var(--surface) 100%
+    var(--surface) 0%,
+    oklch(from var(--surface) l c h / 0.57) 100%
   );
 }
 
 .theme-dark .fx-grain-3 {
   background-image: radial-gradient(
     50% 50%,
-    var(--color-base-800) 0%,
+    var(--surface) 0%,
     oklch(from var(--surface) l c h / 0.25) 100%
   );
 }
@@ -346,7 +346,7 @@
 .theme-dark .fx-grain-4 {
   background-image: radial-gradient(
     50% 50%,
-    var(--color-base-800) 0%,
+    var(--surface) 0%,
     oklch(from var(--surface) l c h / 0.05) 100%
   );
 }
@@ -354,7 +354,7 @@
 .theme-dark .fx-grain-5 {
   background: radial-gradient(
       50% 50%,
-      var(--color-base-800) 0%,
+      oklch(from var(--surface) l c h / 0.40) 0%,
       oklch(from var(--surface) l c h / 0.05) 100%
     ),
     var(--surface);
@@ -362,11 +362,27 @@
 
 /* ── Dark mode texture opacity overrides ── */
 
+.theme-dark .fx-grain-0::after {
+  opacity: 0.5;
+}
+
 .theme-dark .fx-grain-1::after {
-  opacity: 0.7;
+  opacity: 1;
+}
+
+.theme-dark .fx-grain-2::after {
+  opacity: 0.5;
+}
+
+.theme-dark .fx-grain-3::after {
+  opacity: 0.5;
 }
 
 .theme-dark .fx-grain-4::after {
+  opacity: 1;
+}
+
+.theme-dark .fx-grain-5::after {
   opacity: 0.7;
 }
 
