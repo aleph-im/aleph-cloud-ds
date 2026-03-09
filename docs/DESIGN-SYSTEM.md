@@ -433,6 +433,52 @@ DS components use Phosphor icons internally for UI chrome:
 
 ---
 
+## Logo
+
+Two SVG components for the Aleph Cloud brand mark. Both use `fill="currentColor"` to inherit color from the parent, adapting to any theme or background automatically.
+
+### Usage
+
+```tsx
+import { Logo, LogoFull } from "@aleph-front/ds/logo";
+
+{/* Icon mark only */}
+<Logo className="size-10" aria-label="Aleph Cloud" />
+
+{/* Icon + "Aleph Cloud" wordmark */}
+<LogoFull className="h-8 w-auto" aria-label="Aleph Cloud" />
+```
+
+### Variants
+
+| Component | Content | Aspect ratio |
+|-----------|---------|-------------|
+| `Logo` | Icon mark (two circles + two arcs) | 1:1 — size with `size-*` |
+| `LogoFull` | Icon mark + "Aleph Cloud" wordmark | ~6:1 — set height with `h-*`, use `w-auto` |
+
+### Theming
+
+The logos use `currentColor`, so they respond to the parent's text color:
+
+```tsx
+{/* Inherits default foreground color */}
+<Logo className="size-10" />
+
+{/* On a dark surface */}
+<div className="bg-neutral-900 text-white">
+  <LogoFull className="h-8 w-auto" />
+</div>
+
+{/* Brand tint */}
+<Logo className="size-10 text-primary-600" />
+```
+
+### Props
+
+Both components accept all standard SVG attributes (`className`, `aria-label`, `aria-hidden`, etc.) and forward refs.
+
+---
+
 ## Patterns
 
 ### Adding a New Semantic Token

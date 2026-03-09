@@ -48,6 +48,9 @@ aleph-cloud-ds/
 │       │   │   ├── input/
 │       │   │   │   ├── input.tsx
 │       │   │   │   └── input.test.tsx
+│       │   │   ├── logo/
+│       │   │   │   ├── logo.tsx
+│       │   │   │   └── logo.test.tsx
 │       │   │   ├── radio-group/
 │       │   │   │   ├── radio-group.tsx
 │       │   │   │   └── radio-group.test.tsx
@@ -99,7 +102,8 @@ aleph-cloud-ds/
 │       │   │   │   ├── typography/page.tsx
 │       │   │   │   ├── spacing/page.tsx
 │       │   │   │   ├── effects/page.tsx
-│       │   │   │   └── icons/page.tsx
+│       │   │   │   ├── icons/page.tsx
+│       │   │   │   └── logo/page.tsx
 │       │   │   └── components/
 │       │   │       ├── badge/page.tsx
 │       │   │       ├── button/page.tsx

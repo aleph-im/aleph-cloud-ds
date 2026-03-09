@@ -28,6 +28,7 @@ const NAV: NavEntry[] = [
       { label: "Spacing", href: "/foundations/spacing" },
       { label: "Effects", href: "/foundations/effects" },
       { label: "Icons", href: "/foundations/icons" },
+      { label: "Logo", href: "/foundations/logo" },
     ],
   },
   {

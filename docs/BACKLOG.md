@@ -33,12 +33,6 @@ Ideas and scope creep captured for later consideration.
 **Description:** Input, Textarea, and Select share identical base styles (shadow-brand, focus ring, error border, dark mode bg). Extract shared form control base classes to reduce duplication.
 **Priority:** Low
 
-### 2026-02-26 — Logo variants
-
-**Source:** Design doc
-**Description:** Add 4 SVG logo variants (icon-only light/dark, icon+wordlogo light/dark).
-**Priority:** Medium
-
 ### 2026-02-27 — Form components (remaining)
 
 **Source:** Identified while reviewing component coverage
@@ -104,5 +98,6 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-03-05 — Multi-select dropdown with checkboxes (cmdk + Radix Popover, tags with overflow, clear-all)
 - [x] 2026-03-06 — Phosphor Icons integration (replaced inline SVGs, added to DS as dependency, preview showcase)
 - [x] 2026-03-06 — CopyableText component (middle-ellipsis truncation, clip-path circle reveal, optional external link)
+- [x] 2026-03-09 — Logo components (icon mark + full logo, currentColor, 2 components instead of 4 SVGs)
 
 </details>
