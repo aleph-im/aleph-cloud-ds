@@ -261,27 +261,52 @@
 /* ── Light mode gradients ── */
 
 .fx-grain-0 {
-  background-image: radial-gradient(50% 50%, #E2CEFA 0%, #FAF6FF 100%);
+  background-image: radial-gradient(
+    50% 50%,
+    var(--color-primary-200) 0%,
+    var(--color-primary-50) 100%
+  );
 }
 
 .fx-grain-1 {
-  background-image: radial-gradient(50% 50%, #E2CEFA 0%, #FAF6FF 100%);
+  background-image: radial-gradient(
+    50% 50%,
+    var(--color-primary-200) 0%,
+    var(--color-primary-50) 100%
+  );
 }
 
 .fx-grain-2 {
-  background-image: radial-gradient(50% 50%, #EBDAFF 0%, #F0E4FF 100%);
+  background-image: radial-gradient(
+    50% 50%,
+    var(--color-primary-100) 0%,
+    var(--color-primary-100) 100%
+  );
 }
 
 .fx-grain-3 {
-  background-image: radial-gradient(50% 50%, #EBDAFF 0%, #f0e4ff91 100%);
+  background-image: radial-gradient(
+    50% 50%,
+    var(--color-primary-100) 0%,
+    oklch(from var(--color-primary-100) l c h / 0.57) 100%
+  );
 }
 
 .fx-grain-4 {
-  background-image: radial-gradient(50% 50%, #E1D2F8 0%, #e1d2f80d 100%);
+  background-image: radial-gradient(
+    50% 50%,
+    var(--color-primary-200) 0%,
+    oklch(from var(--color-primary-200) l c h / 0.05) 100%
+  );
 }
 
 .fx-grain-5 {
-  background: radial-gradient(50% 50%, #e1d2f866 0%, #e1d2f80d 100%), #F9F4FF;
+  background: radial-gradient(
+      50% 50%,
+      oklch(from var(--color-primary-200) l c h / 0.40) 0%,
+      oklch(from var(--color-primary-200) l c h / 0.05) 100%
+    ),
+    var(--color-primary-50);
 }
 
 /* ── Dark mode gradients ── */
