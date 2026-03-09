@@ -263,15 +263,15 @@
 .fx-grain-0 {
   background-image: radial-gradient(
     50% 50%,
-    var(--color-primary-200) 0%,
-    var(--color-primary-50) 100%
+    var(--color-neutral-200) 0%,
+    var(--color-neutral-50) 100%
   );
 }
 
 .fx-grain-1 {
   background-image: radial-gradient(
     50% 50%,
-    var(--color-primary-200) 0%,
+    var(--color-primary-100) 0%,
     var(--color-primary-50) 100%
   );
 }
@@ -279,32 +279,32 @@
 .fx-grain-2 {
   background-image: radial-gradient(
     50% 50%,
-    var(--color-primary-100) 0%,
-    var(--color-primary-100) 100%
+    var(--color-primary-50) 0%,
+    var(--color-primary-50) 100%
   );
 }
 
 .fx-grain-3 {
   background-image: radial-gradient(
     50% 50%,
-    var(--color-primary-100) 0%,
-    oklch(from var(--color-primary-100) l c h / 0.57) 100%
+    var(--color-primary-50) 0%,
+    oklch(from var(--color-primary-50) l c h / 0.57) 100%
   );
 }
 
 .fx-grain-4 {
   background-image: radial-gradient(
     50% 50%,
-    var(--color-primary-200) 0%,
-    oklch(from var(--color-primary-200) l c h / 0.05) 100%
+    var(--color-primary-100) 0%,
+    oklch(from var(--color-primary-100) l c h / 0.05) 100%
   );
 }
 
 .fx-grain-5 {
   background: radial-gradient(
       50% 50%,
-      oklch(from var(--color-primary-200) l c h / 0.40) 0%,
-      oklch(from var(--color-primary-200) l c h / 0.05) 100%
+      oklch(from var(--color-primary-100) l c h / 0.40) 0%,
+      oklch(from var(--color-primary-100) l c h / 0.05) 100%
     ),
     var(--color-primary-50);
 }
@@ -314,50 +314,50 @@
 .theme-dark .fx-grain-0 {
   background-image: radial-gradient(
     50% 50%,
-    var(--color-primary-950) 0%,
-    oklch(from var(--color-primary-950) l c h / 0.57) 100%
+    var(--surface) 0%,
+    oklch(from var(--surface) l c h / 0.57) 100%
   );
 }
 
 .theme-dark .fx-grain-1 {
   background-image: radial-gradient(
     50% 50%,
-    var(--color-primary-950) 0%,
-    oklch(from var(--color-primary-950) l c h / 0.57) 100%
+    var(--surface) 0%,
+    oklch(from var(--surface) l c h / 0.57) 100%
   );
 }
 
 .theme-dark .fx-grain-2 {
   background-image: radial-gradient(
     50% 50%,
-    var(--color-primary-950) 0%,
-    oklch(from var(--color-primary-950) l c h / 0.57) 100%
+    var(--surface) 0%,
+    oklch(from var(--surface) l c h / 0.57) 100%
   );
 }
 
 .theme-dark .fx-grain-3 {
   background-image: radial-gradient(
     50% 50%,
-    var(--color-primary-950) 0%,
-    oklch(from var(--color-primary-950) l c h / 0.25) 100%
+    var(--surface) 0%,
+    oklch(from var(--surface) l c h / 0.25) 100%
   );
 }
 
 .theme-dark .fx-grain-4 {
   background-image: radial-gradient(
     50% 50%,
-    var(--color-primary-950) 0%,
-    oklch(from var(--color-primary-950) l c h / 0.05) 100%
+    var(--surface) 0%,
+    oklch(from var(--surface) l c h / 0.05) 100%
   );
 }
 
 .theme-dark .fx-grain-5 {
   background: radial-gradient(
       50% 50%,
-      oklch(from var(--color-primary-950) l c h / 0.40) 0%,
-      oklch(from var(--color-primary-950) l c h / 0.05) 100%
+      oklch(from var(--surface) l c h / 0.40) 0%,
+      oklch(from var(--surface) l c h / 0.05) 100%
     ),
-    var(--color-primary-950);
+    var(--surface);
 }
 
 /* ── Texture overlays (::after) ── */
