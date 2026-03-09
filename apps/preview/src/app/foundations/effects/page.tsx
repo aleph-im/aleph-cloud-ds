@@ -16,10 +16,10 @@ const GRADIENTS = [
 ] as const;
 
 const GRAINS = [
-  { name: "fx-grain-1", label: "Purple dots, strong", cls: "fx-grain-1" },
   { name: "fx-grain-2", label: "Purple dots, subtle", cls: "fx-grain-2" },
   { name: "fx-grain-3", label: "Purple dots, fading edge", cls: "fx-grain-3" },
-{ name: "fx-grain-5", label: "Purple dots, very sparse", cls: "fx-grain-5" },
+  { name: "fx-grain-5", label: "Purple dots, sparse", cls: "fx-grain-5" },
+  { name: "fx-grain-1", label: "Purple dots, strong", cls: "fx-grain-1" },
 ] as const;
 
 const TRANSITIONS = [
