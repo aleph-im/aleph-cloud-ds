@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #57 — 2026-03-09
+
+**Context:** Extracting `.card-noise` into standalone `fx-grain-*` utility classes for reusable grain textures.
+**Decision:** Size-based naming (`fx-grain-xs/sm/md/lg`) instead of numeric indices. Removed grain-0 (BW static texture — odd one out, required separate SVG and blend mode workarounds) and grain-4 (visually identical to grain-1 at full opacity). All gradient colors use DS tokens (`primary-50/100`, `var(--surface)`) with `oklch()` relative color syntax for alpha variants — no hardcoded hex values. Dark mode uses `var(--surface)` (base-900) for backgrounds, with elevated texture opacities for visibility.
+**Rationale:** Size naming (xs/sm/md/lg) matches the DS convention used by other components and communicates the visual weight intuitively. Removing duplicates keeps the API tight — 4 distinct variants rather than 6 with overlaps. Token-based colors ensure grain textures adapt automatically if the primary scale or surface color changes. The original plan had hardcoded hex values from Figma; replacing them with tokens was a design-time correction.
+**Alternatives considered:** 0-indexed numeric naming matching live site (rejected — confusing after removing 0 and 4), keeping grain-0 BW texture (rejected — required separate SVG, mix-blend-mode workarounds, and didn't fit the purple dot family), keeping grain-4 (rejected — indistinguishable from grain-1).
+
 ## Decision #56 — 2026-03-06
 
 **Context:** Building a CopyableText component for displaying truncated hashes, addresses, and API keys with copy-to-clipboard and optional external link.
