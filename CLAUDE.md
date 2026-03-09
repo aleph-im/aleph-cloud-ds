@@ -230,11 +230,12 @@ docs/plans/                   # Design and implementation plans
 - Skeleton loading placeholder with consumer-driven sizing via className
 - Table component with generic typing, sortable columns, keyboard-accessible sorting (Enter/Space), aria-sort, alternating rows, hover, row click (keyboard Enter), activeKey row highlight (aria-current), emptyState prop
 - Tooltip component wrapping Radix UI with DS styling, dark mode contrast fix (composable API: Provider, Root, Trigger, Content)
+- Tabs component (Radix UI) with composable API (Tabs, TabsList, TabsTrigger, TabsContent), sliding active indicator via MutationObserver, text nudge animation, arbitrary trigger children (badges, subscripts), disabled state, keyboard navigation
 - CopyableText component with middle-ellipsis truncation, copy-to-clipboard with clip-path circle-reveal animation (spring bounce), optional external link (ArrowUpRight), tooltip for full text, 2 sizes (sm/md)
 - Logo components — `Logo` (icon mark) and `LogoFull` (icon + wordmark), SVG with `fill="currentColor"` for automatic theme adaptation
 - Phosphor Icons integration — 7,000+ icons in 6 weights (Thin/Light/Regular/Bold/Fill/Duotone), MIT licensed, used internally for UI chrome (CaretDown, Check, X, CaretUp)
 - All animated components respect prefers-reduced-motion via motion-reduce: variants
-- Preview app with responsive sidebar navigation (desktop fixed + mobile drawer) and route-per-page (25 pages)
+- Preview app with responsive sidebar navigation (desktop fixed + mobile drawer) and route-per-page (26 pages)
 - Static export for deployment
 - CI workflow (GitHub Actions): lint + typecheck + test + build on PRs and main pushes
 - Publish workflow: triggered by GitHub Release, patches version from git tag, publishes `@aleph-front/ds` to npm as raw TypeScript source

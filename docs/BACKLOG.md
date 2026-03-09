@@ -46,7 +46,7 @@ Ideas and scope creep captured for later consideration.
 **Source:** Design doc
 **Description:** Build remaining UI components. Badge, StatusDot, Card, Skeleton, Table, Tooltip are done. Remaining:
 - Modal / Dialog — overlay with focus trap, close on escape
-- Tabs — tab list + panels, keyboard navigation
+- ~~Tabs~~ — done (see completed)
 - Accordion / Collapsible — expand/collapse sections
 - Alert / Banner — dismissible status messages
 - Avatar — user image with fallback initials
@@ -94,5 +94,6 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-03-06 — CopyableText component (middle-ellipsis truncation, clip-path circle reveal, optional external link)
 - [x] 2026-03-09 — Logo components (icon mark + full logo, currentColor, 2 components instead of 4 SVGs)
 - [x] 2026-03-09 — FX grain backgrounds (4 size variants xs/sm/md/lg, DS token colors, dark mode, preview showcase)
+- [x] 2026-03-09 — Tabs component (Radix wrapper, sliding indicator, composable API, badge/subscript support)
 
 </details>

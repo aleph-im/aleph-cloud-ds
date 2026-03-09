@@ -75,6 +75,9 @@ aleph-cloud-ds/
 │       │   │   ├── status-dot/
 │       │   │   │   ├── status-dot.tsx
 │       │   │   │   └── status-dot.test.tsx
+│       │   │   ├── tabs/
+│       │   │   │   ├── tabs.tsx
+│       │   │   │   └── tabs.test.tsx
 │       │   │   ├── tooltip/
 │       │   │   │   ├── tooltip.tsx
 │       │   │   │   └── tooltip.test.tsx
@@ -120,6 +123,7 @@ aleph-cloud-ds/
 │       │   │       ├── skeleton/page.tsx
 │       │   │       ├── table/page.tsx
 │       │   │       ├── status-dot/page.tsx
+│       │   │       ├── tabs/page.tsx
 │       │   │       └── tooltip/page.tsx
 │       │   └── components/
 │       │       ├── sidebar.tsx
@@ -314,7 +318,7 @@ The overlay technique layers a semi-transparent `linear-gradient(solid, solid)` 
 - **Continuous animations** (`animate-pulse`, `animate-spin`): `motion-reduce:animate-none` stops the animation entirely.
 - **One-shot transitions** (`transition-[clip-path]`, `transition-transform`): `motion-reduce:transition-none` makes state changes instant.
 
-**Key files:** `skeleton.tsx`, `spinner.tsx`, `status-dot.tsx` (continuous); `checkbox.tsx`, `radio-group.tsx`, `switch.tsx`, `tooltip.tsx`, `table.tsx` (one-shot)
+**Key files:** `skeleton.tsx`, `spinner.tsx`, `status-dot.tsx` (continuous); `checkbox.tsx`, `radio-group.tsx`, `switch.tsx`, `tooltip.tsx`, `table.tsx`, `tabs.tsx` (one-shot)
 
 **Rule:** Every new component with animation must include the appropriate `motion-reduce:` variant. Continuous animations use `animate-none`; transitions use `transition-none`.
 
@@ -437,11 +441,11 @@ export type Column<T> = {
 
 **Approach:** Re-export Radix primitives directly (`Provider`, `Root`, `Trigger`), only wrapping the `Content` part with DS styling and `forwardRef`. Consumers compose the pieces explicitly.
 
-**Key files:** `packages/ds/src/components/tooltip/tooltip.tsx`
+**Key files:** `packages/ds/src/components/tooltip/tooltip.tsx`, `packages/ds/src/components/tabs/tabs.tsx`
 
 **When to use which pattern:**
 - **Flat props wrapper** (Select, Checkbox): When the component has a single primary interaction and compound children add ceremony without flexibility.
-- **Composable re-export** (Tooltip): When the trigger can be any arbitrary element and the composition pattern is inherently flexible.
+- **Composable re-export** (Tooltip, Tabs): When the trigger can be any arbitrary element and the composition pattern is inherently flexible.
 
 ### Minimal forwardRef Wrapper
 

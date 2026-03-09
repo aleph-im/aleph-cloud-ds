@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #58 — 2026-03-09
+
+**Context:** Building a Tabs component for the DS. Needed to choose API shape (composable vs flat), indicator animation approach, and whether to add size variants.
+**Decision:** Composable Radix wrapper API (`Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`). Sliding indicator via `MutationObserver` + `ResizeObserver` measuring the active tab. No size variants — Figma shows one size. Horizontal padding increased from `px-3` to `px-4` after visual review.
+**Rationale:** Composable API because tab triggers accept arbitrary children (badges, subscripts, icons) — a flat API would force render props or slots. The sliding indicator lives in `TabsList` as an absolutely-positioned div, decoupled from individual triggers. `MutationObserver` watches `data-state` attribute changes (set by Radix) to detect tab switches; `ResizeObserver` handles layout shifts. Initial render sets position without transition to avoid a slide-in from 0,0. No size variants per YAGNI — one size matches the Figma spec.
+**Alternatives considered:** Flat `tabs={[{label, value}]}` API (rejected — can't nest badges/icons without render props), per-trigger border instead of sliding indicator (rejected — no smooth animation between tabs), size variants (rejected — YAGNI, Figma shows one size).
+
 ## Decision #57 — 2026-03-09
 
 **Context:** Extracting `.card-noise` into standalone `fx-grain-*` utility classes for reusable grain textures.

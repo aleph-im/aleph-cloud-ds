@@ -1035,6 +1035,54 @@ Wrap your app (or a subtree) with `TooltipProvider`, then compose tooltips:
 
 **Styling:** `bg-neutral-900 text-white text-sm rounded-lg px-3 py-1.5 shadow-brand-sm` with Radix animation attributes. Dark mode uses `bg-neutral-700` for contrast against the dark page background.
 
+### Tabs
+
+Radix UI Tabs with DS styling, sliding active indicator, and text nudge micro-animation. Composable API — Radix Root is re-exported directly; List wraps the indicator logic.
+
+```tsx
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@aleph-front/ds/tabs";
+```
+
+#### Usage
+
+```tsx
+<Tabs defaultValue="compute">
+  <TabsList>
+    <TabsTrigger value="compute">Compute</TabsTrigger>
+    <TabsTrigger value="storage">Storage</TabsTrigger>
+    <TabsTrigger value="network">Network</TabsTrigger>
+  </TabsList>
+  <TabsContent value="compute">...</TabsContent>
+  <TabsContent value="storage">...</TabsContent>
+  <TabsContent value="network">...</TabsContent>
+</Tabs>
+```
+
+#### With Badges
+
+Tab triggers accept arbitrary children — badges, subscripts, icons:
+
+```tsx
+<TabsTrigger value="vms">
+  VMs <Badge size="sm" variant="info">12</Badge>
+</TabsTrigger>
+```
+
+#### Disabled Tab
+
+```tsx
+<TabsTrigger value="upcoming" disabled>Upcoming</TabsTrigger>
+```
+
+**Exports:** `Tabs` (Root), `TabsList`, `TabsTrigger`, `TabsContent`
+
+**Animations:**
+- **Sliding indicator** — absolutely-positioned bar that slides between tabs via `MutationObserver` + `ResizeObserver`. Initial render positions without transition to avoid slide-in from 0,0.
+- **Text nudge** — active trigger shifts up 2px (`-translate-y-0.5`)
+- Both respect `prefers-reduced-motion` via `motion-reduce:transition-none`
+
+**Styling:** `font-heading font-bold text-lg` for triggers. Full-width `border-b-2 border-edge` baseline on the list. Active/hover text uses `primary-600` / `dark:primary-400`. Disabled triggers use `opacity-20 pointer-events-none`. Content gets `mt-4` spacing.
+
 ### Skeleton
 
 Animated loading placeholder. No width/height props — sizing is controlled by the consumer via `className`.
