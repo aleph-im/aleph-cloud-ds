@@ -15,6 +15,15 @@ const GRADIENTS = [
   { name: "info", var: "var(--gradient-info)" },
 ] as const;
 
+const GRAINS = [
+  { name: "fx-grain-0", label: "Fine white static", cls: "fx-grain-0" },
+  { name: "fx-grain-1", label: "Purple dots, strong", cls: "fx-grain-1" },
+  { name: "fx-grain-2", label: "Purple dots, subtle", cls: "fx-grain-2" },
+  { name: "fx-grain-3", label: "Purple dots, fading edge", cls: "fx-grain-3" },
+  { name: "fx-grain-4", label: "Purple dots, transparent edge", cls: "fx-grain-4" },
+  { name: "fx-grain-5", label: "Purple dots, very sparse", cls: "fx-grain-5" },
+] as const;
+
 const TRANSITIONS = [
   { name: "fast", duration: "200ms" },
   { name: "normal", duration: "500ms" },
@@ -26,7 +35,7 @@ export default function EffectsPage() {
     <div>
       <PageHeader
         title="Effects"
-        description="Shadows, gradients, and transition tokens."
+        description="Shadows, gradients, grain textures, and transition tokens."
       />
       <div className="space-y-12">
         <section>
@@ -81,6 +90,20 @@ export default function EffectsPage() {
                 <p className="text-xs text-muted-foreground mt-1">
                   Hover to preview
                 </p>
+              </div>
+            ))}
+          </div>
+        </section>
+        <section>
+          <h3 className="text-lg font-bold mb-4">Grain Textures</h3>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {GRAINS.map(({ name, label, cls }) => (
+              <div
+                key={name}
+                className={`rounded-xl p-6 h-40 flex flex-col justify-end ${cls}`}
+              >
+                <p className="text-sm font-medium">{name}</p>
+                <p className="text-xs text-muted-foreground mt-1">{label}</p>
               </div>
             ))}
           </div>
