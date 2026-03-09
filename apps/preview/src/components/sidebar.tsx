@@ -41,6 +41,7 @@ const NAV: NavEntry[] = [
       { label: "Skeleton", href: "/components/skeleton" },
       { label: "Table", href: "/components/table" },
       { label: "StatusDot", href: "/components/status-dot" },
+      { label: "Tabs", href: "/components/tabs" },
       { label: "Tooltip", href: "/components/tooltip" },
       {
         group: "Forms",
