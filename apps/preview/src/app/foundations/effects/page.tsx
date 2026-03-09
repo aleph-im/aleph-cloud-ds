@@ -16,7 +16,6 @@ const GRADIENTS = [
 ] as const;
 
 const GRAINS = [
-  { name: "fx-grain-0", label: "Fine white static", cls: "fx-grain-0" },
   { name: "fx-grain-1", label: "Purple dots, strong", cls: "fx-grain-1" },
   { name: "fx-grain-2", label: "Purple dots, subtle", cls: "fx-grain-2" },
   { name: "fx-grain-3", label: "Purple dots, fading edge", cls: "fx-grain-3" },

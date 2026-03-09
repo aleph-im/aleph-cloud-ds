@@ -236,7 +236,6 @@
 /* ── FX Grain Textures ───────────────────────────────── */
 
 /* Shared base: stacking context */
-.fx-grain-0,
 .fx-grain-1,
 .fx-grain-2,
 .fx-grain-3,
@@ -247,7 +246,7 @@
 }
 
 /* Shared ::after: texture overlay */
-:is(.fx-grain-0, .fx-grain-1, .fx-grain-2, .fx-grain-3, .fx-grain-4, .fx-grain-5)::after {
+:is(.fx-grain-1, .fx-grain-2, .fx-grain-3, .fx-grain-4, .fx-grain-5)::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -259,14 +258,6 @@
 }
 
 /* ── Light mode gradients ── */
-
-.fx-grain-0 {
-  background-image: radial-gradient(
-    50% 50%,
-    var(--color-neutral-200) 0%,
-    var(--color-neutral-50) 100%
-  );
-}
 
 .fx-grain-1 {
   background-image: radial-gradient(
@@ -310,14 +301,6 @@
 }
 
 /* ── Dark mode gradients ── */
-
-.theme-dark .fx-grain-0 {
-  background-image: radial-gradient(
-    50% 50%,
-    var(--surface) 0%,
-    oklch(from var(--surface) l c h / 0.57) 100%
-  );
-}
 
 .theme-dark .fx-grain-1 {
   background-image: radial-gradient(
@@ -384,14 +367,7 @@
 
 /* ── Texture overlays (::after) ── */
 
-/* Texture A: fine white static */
-.fx-grain-0::after {
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDAwIiB3aWR0aD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9IjEiIHR5cGU9ImZyYWN0YWxOb2lzZSIgbnVtT2N0YXZlcz0iMyIvPjxmZUNvbG9yTWF0cml4IHZhbHVlcz0iMCAwIDAgMCAxIDAgMCAwIDAgMSAwIDAgMCAwIDEgMCAwIDAgMTAgLTYiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjZikiLz48L3N2Zz4=");
-  opacity: 0.5;
-  mix-blend-mode: soft-light;
-}
-
-/* Texture B: scattered purple dots */
+/* Texture: scattered purple dots */
 .fx-grain-1::after {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDAwIiB3aWR0aD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii4yNSIgdHlwZT0iZnJhY3RhbE5vaXNlIiBudW1PY3RhdmVzPSIzIi8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAuMSAwIDAgMCAwIDAgMCAwIDAgMCAwLjgwIDAgMCAwIDEwIC03LjI1Ii8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2YpIi8+PC9zdmc+");
   opacity: 1;
