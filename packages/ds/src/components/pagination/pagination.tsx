@@ -97,8 +97,8 @@ const PAGE_BUTTON = [
 ].join(" ");
 
 const PAGE_ACTIVE = [
-  "bg-primary-600 text-white dark:bg-primary-800",
-  "hover:bg-primary-600 dark:hover:bg-primary-800",
+  "bg-primary-400 text-white dark:bg-primary-600",
+  "hover:bg-primary-400 dark:hover:bg-primary-600",
 ].join(" ");
 
 const Pagination = forwardRef<HTMLElement, PaginationProps>(
