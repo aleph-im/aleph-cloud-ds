@@ -18,21 +18,23 @@ import {
 } from "@phosphor-icons/react";
 import { cn } from "@ac/lib/cn";
 
-const VARIANT_LABELS: Record<string, string> = {
+type AlertVariant = "warning" | "error" | "info" | "success";
+
+const VARIANT_LABELS: Record<AlertVariant, string> = {
   warning: "Warning",
   error: "Error",
   info: "Info",
   success: "Success",
 };
 
-const VARIANT_ICONS: Record<string, typeof Warning> = {
+const VARIANT_ICONS: Record<AlertVariant, typeof Warning> = {
   warning: Warning,
   error: XCircle,
   info: Info,
   success: CheckCircle,
 };
 
-const VARIANT_BG_CLASS: Record<string, string> = {
+const VARIANT_BG_CLASS: Record<AlertVariant, string> = {
   warning: "alert-bg-warning",
   error: "alert-bg-error",
   info: "alert-bg-info",
@@ -85,8 +87,6 @@ const progressVariants = cva("absolute bottom-0 left-0 h-0.5", {
     },
   },
 });
-
-type AlertVariant = "warning" | "error" | "info" | "success";
 
 type AlertProps = Omit<HTMLAttributes<HTMLDivElement>, "title"> &
   VariantProps<typeof alertVariants> & {
