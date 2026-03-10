@@ -26,6 +26,7 @@
     "./switch": "./src/components/switch/switch.tsx",
     "./form-field": "./src/components/form-field/form-field.tsx",
     "./badge": "./src/components/badge/badge.tsx",
+    "./breadcrumb": "./src/components/breadcrumb/breadcrumb.tsx",
     "./card": "./src/components/card/card.tsx",
     "./status-dot": "./src/components/status-dot/status-dot.tsx",
     "./table": "./src/components/table/table.tsx",
