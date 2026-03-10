@@ -618,6 +618,62 @@ import { Alert } from "@aleph-front/ds/alert";
 | `children` | `ReactNode` | — | Message body. Links (`<a>`) are auto-styled (bold, underline, ↗ icon). |
 | `className` | `string` | — | Merged via `cn()` |
 
+### Breadcrumb
+
+Composable navigation breadcrumb trail with semantic `<nav>` + `<ol>` + `<li>` markup, `asChild` support via Radix Slot for framework routing, and hover states.
+
+```tsx
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@aleph-front/ds/breadcrumb";
+```
+
+#### Default
+
+```tsx
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/nodes">Nodes</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Node Details</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+```
+
+#### With Framework Router (asChild)
+
+```tsx
+<BreadcrumbLink asChild>
+  <Link href="/dashboard">Dashboard</Link>
+</BreadcrumbLink>
+```
+
+#### Parts
+
+| Part | Element | Role |
+|------|---------|------|
+| `Breadcrumb` | `<nav>` | Wrapper with `aria-label="Breadcrumb"` |
+| `BreadcrumbList` | `<ol>` | Ordered list with flex layout, font-heading uppercase styling |
+| `BreadcrumbItem` | `<li>` | List item wrapper |
+| `BreadcrumbLink` | `<a>` / Slot | Navigation link with hover color transition |
+| `BreadcrumbSeparator` | `<li>` | Visual separator (`/` default), `aria-hidden="true"` |
+| `BreadcrumbPage` | `<span>` | Current page with `aria-current="page"`, muted color |
+
+**Visual style:** `font-heading font-extrabold italic uppercase text-xs` on the list. Links use `text-foreground` with `hover:text-primary-600` (dark: `primary-400`). Separators and current page use `text-muted`. No CVA — no variants.
+
 ### Button
 
 CVA-based button with 6 variants, 4 sizes, icon slots, loading/disabled states, and `asChild` polymorphism.

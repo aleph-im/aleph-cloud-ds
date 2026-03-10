@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #61 — 2026-03-10
+
+**Context:** Building a Breadcrumb navigation component. Needed to choose API shape (monolithic vs composable), separator handling, font sizing, and variant system.
+**Decision:** Six composable parts (`Breadcrumb`, `BreadcrumbList`, `BreadcrumbItem`, `BreadcrumbLink`, `BreadcrumbSeparator`, `BreadcrumbPage`) with `asChild` via Radix `Slot.Root` on `BreadcrumbLink`. No CVA — no variants. Default separator is `/` as text, overridable via children. Font uses `text-xs` (Tailwind) instead of Figma's literal 10px. Removed `role="presentation"` from separator — `aria-hidden="true"` is sufficient and `role="presentation"` breaks `getAllByRole("listitem")` in tests.
+**Rationale:** Composable API matches the established pattern (Tabs, Tooltip) and gives consumers full control over structure. `asChild` enables framework routing (Next.js `<Link>`, React Router `<Link>`) without wrapper divs. No CVA because there are no variants to manage — it's just static styling. `text-xs` (12px) is the closest Tailwind step to Figma's 10px and avoids arbitrary values. The `/` separator is the standard breadcrumb convention; making it overridable via children handles edge cases without prop proliferation.
+**Alternatives considered:** Monolithic `<Breadcrumb items={[...]}` (rejected — less flexible, can't support asChild per-link), CVA variants (rejected — no visual variants to map), `text-[10px]` arbitrary value (rejected — breaks the type scale, `text-xs` is close enough), `role="presentation"` on separator (rejected — conflicts with `listitem` role query in tests, unnecessary alongside `aria-hidden`).
+
 ## Decision #60 — 2026-03-10
 
 **Context:** Building a Pagination component. Needed to choose API shape (controlled vs uncontrolled), variant system, and disabled behavior for boundary navigation.

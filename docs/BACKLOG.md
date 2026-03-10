@@ -52,7 +52,7 @@ Ideas and scope creep captured for later consideration.
 - Avatar — user image with fallback initials
 - ~~Pagination~~ — done (see completed)
 - Progress — determinate progress bar
-- Breadcrumb — navigation trail
+- ~~Breadcrumb~~ — done (see completed)
 **Priority:** High
 
 ### 2026-03-06 — CopyableText component with micro-animations
@@ -103,5 +103,6 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-03-09 — Tabs component (Radix wrapper, sliding indicator, composable API, badge/subscript support)
 - [x] 2026-03-10 — Alert component (4 variants, dismiss with exit animation, auto-dismiss timer, auto-styled links)
 - [x] 2026-03-10 — Pagination component (controlled API, configurable siblingCount/showFirstLast, pure buildPageRange function, a11y)
+- [x] 2026-03-10 — Breadcrumb component (composable 6-part API, asChild via Radix Slot, semantic nav/ol/li, custom separator)
 
 </details>
