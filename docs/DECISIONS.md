@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #59 — 2026-03-10
+
+**Context:** Building an Alert/Banner component for dismissible status messages. Needed to choose API shape, background treatment, dismiss UX, and link styling.
+**Decision:** Flat `Alert` component (not composable) with CVA variants. CSS classes for gradient backgrounds (not inline styles) to support dark mode via `.theme-dark` selector. Variant gradient at 10% opacity layered over `var(--background)` using `oklch(from ... / 0.1)` relative color syntax. Dismiss via variant icon (`XCircle` fill) doubling as a button — `onDismiss` callback fires after `onTransitionEnd` exit animation. `dismissAfter` ignored without `onDismiss` (controlled pattern). Links in children auto-styled via `[&_a]` descendant selectors (bold, underline, ↗ arrow via `::after`).
+**Rationale:** Flat API because Alert has no composable parts (unlike Tooltip/Tabs). CSS classes over inline styles because `style={{ backgroundImage }}` can't respond to `.theme-dark` class toggle. The two-layer gradient technique (10% variant gradient + solid background) matches the Figma spec and prevents see-through backgrounds. Auto-styled links reduce boilerplate for consumers — every alert with a link would otherwise need the same className. `onTransitionEnd` handoff lets the parent unmount after the exit animation completes naturally.
+**Alternatives considered:** Composable API (rejected — no composable parts), inline styles for gradient (rejected — can't do dark mode), left border accent (rejected — Figma shows full border), separate X icon for dismiss (rejected — Figma shows variant icon as dismiss target), consumer-styled links (rejected — too much repeated boilerplate).
+
 ## Decision #58 — 2026-03-09
 
 **Context:** Building a Tabs component for the DS. Needed to choose API shape (composable vs flat), indicator animation approach, and whether to add size variants.

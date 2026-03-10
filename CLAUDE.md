@@ -223,6 +223,7 @@ docs/plans/                   # Design and implementation plans
 - MultiSelect component (cmdk + Radix Popover) with searchable multi-select dropdown, flat options prop, tags with overflow (maxDisplayedTags=2), per-tag dismiss, clear-all action, checkbox indicators, 2 sizes, shadow-brand, error/disabled
 - Slider component (Radix Slider) with CVA track/thumb variants, 2 sizes (sm/md), single or range (two-thumb) mode, optional hover tooltip, error state, keyboard accessible
 - FormField wrapper with label, required asterisk, helper text, error message, auto-wired accessibility, auto-injects error/aria-invalid into child
+- Alert component with 4 semantic variants (warning/error/info/success), optional title, dismissible with XCircle button and exit animation, auto-dismiss timer with progress bar, auto-styled links (bold, underline, ↗ icon via ::after), CSS gradient backgrounds at 10% opacity with dark mode support
 - Badge component with 5 semantic variants (default/success/warning/error/info), 2 sizes, rounded corners
 - StatusDot component with 5 health status variants (healthy/degraded/error/offline/unknown), pulse animation on healthy, 2 sizes, built-in role="status" and auto aria-label
 - Card component with 3 variants (default/noise/ghost), 3 padding sizes, optional title prop — noise variant uses `fx-grain-lg`
@@ -235,7 +236,7 @@ docs/plans/                   # Design and implementation plans
 - Logo components — `Logo` (icon mark) and `LogoFull` (icon + wordmark), SVG with `fill="currentColor"` for automatic theme adaptation
 - Phosphor Icons integration — 7,000+ icons in 6 weights (Thin/Light/Regular/Bold/Fill/Duotone), MIT licensed, used internally for UI chrome (CaretDown, Check, X, CaretUp)
 - All animated components respect prefers-reduced-motion via motion-reduce: variants
-- Preview app with responsive sidebar navigation (desktop fixed + mobile drawer) and route-per-page (26 pages)
+- Preview app with responsive sidebar navigation (desktop fixed + mobile drawer) and route-per-page (27 pages)
 - Static export for deployment
 - CI workflow (GitHub Actions): lint + typecheck + test + build on PRs and main pushes
 - Publish workflow: triggered by GitHub Release, patches version from git tag, publishes `@aleph-front/ds` to npm as raw TypeScript source

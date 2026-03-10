@@ -564,6 +564,60 @@ Both components accept all standard SVG attributes (`className`, `aria-label`, `
 
 ## Components
 
+### Alert
+
+Dismissible status banner with 4 semantic variants, optional title, auto-dismiss timer with progress bar, and exit animation.
+
+```tsx
+import { Alert } from "@aleph-front/ds/alert";
+```
+
+**Visual style:** Full 1px variant-colored border, gradient background at 10% opacity over page background, `font-heading` uppercase label.
+
+#### Variants
+
+```tsx
+<Alert variant="warning">Warning message</Alert>
+<Alert variant="error">Error message</Alert>
+<Alert variant="info">Info message</Alert>
+<Alert variant="success">Success message</Alert>
+```
+
+#### With Title
+
+```tsx
+<Alert variant="error" title="Instance Paused">
+  Something went wrong with your instance.
+</Alert>
+```
+
+#### Dismissible
+
+```tsx
+<Alert variant="info" onDismiss={() => setVisible(false)}>
+  Click the X to dismiss.
+</Alert>
+```
+
+#### Auto-Dismiss with Timer
+
+```tsx
+<Alert variant="success" onDismiss={() => setVisible(false)} dismissAfter={5000}>
+  This alert will dismiss in 5 seconds.
+</Alert>
+```
+
+#### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `variant` | `"warning" \| "error" \| "info" \| "success"` | `"warning"` | Determines colors, border, gradient, and label |
+| `title` | `string` | — | Optional bold heading below the label |
+| `onDismiss` | `() => void` | — | Shows XCircle dismiss button; called after exit animation |
+| `dismissAfter` | `number` | — | Auto-dismiss timer in ms. Requires `onDismiss`. Shows progress bar. |
+| `children` | `ReactNode` | — | Message body. Links (`<a>`) are auto-styled (bold, underline, ↗ icon). |
+| `className` | `string` | — | Merged via `cn()` |
+
 ### Button
 
 CVA-based button with 6 variants, 4 sizes, icon slots, loading/disabled states, and `asChild` polymorphism.
