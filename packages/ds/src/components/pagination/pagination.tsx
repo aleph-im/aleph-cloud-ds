@@ -79,7 +79,7 @@ const NAV_BUTTON = [
   "inline-flex items-center justify-center",
   "size-8 rounded-full",
   "text-primary-600 dark:text-primary-400",
-  "hover:bg-primary-100 dark:hover:bg-primary-900",
+  "hover:bg-primary-100 dark:hover:bg-primary-200/10",
   "transition-colors cursor-pointer",
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500",
 ].join(" ");
@@ -91,7 +91,7 @@ const PAGE_BUTTON = [
   "size-8 rounded-full",
   "font-heading font-bold text-lg",
   "text-primary-600 dark:text-primary-400",
-  "hover:bg-primary-100 dark:hover:bg-primary-900",
+  "hover:bg-primary-100 dark:hover:bg-primary-200/10",
   "transition-colors cursor-pointer",
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500",
 ].join(" ");
