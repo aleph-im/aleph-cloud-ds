@@ -100,7 +100,7 @@ const PAGE_BUTTON = [
 ].join(" ");
 
 const PAGE_ACTIVE = [
-  "bg-primary-400 text-white dark:bg-primary-600",
+  "bg-primary-400 text-white dark:bg-primary-600 dark:text-white",
   "hover:bg-primary-400 dark:hover:bg-primary-600",
 ].join(" ");
 
