@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #60 — 2026-03-10
+
+**Context:** Building a Pagination component. Needed to choose API shape (controlled vs uncontrolled), variant system, and disabled behavior for boundary navigation.
+**Decision:** Controlled API (`page` + `onPageChange`) with composable `siblingCount` + `showFirstLast` props instead of named variants. No CVA — styling is direct Tailwind classes. Disabled navigation buttons use `aria-disabled` + `pointer-events-none` instead of HTML `disabled`. Pure `buildPageRange()` function separated from the component for testability.
+**Rationale:** Controlled API because pagination always has external state (URL params, API offset, table state). `siblingCount` + `showFirstLast` compose freely — named variants ("compact", "desktop") would be a lossy abstraction over two independent knobs. No CVA because there are no variant combinations to manage — just conditional active/disabled classes. `aria-disabled` keeps buttons in tab order so keyboard/screen reader users can discover them and understand why they're disabled (HTML `disabled` removes from tab order). The pure function separation enables testing all ellipsis edge cases without rendering React components.
+**Alternatives considered:** Uncontrolled with `defaultPage` (rejected — pagination always needs external state sync), named variants like `variant="compact"` (rejected — less flexible than composable props), HTML `disabled` attribute (rejected — removes from tab order, harms discoverability), CVA (rejected — unnecessary for non-variant styling).
+
 ## Decision #59 — 2026-03-10
 
 **Context:** Building an Alert/Banner component for dismissible status messages. Needed to choose API shape, background treatment, dismiss UX, and link styling.

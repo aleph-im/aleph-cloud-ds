@@ -39,6 +39,7 @@ const NAV: NavEntry[] = [
       { label: "Button", href: "/components/button" },
       { label: "Card", href: "/components/card" },
       { label: "CopyableText", href: "/components/copyable-text" },
+      { label: "Pagination", href: "/components/pagination" },
       { label: "Skeleton", href: "/components/skeleton" },
       { label: "Table", href: "/components/table" },
       { label: "StatusDot", href: "/components/status-dot" },

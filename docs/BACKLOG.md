@@ -50,7 +50,7 @@ Ideas and scope creep captured for later consideration.
 - Accordion / Collapsible — expand/collapse sections
 - ~~Alert / Banner~~ — done (see completed)
 - Avatar — user image with fallback initials
-- Pagination — page navigation for lists
+- ~~Pagination~~ — done (see completed)
 - Progress — determinate progress bar
 - Breadcrumb — navigation trail
 **Priority:** High
@@ -102,5 +102,6 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-03-09 — FX grain backgrounds (4 size variants xs/sm/md/lg, DS token colors, dark mode, preview showcase)
 - [x] 2026-03-09 — Tabs component (Radix wrapper, sliding indicator, composable API, badge/subscript support)
 - [x] 2026-03-10 — Alert component (4 variants, dismiss with exit animation, auto-dismiss timer, auto-styled links)
+- [x] 2026-03-10 — Pagination component (controlled API, configurable siblingCount/showFirstLast, pure buildPageRange function, a11y)
 
 </details>

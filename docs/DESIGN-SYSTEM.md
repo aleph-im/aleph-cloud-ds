@@ -972,6 +972,54 @@ Copy button uses a two-layer stack:
 
 Hover state uses `bg-foreground/10` for visibility in both light and dark themes.
 
+### Pagination
+
+Controlled pagination with configurable sibling count, first/last jump buttons, and ellipsis logic. Pure `buildPageRange()` function for page number calculation, wrapped by a `forwardRef` nav component.
+
+```tsx
+import { Pagination } from "@aleph-front/ds/pagination";
+```
+
+**Visual style:** Rounded page buttons (`size-8 rounded-full`), `font-heading font-bold`, active page highlighted with `bg-primary-600` (dark: `bg-primary-800`). Caret icons from Phosphor.
+
+#### Usage
+
+```tsx
+<Pagination page={page} totalPages={20} onPageChange={setPage} />
+```
+
+#### Compact (no first/last)
+
+```tsx
+<Pagination page={page} totalPages={10} onPageChange={setPage} showFirstLast={false} />
+```
+
+#### Desktop Max (wider sibling range)
+
+```tsx
+<Pagination page={page} totalPages={10} onPageChange={setPage} siblingCount={2} />
+```
+
+#### Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `page` | `number` | — | Current active page (1-indexed, controlled) |
+| `totalPages` | `number` | — | Total number of pages |
+| `onPageChange` | `(page: number) => void` | — | Called with new page number on click |
+| `siblingCount` | `number` | `1` | Pages shown on each side of current page |
+| `showFirstLast` | `boolean` | `true` | Show first/last jump buttons and anchored page numbers |
+| `className` | `string` | — | Merged via `cn()` onto the `<nav>` |
+| `ref` | `Ref<HTMLElement>` | — | Forwarded to the `<nav>` element |
+
+#### Accessibility
+
+- `<nav aria-label="Pagination">` landmark
+- `aria-current="page"` on active page button
+- `aria-disabled="true"` on boundary nav buttons (keeps them in tab order for discoverability)
+- `aria-label` on all nav buttons ("First page", "Previous page", "Next page", "Last page", "Page N")
+- Ellipsis rendered as `aria-hidden="true"` spans
+
 ### StatusDot
 
 Small colored circle indicating health status. Used inline with text labels in tables and lists. Accessible by default — includes `role="status"` and auto-derived `aria-label` from the status prop.
