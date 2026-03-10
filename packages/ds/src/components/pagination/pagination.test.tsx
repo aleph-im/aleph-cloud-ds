@@ -23,7 +23,7 @@ describe("buildPageRange", () => {
         siblingCount: 1,
         showFirstLast: true,
       }),
-    ).toEqual([1, 2, 3, "ellipsis", 10]);
+    ).toEqual([1, 2, 3, 4, 5, "ellipsis", 10]);
   });
 
   it("shows left ellipsis when current is near end", () => {
@@ -34,7 +34,7 @@ describe("buildPageRange", () => {
         siblingCount: 1,
         showFirstLast: true,
       }),
-    ).toEqual([1, "ellipsis", 8, 9, 10]);
+    ).toEqual([1, "ellipsis", 6, 7, 8, 9, 10]);
   });
 
   it("shows both ellipses when current is in the middle", () => {
@@ -48,7 +48,7 @@ describe("buildPageRange", () => {
     ).toEqual([1, "ellipsis", 4, 5, 6, "ellipsis", 10]);
   });
 
-  it("shows page instead of ellipsis when gap is exactly 1", () => {
+  it("keeps fixed slot count when near start boundary", () => {
     expect(
       buildPageRange({
         page: 3,
@@ -56,7 +56,7 @@ describe("buildPageRange", () => {
         siblingCount: 1,
         showFirstLast: true,
       }),
-    ).toEqual([1, 2, 3, 4, "ellipsis", 10]);
+    ).toEqual([1, 2, 3, 4, 5, "ellipsis", 10]);
   });
 
   it("works with siblingCount=0 and showFirstLast=false (minimal)", () => {
@@ -89,7 +89,7 @@ describe("buildPageRange", () => {
         siblingCount: 2,
         showFirstLast: true,
       }),
-    ).toEqual([1, "ellipsis", 3, 4, 5, 6, 7, "ellipsis", 10]);
+    ).toEqual([1, 2, 3, 4, 5, 6, 7, "ellipsis", 10]);
   });
 
   it("clamps siblings at page boundaries", () => {
@@ -100,7 +100,19 @@ describe("buildPageRange", () => {
         siblingCount: 1,
         showFirstLast: true,
       }),
-    ).toEqual([1, 2, "ellipsis", 10]);
+    ).toEqual([1, 2, 3, 4, 5, "ellipsis", 10]);
+  });
+
+  it("produces fixed slot count across all pages", () => {
+    for (let page = 1; page <= 20; page++) {
+      const items = buildPageRange({
+        page,
+        totalPages: 20,
+        siblingCount: 1,
+        showFirstLast: true,
+      });
+      expect(items).toHaveLength(7);
+    }
   });
 
   it("handles single page", () => {
