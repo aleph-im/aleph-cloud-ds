@@ -92,7 +92,7 @@ const BreadcrumbSeparator = forwardRef<
   <li
     ref={ref}
     aria-hidden="true"
-    className={cn("text-muted", className)}
+    className={cn("text-primary opacity-40", className)}
     {...rest}
   >
     {children ?? "/"}
@@ -110,7 +110,7 @@ const BreadcrumbPage = forwardRef<
   <span
     ref={ref}
     aria-current="page"
-    className={cn("text-muted", className)}
+    className={cn("text-neutral opacity-60", className)}
     {...rest}
   />
 ));
