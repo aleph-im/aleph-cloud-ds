@@ -8,3 +8,4 @@ out/
 .worktrees/
 .DS_Store
 .playwright-mcp/
+.superpowers/
