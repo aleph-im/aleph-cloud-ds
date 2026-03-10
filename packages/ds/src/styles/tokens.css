@@ -366,3 +366,31 @@
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDAwIiB3aWR0aD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii4yNSIgdHlwZT0iZnJhY3RhbE5vaXNlIiBudW1PY3RhdmVzPSIzIi8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAuMSAwIDAgMCAwIDAgMCAwIDAgMCAwLjgwIDAgMCAwIDEwIC03LjI1Ii8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2YpIi8+PC9zdmc+");
   opacity: 0.5;
 }
+
+/* ── Alert gradient backgrounds ──────────────────────── */
+
+.alert-bg-warning {
+  background-image: linear-gradient(to right, var(--color-warning-100), transparent);
+}
+.alert-bg-error {
+  background-image: linear-gradient(to right, var(--color-error-100), transparent);
+}
+.alert-bg-info {
+  background-image: linear-gradient(to right, var(--color-primary-100), transparent);
+}
+.alert-bg-success {
+  background-image: linear-gradient(to right, var(--color-success-100), transparent);
+}
+
+:is(.theme-dark .alert-bg-warning) {
+  background-image: linear-gradient(to right, var(--color-warning-900), transparent);
+}
+:is(.theme-dark .alert-bg-error) {
+  background-image: linear-gradient(to right, var(--color-error-900), transparent);
+}
+:is(.theme-dark .alert-bg-info) {
+  background-image: linear-gradient(to right, var(--color-primary-900), transparent);
+}
+:is(.theme-dark .alert-bg-success) {
+  background-image: linear-gradient(to right, var(--color-success-900), transparent);
+}
