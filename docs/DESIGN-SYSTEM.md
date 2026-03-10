@@ -1030,13 +1030,13 @@ Hover state uses `bg-foreground/10` for visibility in both light and dark themes
 
 ### Pagination
 
-Controlled pagination with configurable sibling count, first/last jump buttons, and ellipsis logic. Pure `buildPageRange()` function for page number calculation, wrapped by a `forwardRef` nav component.
+Controlled pagination with fixed-slot layout, configurable sibling count, first/last jump buttons, and ellipsis logic. Pure `buildPageRange()` function always produces `2*siblingCount+5` items when `showFirstLast` is true, eliminating layout shift. Slots are keyed by position so the DOM stays stable during navigation.
 
 ```tsx
 import { Pagination } from "@aleph-front/ds/pagination";
 ```
 
-**Visual style:** Rounded page buttons (`size-8 rounded-full`), `font-heading font-bold`, active page highlighted with `bg-primary-600` (dark: `bg-primary-800`). Caret icons from Phosphor.
+**Visual style:** Rounded page buttons (`size-8 rounded-full`), `font-heading font-bold`, active page highlighted with `bg-primary-400` (dark: `bg-primary-600`). Caret icons from Phosphor.
 
 #### Usage
 

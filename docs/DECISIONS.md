@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #62 — 2026-03-10
+
+**Context:** Pagination next/prev buttons shifted position when navigating because `buildPageRange` returned variable-length arrays. Clicking next in the middle also caused a flicker as DOM nodes were reordered.
+**Decision:** Fixed-slot algorithm (USWDS model) — `buildPageRange` always returns exactly `2*siblingCount+5` items when `showFirstLast` is true. Three regions: near-start (pinned left block), middle (centered window), near-end (pinned right block). Page button keys changed from page number to slot index. Active fill lightened to primary-400/600.
+**Rationale:** Fixed slot count eliminates layout shift entirely — nav buttons never move. Position-based keys prevent React from moving DOM nodes between slots, eliminating the flicker when the window slides. Lighter fill (primary-400/600 vs primary-600/800) improves visual balance on both themes.
+**Alternatives considered:** CSS min-width on page container (tried — still shifts internally), balanced siblingCount/boundaryCount tuning (MUI approach — close but not perfect), disabling nav buttons only (baseline practice, already in place but doesn't fix the page number shift).
+
 ## Decision #61 — 2026-03-10
 
 **Context:** Building a Breadcrumb navigation component. Needed to choose API shape (monolithic vs composable), separator handling, font sizing, and variant system.
