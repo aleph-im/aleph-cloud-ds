@@ -37,6 +37,7 @@
     "./ui/skeleton": "./src/components/ui/skeleton.tsx",
     "./ui/spinner": "./src/components/ui/spinner.tsx",
     "./multi-select": "./src/components/multi-select/multi-select.tsx",
+    "./pagination": "./src/components/pagination/pagination.tsx",
     "./copyable-text": "./src/components/copyable-text/copyable-text.tsx",
     "./logo": "./src/components/logo/logo.tsx",
     "./lib/cn": "./src/lib/cn.ts",
