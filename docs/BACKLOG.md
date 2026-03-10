@@ -48,7 +48,7 @@ Ideas and scope creep captured for later consideration.
 - Modal / Dialog — overlay with focus trap, close on escape
 - ~~Tabs~~ — done (see completed)
 - Accordion / Collapsible — expand/collapse sections
-- Alert / Banner — dismissible status messages
+- ~~Alert / Banner~~ — done (see completed)
 - Avatar — user image with fallback initials
 - Pagination — page navigation for lists
 - Progress — determinate progress bar
@@ -60,6 +60,12 @@ Ideas and scope creep captured for later consideration.
 **Source:** Extracted from scheduler-dashboard during UI fixes
 **Description:** Promote the `CopyableHash` pattern from the dashboard into a generic DS component (`CopyableText` or `CopyToClipboard`). Features: truncated text with copy-to-clipboard button, optional external link icon, Modern UI-inspired micro-animation (scale 0.8→1 + opacity, 150ms) on icon swap (clipboard → checkmark). Currently implemented with inline SVGs and a CSS keyframe in the dashboard — should use Phosphor Icons (`Copy`, `Check`, `ArrowSquareOut`) for consistency with the new icon foundation, and the animation keyframe should live in the DS token layer so consumers get it for free.
 **Priority:** Medium
+
+### 2026-03-09 — Card grain size variants
+
+**Source:** Identified while bumping DS in scheduler-dashboard
+**Description:** The Card component only exposes a single `noise` variant (`fx-grain-lg`). The token layer already has `fx-grain-xs`, `fx-grain-sm`, `fx-grain-md`, and `fx-grain-lg` classes. Expose grain size selection through the Card API — either as separate variants (`noise-xs`, `noise-sm`, `noise-md`, `noise-lg`) or a compound variant (`variant="noise" grain="sm"`).
+**Priority:** Low
 
 ### 2026-02-26 — Button icon animations
 
@@ -95,5 +101,6 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-03-09 — Logo components (icon mark + full logo, currentColor, 2 components instead of 4 SVGs)
 - [x] 2026-03-09 — FX grain backgrounds (4 size variants xs/sm/md/lg, DS token colors, dark mode, preview showcase)
 - [x] 2026-03-09 — Tabs component (Radix wrapper, sliding indicator, composable API, badge/subscript support)
+- [x] 2026-03-10 — Alert component (4 variants, dismiss with exit animation, auto-dismiss timer, auto-styled links)
 
 </details>

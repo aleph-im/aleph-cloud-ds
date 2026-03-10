@@ -17,6 +17,7 @@
     "directory": "packages/ds"
   },
   "exports": {
+    "./alert": "./src/components/alert/alert.tsx",
     "./button": "./src/components/button/button.tsx",
     "./checkbox": "./src/components/checkbox/checkbox.tsx",
     "./input": "./src/components/input/input.tsx",
