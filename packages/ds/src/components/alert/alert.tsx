@@ -9,13 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import {
-  CheckCircle,
-  Info,
-  Warning,
-  XCircle,
-  X,
-} from "@phosphor-icons/react";
+import { XCircle } from "@phosphor-icons/react";
 import { cn } from "@ac/lib/cn";
 
 type AlertVariant = "warning" | "error" | "info" | "success";
@@ -27,13 +21,6 @@ const VARIANT_LABELS: Record<AlertVariant, string> = {
   success: "Success",
 };
 
-const VARIANT_ICONS: Record<AlertVariant, typeof Warning> = {
-  warning: Warning,
-  error: XCircle,
-  info: Info,
-  success: CheckCircle,
-};
-
 const VARIANT_BG_CLASS: Record<AlertVariant, string> = {
   warning: "alert-bg-warning",
   error: "alert-bg-error",
@@ -43,7 +30,7 @@ const VARIANT_BG_CLASS: Record<AlertVariant, string> = {
 
 const alertVariants = cva(
   [
-    "relative overflow-hidden rounded-sm border-l-3",
+    "relative overflow-hidden rounded-sm border",
     "px-3 py-2",
     "transition-all duration-200",
     "motion-reduce:transition-none",
@@ -52,8 +39,8 @@ const alertVariants = cva(
     variants: {
       variant: {
         warning: "border-warning-400",
-        error: "border-error-400",
-        info: "border-primary-400",
+        error: "border-error-300",
+        info: "border-primary-300",
         success: "border-success-400",
       },
     },
@@ -64,7 +51,7 @@ const alertVariants = cva(
 );
 
 const labelVariants = cva(
-  "font-heading font-extrabold italic text-[10px] uppercase leading-normal",
+  "font-heading font-extrabold italic text-xs uppercase leading-normal pb-1",
   {
     variants: {
       variant: {
@@ -114,7 +101,6 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(
     const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
     const resolvedVariant: AlertVariant = variant ?? "warning";
 
-    const Icon = VARIANT_ICONS[resolvedVariant];
     const label = VARIANT_LABELS[resolvedVariant];
 
     useEffect(() => {
@@ -157,19 +143,9 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(
         onTransitionEnd={handleTransitionEnd}
         {...rest}
       >
-        <div className="flex items-center justify-between">
-          <span className={labelVariants({ variant })}>
-            {label}
-          </span>
-          <Icon
-            weight="bold"
-            className={cn(
-              "size-3",
-              labelVariants({ variant }),
-            )}
-            aria-hidden="true"
-          />
-        </div>
+        <span className={labelVariants({ variant })}>
+          {label}
+        </span>
 
         {title ? (
           <p
@@ -180,7 +156,12 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(
           </p>
         ) : null}
 
-        <div className="font-sans italic text-xs text-foreground leading-relaxed">
+        {/* eslint-disable-next-line -- nested selectors for auto-styled links */}
+        <div className={cn(
+          "font-sans italic text-xs text-foreground leading-relaxed",
+          "[&_a]:font-bold [&_a]:not-italic [&_a]:underline",
+          "[&_a]:after:content-['↗'] [&_a]:after:ml-0.5 [&_a]:after:text-[10px] [&_a]:after:no-underline [&_a]:after:inline-block",
+        )}>
           {children}
         </div>
 
@@ -189,14 +170,12 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(
             type="button"
             onClick={handleDismiss}
             className={cn(
-              "absolute top-2 right-2",
-              "opacity-60 hover:opacity-100 transition-opacity",
-              "motion-reduce:transition-none",
+              "absolute top-2 right-2 cursor-pointer",
               labelVariants({ variant }),
             )}
             aria-label="Dismiss"
           >
-            <X weight="bold" className="size-3.5" />
+            <XCircle weight="fill" className="size-3.5" />
           </button>
         ) : null}
 

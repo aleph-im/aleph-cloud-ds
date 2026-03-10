@@ -23,7 +23,7 @@ export default function AlertPage() {
           {variants.map((v) => (
             <Alert key={v} variant={v}>
               This is a {v} alert — check your{" "}
-              <a href="#" className="underline font-semibold">
+              <a href="#">
                 settings
               </a>{" "}
               for more details.
@@ -93,11 +93,11 @@ export default function AlertPage() {
       <DemoSection title="With Inline Links">
         <Alert variant="warning">
           Need to check{" "}
-          <a href="#" className="underline font-semibold">
+          <a href="#">
             [6489065788] setting
           </a>
           , your instance might be malfunctioning. See the{" "}
-          <a href="#" className="underline font-semibold">
+          <a href="#">
             documentation
           </a>{" "}
           for troubleshooting steps.

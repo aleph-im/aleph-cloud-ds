@@ -368,29 +368,46 @@
 }
 
 /* ── Alert gradient backgrounds ──────────────────────── */
+/* Variant gradient at 10% opacity over page background  */
 
 .alert-bg-warning {
-  background-image: linear-gradient(to right, var(--color-warning-100), transparent);
+  background:
+    linear-gradient(90deg, oklch(from var(--color-warning-400) l c h / 0.1), oklch(from var(--color-warning-600) l c h / 0.1)),
+    var(--background);
 }
 .alert-bg-error {
-  background-image: linear-gradient(to right, var(--color-error-100), transparent);
+  background:
+    linear-gradient(90deg, oklch(from var(--color-error-300) l c h / 0.1), oklch(from var(--color-error-600) l c h / 0.1)),
+    var(--background);
 }
 .alert-bg-info {
-  background-image: linear-gradient(to right, var(--color-primary-100), transparent);
+  background:
+    linear-gradient(90deg, oklch(from var(--color-primary-300) l c h / 0.1), oklch(from var(--color-primary-600) l c h / 0.1)),
+    var(--background);
 }
 .alert-bg-success {
-  background-image: linear-gradient(to right, var(--color-success-100), transparent);
+  background:
+    linear-gradient(90deg, oklch(from var(--color-success-400) l c h / 0.1), oklch(from var(--color-success-600) l c h / 0.1)),
+    var(--background);
 }
 
 :is(.theme-dark .alert-bg-warning) {
-  background-image: linear-gradient(to right, var(--color-warning-900), transparent);
+  background:
+    linear-gradient(90deg, oklch(from var(--color-warning-400) l c h / 0.15), oklch(from var(--color-warning-600) l c h / 0.15)),
+    var(--background);
 }
 :is(.theme-dark .alert-bg-error) {
-  background-image: linear-gradient(to right, var(--color-error-900), transparent);
+  background:
+    linear-gradient(90deg, oklch(from var(--color-error-300) l c h / 0.15), oklch(from var(--color-error-600) l c h / 0.15)),
+    var(--background);
 }
 :is(.theme-dark .alert-bg-info) {
-  background-image: linear-gradient(to right, var(--color-primary-900), transparent);
+  background:
+    linear-gradient(90deg, oklch(from var(--color-primary-300) l c h / 0.15), oklch(from var(--color-primary-600) l c h / 0.15)),
+    var(--background);
 }
 :is(.theme-dark .alert-bg-success) {
-  background-image: linear-gradient(to right, var(--color-success-900), transparent);
+  background:
+    linear-gradient(90deg, oklch(from var(--color-success-400) l c h / 0.15), oklch(from var(--color-success-600) l c h / 0.15)),
+    var(--background);
 }
