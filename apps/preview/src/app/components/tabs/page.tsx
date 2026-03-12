@@ -105,6 +105,40 @@ export default function TabsPage() {
           </TabsContent>
         </Tabs>
       </DemoSection>
+
+      <DemoSection title="Pill Variant">
+        <Tabs defaultValue="vms">
+          <TabsList variant="pill">
+            <TabsTrigger value="vms">VMs</TabsTrigger>
+            <TabsTrigger value="nodes">Nodes</TabsTrigger>
+          </TabsList>
+          <TabsContent value="vms">
+            <p className="text-muted-foreground">Virtual machines overview.</p>
+          </TabsContent>
+          <TabsContent value="nodes">
+            <p className="text-muted-foreground">Compute nodes overview.</p>
+          </TabsContent>
+        </Tabs>
+      </DemoSection>
+
+      <DemoSection title="Pill Variant (3 Options)">
+        <Tabs defaultValue="compute">
+          <TabsList variant="pill">
+            <TabsTrigger value="compute">Compute</TabsTrigger>
+            <TabsTrigger value="storage">Storage</TabsTrigger>
+            <TabsTrigger value="network">Network</TabsTrigger>
+          </TabsList>
+          <TabsContent value="compute">
+            <p className="text-muted-foreground">Compute resources and allocation.</p>
+          </TabsContent>
+          <TabsContent value="storage">
+            <p className="text-muted-foreground">Persistent storage volumes.</p>
+          </TabsContent>
+          <TabsContent value="network">
+            <p className="text-muted-foreground">Network configuration and policies.</p>
+          </TabsContent>
+        </Tabs>
+      </DemoSection>
     </>
   );
 }
