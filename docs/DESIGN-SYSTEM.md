@@ -1007,7 +1007,7 @@ Renders an `<h3>` heading with `font-heading` and `mb-4` spacing.
 
 ### CopyableText
 
-Truncated text display with copy-to-clipboard and optional external link. Designed for hashes, wallet addresses, API keys, and other long strings that need to be copiable but not fully visible. Uses a clip-path circle-reveal micro-animation on copy with spring easing.
+Truncated text display with copy-to-clipboard and optional external link. Designed for hashes, wallet addresses, API keys, and other long strings that need to be copiable but not fully visible. Uses a stroke-draw micro-animation on copy (Copy fades out, SVG checkmark draws its stroke via `stroke-dashoffset`).
 
 ```tsx
 import { CopyableText } from "@aleph-front/ds/copyable-text";

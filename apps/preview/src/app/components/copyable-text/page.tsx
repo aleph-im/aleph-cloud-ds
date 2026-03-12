@@ -13,7 +13,7 @@ export default function CopyableTextPage() {
     <>
       <PageHeader
         title="CopyableText"
-        description="Truncated text with copy-to-clipboard and optional external link. Click copy to see the circle-reveal micro-animation."
+        description="Truncated text with copy-to-clipboard and optional external link. Click copy to see the stroke-draw micro-animation."
       />
 
       <DemoSection title="Sizes">

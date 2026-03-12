@@ -9,7 +9,7 @@ import {
   type HTMLAttributes,
 } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { ArrowUpRight, Check, Copy } from "@phosphor-icons/react";
+import { ArrowUpRight, Copy } from "@phosphor-icons/react";
 import {
   Tooltip,
   TooltipContent,
@@ -39,8 +39,8 @@ const iconSize: Record<"sm" | "md", string> = {
 };
 
 const buttonSize: Record<"sm" | "md", string> = {
-  sm: "size-5",
-  md: "size-6",
+  sm: "size-4",
+  md: "size-5",
 };
 
 function truncateMiddle(
@@ -122,38 +122,36 @@ const CopyableText = forwardRef<HTMLSpanElement, CopyableTextProps>(
             )}
             aria-label={copied ? "Copied" : "Copy to clipboard"}
           >
-            {/* Default layer: Copy icon */}
             <Copy
               weight="bold"
-              className={cn(iconCn, "text-muted-foreground")}
+              className={cn(
+                iconCn,
+                "text-muted-foreground",
+                "transition-opacity duration-100",
+                "motion-reduce:transition-none",
+                copied && "opacity-0",
+              )}
               aria-hidden="true"
             />
-
-            {/* Reveal layer: circle bg + Check icon */}
-            <span
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={3}
+              strokeLinecap="round"
+              strokeLinejoin="round"
               className={cn(
-                "absolute inset-0 flex items-center justify-center",
-                "rounded-md bg-foreground",
-                "[clip-path:inset(50%_round_0.375rem)]",
-                "transition-[clip-path] duration-200",
-                "[transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]",
+                iconCn,
+                "text-muted-foreground absolute",
+                "[stroke-dasharray:20] [stroke-dashoffset:20]",
+                "transition-[stroke-dashoffset] duration-300 delay-75 ease-out",
                 "motion-reduce:transition-none",
-                copied && "[clip-path:inset(0%_round_0.375rem)]",
+                copied && "[stroke-dashoffset:0]",
               )}
               aria-hidden="true"
             >
-              <Check
-                weight="bold"
-                className={cn(
-                  iconCn,
-                  "text-background",
-                  "scale-0 transition-transform duration-150 delay-75",
-                  "[transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]",
-                  "motion-reduce:transition-none",
-                  copied && "scale-100",
-                )}
-              />
-            </span>
+              <polyline points="4 12 9 17 20 6" />
+            </svg>
           </button>
 
           {href ? (
