@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { LogoFull, Logo } from "@aleph-front/ds/logo";
 import { Button } from "@aleph-front/ds/button";
 import { Card } from "@aleph-front/ds/card";
@@ -152,6 +153,70 @@ const PROJECT_COLUMNS: Column<Project>[] = [
       </Button>
     ),
     align: "right",
+  },
+];
+
+type QuickLink = { label: string; href: string; description: string };
+type QuickLinkGroup = { group: string; items: QuickLink[] };
+
+const QUICK_LINKS: QuickLinkGroup[] = [
+  {
+    group: "Foundations",
+    items: [
+      { label: "Colors", href: "/foundations/colors", description: "OKLCH scales and semantic tokens" },
+      { label: "Typography", href: "/foundations/typography", description: "Heading scale, body styles" },
+      { label: "Spacing", href: "/foundations/spacing", description: "Spacing scale and breakpoints" },
+      { label: "Effects", href: "/foundations/effects", description: "Shadows, gradients, transitions" },
+      { label: "Icons", href: "/foundations/icons", description: "Phosphor Icons integration" },
+      { label: "Logo", href: "/foundations/logo", description: "Brand mark and wordmark" },
+    ],
+  },
+  {
+    group: "Actions",
+    items: [
+      { label: "Button", href: "/components/button", description: "6 variants, 4 sizes, loading" },
+    ],
+  },
+  {
+    group: "Data Display",
+    items: [
+      { label: "Badge", href: "/components/badge", description: "5 variants, 2 sizes" },
+      { label: "Card", href: "/components/card", description: "3 variants with grain texture" },
+      { label: "CopyableText", href: "/components/copyable-text", description: "Truncated text with copy" },
+      { label: "StatusDot", href: "/components/status-dot", description: "5 health status indicators" },
+      { label: "Table", href: "/components/table", description: "Sortable, clickable, generic" },
+    ],
+  },
+  {
+    group: "Feedback",
+    items: [
+      { label: "Alert", href: "/components/alert", description: "4 variants, dismissible" },
+      { label: "Skeleton", href: "/components/skeleton", description: "Loading placeholder" },
+      { label: "Tooltip", href: "/components/tooltip", description: "Radix-based tooltip" },
+    ],
+  },
+  {
+    group: "Navigation",
+    items: [
+      { label: "Breadcrumb", href: "/components/breadcrumb", description: "Composable breadcrumb trail" },
+      { label: "Pagination", href: "/components/pagination", description: "Fixed-slot page navigation" },
+      { label: "Tabs", href: "/components/tabs", description: "Underline and pill variants" },
+    ],
+  },
+  {
+    group: "Forms",
+    items: [
+      { label: "Checkbox", href: "/components/checkbox", description: "3 sizes, clip-path animation" },
+      { label: "Combobox", href: "/components/combobox", description: "Searchable dropdown" },
+      { label: "FormField", href: "/components/form-field", description: "Label + error wrapper" },
+      { label: "Input", href: "/components/input", description: "2 sizes, shadow-brand style" },
+      { label: "MultiSelect", href: "/components/multi-select", description: "Tags with overflow" },
+      { label: "Radio Group", href: "/components/radio-group", description: "3 sizes, group disabled" },
+      { label: "Select", href: "/components/select", description: "Flat options, portal dropdown" },
+      { label: "Slider", href: "/components/slider", description: "Single or range, tooltip" },
+      { label: "Switch", href: "/components/switch", description: "Animated sliding thumb" },
+      { label: "Textarea", href: "/components/textarea", description: "Vertical resize, shadow-brand" },
+    ],
   },
 ];
 
@@ -390,6 +455,38 @@ export default function OverviewPage() {
           </div>
         </Card>
       </div>
+      {/* Quick Links */}
+      <section>
+        <h2 className="text-2xl font-heading font-extrabold italic mb-6">
+          Explore
+        </h2>
+        {QUICK_LINKS.map((group) => (
+          <div key={group.group} className="mb-8">
+            <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">
+              {group.group}
+            </p>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {group.items.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="block rounded-lg border border-edge p-3
+                             hover:border-primary hover:shadow-brand-sm
+                             transition-all"
+                  style={{ transitionDuration: "var(--duration-fast)" }}
+                >
+                  <p className="font-bold text-sm mb-0.5">
+                    {item.label}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {item.description}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))}
+      </section>
     </>
   );
 }
