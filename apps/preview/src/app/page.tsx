@@ -155,6 +155,40 @@ export default function OverviewPage() {
             </TabsContent>
           </Tabs>
         </Card>
+        {/* Block 2: Settings Panel */}
+        <Card title="Instance Settings" padding="lg">
+          <div className="space-y-4">
+            <FormField label="Instance Name">
+              <Input placeholder="my-instance" />
+            </FormField>
+            <FormField label="Region">
+              <Select
+                options={[
+                  { value: "eu-west", label: "EU West" },
+                  { value: "us-east", label: "US East" },
+                  { value: "ap-south", label: "AP South" },
+                ]}
+                placeholder="Select region"
+              />
+            </FormField>
+            <FormField label="CPU Cores">
+              <Slider
+                defaultValue={[4]}
+                min={1}
+                max={16}
+                step={1}
+              />
+            </FormField>
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium">Auto-scaling</span>
+              <Switch defaultChecked />
+            </div>
+            <div className="flex gap-2 pt-2">
+              <Button variant="primary">Save</Button>
+              <Button variant="outline">Cancel</Button>
+            </div>
+          </div>
+        </Card>
       </div>
     </>
   );
