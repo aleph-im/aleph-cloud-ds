@@ -229,22 +229,37 @@ export default function OverviewPage() {
 
   return (
     <>
-      {/* Hero — bleeds past max-w-4xl */}
-      <div className="-mx-4 sm:-mx-8 -mt-6 sm:-mt-8 mb-12">
-        <div className="gradient-fill-main fx-grain-lg px-6 py-16 sm:py-20 text-center">
-          <LogoFull className="mx-auto h-10 sm:h-12 text-white mb-6" />
-          <p className="font-heading text-2xl sm:text-3xl font-extrabold italic text-white mb-3">
-            Build with confidence
-          </p>
-          <p className="text-white/70 max-w-lg mx-auto mb-6">
-            Tokens-first design system with OKLCH color scales,
-            semantic theming, and accessible components.
-          </p>
-          <div className="flex justify-center gap-2 flex-wrap">
-            <Badge>Components</Badge>
-            <Badge>Foundations</Badge>
-            <Badge>Dark Mode</Badge>
+      {/* Hero — full-bleed with left-aligned text + logo mark right */}
+      <div
+        className="-mt-6 sm:-mt-8 mb-10 fx-grain-lg py-8 sm:py-10"
+        style={{
+          background: "var(--gradient-main)",
+          marginInline: "-9999px",
+          paddingInline: "9999px",
+        }}
+      >
+        <div className="flex items-center justify-between gap-8">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 mb-3">
+              <Badge className="bg-white/15 text-white border-white/20">
+                Components
+              </Badge>
+              <Badge className="bg-white/15 text-white border-white/20">
+                Foundations
+              </Badge>
+              <Badge className="bg-white/15 text-white border-white/20">
+                Dark Mode
+              </Badge>
+            </div>
+            <h1 className="font-heading text-2xl sm:text-3xl font-extrabold italic text-white mb-2">
+              Aleph Cloud Design System
+            </h1>
+            <p className="text-white/70 max-w-md text-sm sm:text-base">
+              Tokens-first design system with OKLCH color scales,
+              semantic theming, and accessible components.
+            </p>
           </div>
+          <Logo className="hidden sm:block h-16 md:h-20 shrink-0 text-white/20" />
         </div>
       </div>
 
