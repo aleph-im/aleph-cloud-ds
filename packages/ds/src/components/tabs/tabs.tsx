@@ -16,81 +16,101 @@ const Tabs = TabsPrimitive.Root;
 
 /* ── List (with sliding indicator) ───────────── */
 
-const TabsList = forwardRef<
-  HTMLDivElement,
-  ComponentPropsWithoutRef<typeof TabsPrimitive.List>
->(({ className, children, ...rest }, ref) => {
-  const innerRef = useRef<HTMLDivElement>(null);
-  const indicatorRef = useRef<HTMLDivElement>(null);
-  const [ready, setReady] = useState(false);
+type TabsVariant = "underline" | "pill";
 
-  // Merge forwarded ref with inner ref
-  const setRefs = (node: HTMLDivElement | null) => {
-    innerRef.current = node;
-    if (typeof ref === "function") ref(node);
-    else if (ref) ref.current = node;
-  };
+type TabsListProps = ComponentPropsWithoutRef<typeof TabsPrimitive.List> & {
+  variant?: TabsVariant;
+};
 
-  useEffect(() => {
-    const list = innerRef.current;
-    const indicator = indicatorRef.current;
-    if (!list || !indicator) return;
+const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
+  ({ className, children, variant = "underline", ...rest }, ref) => {
+    const innerRef = useRef<HTMLDivElement>(null);
+    const indicatorRef = useRef<HTMLDivElement>(null);
+    const [ready, setReady] = useState(false);
+    const isPill = variant === "pill";
 
-    function updateIndicator() {
-      const activeTab = list!.querySelector<HTMLElement>(
-        '[data-state="active"]',
-      );
-      if (!activeTab || !indicator) return;
-      const left = activeTab.offsetLeft;
-      const width = activeTab.offsetWidth;
-      indicator.style.transform = `translateX(${String(left)}px)`;
-      indicator.style.width = `${String(width)}px`;
-      if (!ready) setReady(true);
-    }
-
-    updateIndicator();
-
-    const observer = new MutationObserver(updateIndicator);
-    observer.observe(list, {
-      attributes: true,
-      subtree: true,
-      attributeFilter: ["data-state"],
-    });
-
-    const resizeObserver = new ResizeObserver(updateIndicator);
-    resizeObserver.observe(list);
-
-    return () => {
-      observer.disconnect();
-      resizeObserver.disconnect();
+    const setRefs = (node: HTMLDivElement | null) => {
+      innerRef.current = node;
+      if (typeof ref === "function") ref(node);
+      else if (ref) ref.current = node;
     };
-  }, [ready]);
 
-  return (
-    <TabsPrimitive.List
-      ref={setRefs}
-      className={cn(
-        "relative flex border-b-2 border-edge",
-        className,
-      )}
-      {...rest}
-    >
-      {children}
-      <div
-        ref={indicatorRef}
+    useEffect(() => {
+      const list = innerRef.current;
+      const indicator = indicatorRef.current;
+      if (!list || !indicator) return;
+
+      function updateIndicator() {
+        const activeTab = list!.querySelector<HTMLElement>(
+          '[data-state="active"]',
+        );
+        if (!activeTab || !indicator) return;
+        const left = activeTab.offsetLeft;
+        const width = activeTab.offsetWidth;
+        indicator.style.transform = `translateX(${String(left)}px)`;
+        indicator.style.width = `${String(width)}px`;
+        if (!ready) setReady(true);
+      }
+
+      updateIndicator();
+
+      const observer = new MutationObserver(updateIndicator);
+      observer.observe(list, {
+        attributes: true,
+        subtree: true,
+        attributeFilter: ["data-state"],
+      });
+
+      const resizeObserver = new ResizeObserver(updateIndicator);
+      resizeObserver.observe(list);
+
+      return () => {
+        observer.disconnect();
+        resizeObserver.disconnect();
+      };
+    }, [ready]);
+
+    return (
+      <TabsPrimitive.List
+        ref={setRefs}
+        data-variant={variant}
         className={cn(
-          "absolute bottom-0 left-0 h-0.5",
-          "bg-primary-600 dark:bg-primary-400",
-          ready
-            ? "transition-[transform,width] duration-200 ease-out"
-            : "",
-          "motion-reduce:transition-none",
+          "relative flex",
+          isPill
+            ? "group inline-flex rounded-full bg-neutral-200 p-1 dark:bg-neutral-800/50"
+            : "border-b-2 border-edge",
+          className,
         )}
-        aria-hidden
-      />
-    </TabsPrimitive.List>
-  );
-});
+        {...rest}
+      >
+        {children}
+        <div
+          ref={indicatorRef}
+          className={cn(
+            "absolute left-0",
+            isPill
+              ? [
+                  "inset-y-1 rounded-full gradient-fill-main",
+                  ready ? "opacity-100" : "opacity-0",
+                  ready
+                    ? "transition-[transform,width,opacity] duration-200 ease-out"
+                    : "",
+                ]
+              : [
+                  "bottom-0 h-0.5",
+                  "bg-primary-600 dark:bg-primary-400",
+                  ready
+                    ? "transition-[transform,width] duration-200 ease-out"
+                    : "",
+                ],
+            "motion-reduce:transition-none",
+          )}
+          aria-hidden
+        />
+      </TabsPrimitive.List>
+    );
+  },
+);
 
 TabsList.displayName = "TabsList";
 
@@ -116,6 +136,17 @@ const TabsTrigger = forwardRef<
         "focus-visible:outline-none focus-visible:ring-2",
         "focus-visible:ring-primary-400 focus-visible:ring-offset-2",
         "motion-reduce:transition-none",
+        // Pill variant overrides (via group data attribute on TabsList)
+        "group-data-[variant=pill]:relative group-data-[variant=pill]:z-10",
+        "group-data-[variant=pill]:rounded-full",
+        "group-data-[variant=pill]:px-5 group-data-[variant=pill]:py-1.5",
+        "group-data-[variant=pill]:text-sm",
+        "group-data-[variant=pill]:text-muted-foreground",
+        "group-data-[variant=pill]:translate-y-0",
+        "group-data-[variant=pill]:hover:text-foreground",
+        "group-data-[variant=pill]:data-[state=active]:text-white",
+        "group-data-[variant=pill]:data-[state=active]:translate-y-0",
+        "group-data-[variant=pill]:focus-visible:ring-offset-0",
       ].join(" "),
       className,
     )}
@@ -142,4 +173,11 @@ TabsContent.displayName = "TabsContent";
 
 /* ── Exports ─────────────────────────────────── */
 
-export { Tabs, TabsContent, TabsList, TabsTrigger };
+export {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+  type TabsListProps,
+  type TabsVariant,
+};

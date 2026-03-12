@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #64 — 2026-03-12
+
+**Context:** Adding a pill/segmented-control variant to Tabs. Needed to propagate the variant from `TabsList` to `TabsTrigger` children so triggers can restyle themselves.
+**Decision:** Use `data-variant` attribute on `TabsList` + Tailwind `group-data-[variant=pill]:` utilities on triggers, instead of a React context.
+**Rationale:** Data attributes are simpler — no context provider, no hook, no extra re-renders. Tailwind's `group-data-` selector maps directly to the DOM attribute. This is the first usage of this pattern in the DS but it's a standard Tailwind technique for parent-to-child variant propagation.
+**Alternatives considered:** React context (heavier, overkill for a two-value enum), separate component (diverges from existing Tabs API, duplicates indicator logic).
+
 ## Decision #63 — 2026-03-10
 
 **Context:** Pagination active page number was invisible in dark mode. `PAGE_BUTTON` applies `dark:text-primary-400` and `PAGE_ACTIVE` applies `text-white` without a dark variant. In dark mode, the dark-prefixed rule wins — rendering primary-400 text on a primary-600 background.

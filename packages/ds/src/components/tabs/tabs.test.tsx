@@ -152,3 +152,72 @@ describe("Tabs", () => {
     );
   });
 });
+
+/* ── Pill variant ────────────────────────────── */
+
+function renderPillTabs({
+  defaultValue = "one",
+}: {
+  defaultValue?: string;
+} = {}) {
+  return render(
+    <Tabs defaultValue={defaultValue}>
+      <TabsList variant="pill">
+        <TabsTrigger value="one">Tab One</TabsTrigger>
+        <TabsTrigger value="two">Tab Two</TabsTrigger>
+      </TabsList>
+      <TabsContent value="one">Content One</TabsContent>
+      <TabsContent value="two">Content Two</TabsContent>
+    </Tabs>,
+  );
+}
+
+describe("Tabs pill variant", () => {
+  it("renders tablist with data-variant='pill'", () => {
+    renderPillTabs();
+    expect(screen.getByRole("tablist")).toHaveAttribute(
+      "data-variant",
+      "pill",
+    );
+  });
+
+  it("applies pill container styles (no border-b)", () => {
+    renderPillTabs();
+    const list = screen.getByRole("tablist");
+    expect(list.className).not.toContain("border-b");
+    expect(list.className).toContain("rounded-full");
+  });
+
+  it("renders tablist with group class for pill variant", () => {
+    renderPillTabs();
+    expect(screen.getByRole("tablist")).toHaveClass("group");
+  });
+
+  it("defaults to underline variant when no variant prop", () => {
+    renderTabs();
+    const list = screen.getByRole("tablist");
+    expect(list).toHaveAttribute("data-variant", "underline");
+    expect(list.className).toContain("border-b");
+  });
+
+  it("switches content on tab click in pill variant", async () => {
+    const user = userEvent.setup();
+    renderPillTabs();
+    await user.click(screen.getByRole("tab", { name: "Tab Two" }));
+    expect(screen.getByRole("tabpanel")).toHaveTextContent("Content Two");
+  });
+
+  it("merges custom className on pill TabsList", () => {
+    render(
+      <Tabs defaultValue="a">
+        <TabsList variant="pill" className="custom-pill">
+          <TabsTrigger value="a">A</TabsTrigger>
+        </TabsList>
+        <TabsContent value="a">A</TabsContent>
+      </Tabs>,
+    );
+    const list = screen.getByRole("tablist");
+    expect(list).toHaveClass("custom-pill");
+    expect(list).toHaveClass("rounded-full");
+  });
+});
