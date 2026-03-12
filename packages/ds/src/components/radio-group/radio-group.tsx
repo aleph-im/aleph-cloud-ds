@@ -70,7 +70,7 @@ const RadioGroupItem = forwardRef<HTMLButtonElement, RadioGroupItemProps>(
             "transition-[clip-path] duration-200 ease-in-out motion-reduce:transition-none",
           )}
         >
-          <span className="block size-[90%] rounded-full bg-primary" />
+          <span className="block size-[80%] rounded-full bg-primary" />
         </RadioGroupPrimitive.Indicator>
       </RadioGroupPrimitive.Item>
     );
