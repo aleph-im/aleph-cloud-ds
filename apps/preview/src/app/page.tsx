@@ -157,6 +157,10 @@ const PROJECT_COLUMNS: Column<Project>[] = [
 
 export default function OverviewPage() {
   const [page, setPage] = useState(1);
+  const [visibleAlerts, setVisibleAlerts] = useState({
+    error: true,
+    info: true,
+  });
 
   return (
     <>
@@ -300,6 +304,37 @@ export default function OverviewPage() {
             />
           </div>
         </Card>
+        {/* Block 5: Notification Stack */}
+        <div className="space-y-3">
+          <Alert variant="success" title="Deployment Complete">
+            Instance xyz deployed to EU West.
+          </Alert>
+          <Alert variant="warning" title="Storage Warning">
+            Usage at 85%. Consider upgrading your plan.
+          </Alert>
+          {visibleAlerts.error && (
+            <Alert
+              variant="error"
+              title="Node Offline"
+              onDismiss={() =>
+                setVisibleAlerts((s) => ({ ...s, error: false }))
+              }
+            >
+              Node 0x7a3f lost connectivity.
+            </Alert>
+          )}
+          {visibleAlerts.info && (
+            <Alert
+              variant="info"
+              onDismiss={() =>
+                setVisibleAlerts((s) => ({ ...s, info: false }))
+              }
+              dismissAfter={10000}
+            >
+              Scheduled maintenance on March 15.
+            </Alert>
+          )}
+        </div>
       </div>
     </>
   );
