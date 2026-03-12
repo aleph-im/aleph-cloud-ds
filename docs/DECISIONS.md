@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #65 — 2026-03-12
+
+**Context:** Redesigning the overview page of the preview app. Needed to decide between isolated component demos (prop tables, single-component examples) vs composed showcase blocks (realistic UI compositions).
+**Decision:** Use composed showcase blocks that simulate real product interfaces — a node dashboard, settings panel, auth form, data table, notification stack, and resource card. Each block composes multiple DS components together.
+**Rationale:** Composed blocks reveal how components interact in context — spacing, color, and interaction conflicts that isolated demos miss. This is closer to how consumers actually use the DS. The shadcn docs use a similar approach to great effect.
+**Alternatives considered:** Isolated prop demos (simpler to maintain, but less useful for evaluating composition), Storybook (heavy dependency, separate tooling from the preview app).
+
 ## Decision #64 — 2026-03-12
 
 **Context:** Adding a pill/segmented-control variant to Tabs. Needed to propagate the variant from `TabsList` to `TabsTrigger` children so triggers can restyle themselves.

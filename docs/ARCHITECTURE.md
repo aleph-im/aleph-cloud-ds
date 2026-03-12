@@ -320,6 +320,16 @@ The overlay technique layers a semi-transparent `linear-gradient(solid, solid)` 
 
 **Collapsible nav groups:** The sidebar supports `NavGroup` entries (e.g., "Forms") with a chevron toggle. Groups auto-expand when the active route is within their children.
 
+### Overview Page Showcase Pattern
+
+**Context:** The overview page (`apps/preview/src/app/page.tsx`) needs to demonstrate DS components in a way that's more useful than isolated prop tables.
+
+**Approach:** Composed UI blocks that simulate real product interfaces — a node dashboard with Table + Tabs + StatusDot, a settings panel with FormField + Slider + Switch, an auth form, etc. Each block is a `Card` in a responsive 2-column grid. Full-width blocks use `md:col-span-2`. The hero section uses negative margins (`-mx-4 sm:-mx-8 -mt-6 sm:-mt-8`) to bleed past the parent's `max-w-4xl` constraint.
+
+**Key files:** `apps/preview/src/app/page.tsx`
+
+**Notes:** All state is local (`useState`), all data is static mock data defined inline. The page is `"use client"` because most blocks need interactivity (tabs, pagination, dismissible alerts). A Quick Links footer at the bottom links to all foundation and component pages grouped by category.
+
 ### Motion-Reduce Support
 
 **Context:** Users with vestibular disorders or motion sensitivity need a way to disable animations. `prefers-reduced-motion: reduce` is the OS-level signal.
