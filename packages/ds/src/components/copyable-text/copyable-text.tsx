@@ -116,7 +116,7 @@ const CopyableText = forwardRef<HTMLSpanElement, CopyableTextProps>(
             onClick={handleCopy}
             className={cn(
               "relative inline-flex items-center justify-center",
-              "rounded-full cursor-pointer",
+              "rounded-md cursor-pointer",
               "hover:bg-foreground/10 transition-colors",
               btnCn,
             )}
@@ -133,12 +133,12 @@ const CopyableText = forwardRef<HTMLSpanElement, CopyableTextProps>(
             <span
               className={cn(
                 "absolute inset-0 flex items-center justify-center",
-                "rounded-full bg-foreground",
-                "[clip-path:circle(0%_at_50%_50%)]",
+                "rounded-md bg-foreground",
+                "[clip-path:inset(50%_round_0.375rem)]",
                 "transition-[clip-path] duration-200",
                 "[transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)]",
                 "motion-reduce:transition-none",
-                copied && "[clip-path:circle(50%_at_50%_50%)]",
+                copied && "[clip-path:inset(0%_round_0.375rem)]",
               )}
               aria-hidden="true"
             >
@@ -163,7 +163,7 @@ const CopyableText = forwardRef<HTMLSpanElement, CopyableTextProps>(
               rel="noopener noreferrer"
               onClick={(e) => e.stopPropagation()}
               className={cn(
-                "inline-flex items-center justify-center rounded-full",
+                "inline-flex items-center justify-center rounded-md",
                 "text-muted-foreground hover:text-foreground",
                 "hover:bg-foreground/10 transition-colors",
                 btnCn,
