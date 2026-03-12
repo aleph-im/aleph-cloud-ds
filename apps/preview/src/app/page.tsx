@@ -31,6 +31,80 @@ import {
   BreadcrumbPage,
 } from "@aleph-front/ds/breadcrumb";
 
+/* ── Mock data ────────────────────────────────── */
+
+type Node = {
+  id: string;
+  status: "healthy" | "degraded" | "error" | "offline";
+  statusLabel: string;
+  type: string;
+  typeVariant: "default" | "info";
+  region: string;
+};
+
+const NODES: Node[] = [
+  {
+    id: "0x7a3f8b2c1d4e5f60a9b8c7d6e5f4a3b2",
+    status: "healthy",
+    statusLabel: "Running",
+    type: "GPU",
+    typeVariant: "info",
+    region: "EU West",
+  },
+  {
+    id: "0x1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f",
+    status: "healthy",
+    statusLabel: "Running",
+    type: "CPU",
+    typeVariant: "default",
+    region: "US East",
+  },
+  {
+    id: "0x9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c",
+    status: "degraded",
+    statusLabel: "High Load",
+    type: "GPU",
+    typeVariant: "info",
+    region: "AP South",
+  },
+  {
+    id: "0x4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e",
+    status: "error",
+    statusLabel: "Offline",
+    type: "CPU",
+    typeVariant: "default",
+    region: "US East",
+  },
+];
+
+const NODE_COLUMNS: Column<Node>[] = [
+  {
+    header: "Node",
+    accessor: (row) => <CopyableText text={row.id} size="sm" />,
+  },
+  {
+    header: "Status",
+    accessor: (row) => (
+      <span className="inline-flex items-center gap-2">
+        <StatusDot status={row.status} size="sm" />
+        <span className="text-sm">{row.statusLabel}</span>
+      </span>
+    ),
+  },
+  {
+    header: "Type",
+    accessor: (row) => (
+      <Badge variant={row.typeVariant} size="sm">
+        {row.type}
+      </Badge>
+    ),
+  },
+  {
+    header: "Region",
+    accessor: (row) => row.region,
+  },
+];
+
 export default function OverviewPage() {
   return (
     <>
@@ -55,7 +129,32 @@ export default function OverviewPage() {
 
       {/* Showcase grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
-        {/* Blocks will be added in subsequent tasks */}
+        {/* Block 1: Node Status Dashboard */}
+        <Card className="md:col-span-2" padding="lg">
+          <Tabs defaultValue="nodes">
+            <TabsList>
+              <TabsTrigger value="nodes">All Nodes</TabsTrigger>
+              <TabsTrigger value="alerts">Alerts</TabsTrigger>
+            </TabsList>
+            <TabsContent value="nodes">
+              <Table
+                columns={NODE_COLUMNS}
+                data={NODES}
+                keyExtractor={(row) => row.id}
+              />
+            </TabsContent>
+            <TabsContent value="alerts">
+              <div className="space-y-3 py-2">
+                <Alert variant="warning" title="High Load">
+                  Node 0x9f8e...5d4c CPU usage at 94%.
+                </Alert>
+                <Alert variant="error" title="Connection Lost">
+                  Node 0x4b5c...8d9e unreachable since 14:32 UTC.
+                </Alert>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </Card>
       </div>
     </>
   );
