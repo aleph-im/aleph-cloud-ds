@@ -105,7 +105,59 @@ const NODE_COLUMNS: Column<Node>[] = [
   },
 ];
 
+type Project = {
+  id: string;
+  name: string;
+  status: "Active" | "Inactive";
+  statusVariant: "success" | "default";
+  created: string;
+};
+
+const PROJECTS: Project[] = [
+  { id: "1", name: "aleph-api", status: "Active", statusVariant: "success", created: "2026-02-14" },
+  { id: "2", name: "cloud-worker", status: "Active", statusVariant: "success", created: "2026-01-28" },
+  { id: "3", name: "data-pipeline", status: "Inactive", statusVariant: "default", created: "2025-12-05" },
+  { id: "4", name: "auth-service", status: "Active", statusVariant: "success", created: "2026-03-01" },
+  { id: "5", name: "monitoring-hub", status: "Inactive", statusVariant: "default", created: "2025-11-18" },
+];
+
+const PROJECT_COLUMNS: Column<Project>[] = [
+  {
+    header: "Name",
+    accessor: (row) => (
+      <span className="font-medium">{row.name}</span>
+    ),
+    sortable: true,
+    sortValue: (row) => row.name,
+  },
+  {
+    header: "Status",
+    accessor: (row) => (
+      <Badge variant={row.statusVariant} size="sm">
+        {row.status}
+      </Badge>
+    ),
+  },
+  {
+    header: "Created",
+    accessor: (row) => row.created,
+    sortable: true,
+    sortValue: (row) => row.created,
+  },
+  {
+    header: "Actions",
+    accessor: () => (
+      <Button variant="text" size="xs">
+        View
+      </Button>
+    ),
+    align: "right",
+  },
+];
+
 export default function OverviewPage() {
+  const [page, setPage] = useState(1);
+
   return (
     <>
       {/* Hero — bleeds past max-w-4xl */}
@@ -217,6 +269,35 @@ export default function OverviewPage() {
                 Forgot password?
               </p>
             </div>
+          </div>
+        </Card>
+
+        {/* Block 4: Data Table with Controls */}
+        <Card className="md:col-span-2" padding="lg">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center mb-4">
+            <Input placeholder="Search..." className="sm:max-w-xs" />
+            <Select
+              options={[
+                { value: "all", label: "All" },
+                { value: "active", label: "Active" },
+                { value: "inactive", label: "Inactive" },
+              ]}
+              placeholder="Status"
+              className="sm:max-w-[160px]"
+            />
+          </div>
+          <Table
+            columns={PROJECT_COLUMNS}
+            data={PROJECTS}
+            keyExtractor={(row) => row.id}
+          />
+          <div className="mt-4 flex justify-center">
+            <Pagination
+              page={page}
+              totalPages={5}
+              siblingCount={1}
+              onPageChange={setPage}
+            />
           </div>
         </Card>
       </div>
