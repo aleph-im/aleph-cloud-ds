@@ -180,6 +180,17 @@
 }
 
 /* ──────────────────────────────────────────────
+   Safelist: classes invisible to Tailwind 4 scanner
+
+   Tailwind 4's regex extractor cannot parse `=`
+   inside data-attribute bracket notation, so
+   group-data-[variant=pill]:* classes are never
+   detected from source files. This directive feeds
+   them directly into the candidate list.
+   ────────────────────────────────────────────── */
+@source inline("group-data-[variant=pill]:relative group-data-[variant=pill]:z-10 group-data-[variant=pill]:rounded-full group-data-[variant=pill]:px-5 group-data-[variant=pill]:py-1.5 group-data-[variant=pill]:text-sm group-data-[variant=pill]:text-muted-foreground group-data-[variant=pill]:translate-y-0 group-data-[variant=pill]:hover:text-foreground group-data-[variant=pill]:data-[state=active]:text-white group-data-[variant=pill]:data-[state=active]:translate-y-0 group-data-[variant=pill]:focus-visible:ring-offset-0");
+
+/* ──────────────────────────────────────────────
    Utilities: gradient border effects
 
    Uses full background declarations per state to

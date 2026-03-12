@@ -352,6 +352,8 @@ The overlay technique layers a semi-transparent `linear-gradient(solid, solid)` 
 
 **Rule:** Never use dynamic Tailwind class construction or inline `var()` styles for `@theme` variables. Always use a static safelist or lookup map.
 
+**Data-attribute selectors with `=`:** Tailwind 4's scanner also fails on classes like `group-data-[variant=pill]:text-sm` because the `=` breaks regex extraction. Use `@source inline("...")` in `tokens.css` to feed these classes directly into the candidate list. See the safelist block in `tokens.css` for the current list. Any new `data-[attr=value]:` classes that Tailwind can't detect must be added there.
+
 ### Radix UI Wrapper Pattern
 
 **Context:** Form components need rich accessibility (keyboard navigation, ARIA states, focus management) that's expensive to build from scratch.

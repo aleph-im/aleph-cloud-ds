@@ -1282,7 +1282,7 @@ A segmented-control style with a sliding solid pill indicator. Pass `variant="pi
 
 **Styling (underline):** `font-heading font-bold text-lg` for triggers. Full-width 4px baseline at 40% `edge` opacity on the list, with a 4px solid `primary-600`/`dark:primary-400` sliding indicator. Active/hover text uses `primary-600` / `dark:primary-400`. Disabled triggers use `opacity-20 pointer-events-none`. Content gets `mt-4` spacing.
 
-**Styling (pill):** Rounded container with `bg-neutral-200` / `dark:bg-neutral-800/50`. Active indicator uses solid `bg-primary-600` / `dark:bg-primary-500`. Triggers use `text-muted-foreground` inactive, `text-white` active, compact `px-5 py-1.5 text-sm`. Variant propagated to triggers via `data-variant` attribute + Tailwind `group-data-[variant=pill]:` utilities.
+**Styling (pill):** Rounded container with `bg-neutral-200` / `dark:bg-neutral-800/50`. Active indicator uses solid `bg-primary-600` / `dark:bg-primary-500`. Triggers use `text-muted-foreground` inactive, `text-white` active, compact `px-5 py-1.5 text-sm`. Variant propagated to triggers via `data-variant` attribute + Tailwind `group-data-[variant=pill]:` utilities. All pill variant classes are safelisted via `@source inline(...)` in `tokens.css` — Tailwind 4's scanner can't extract `=` inside data-attribute brackets, so consumers don't need any workaround.
 
 ### Skeleton
 

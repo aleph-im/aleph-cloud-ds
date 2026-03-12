@@ -67,14 +67,6 @@ Ideas and scope creep captured for later consideration.
 **Description:** The Card component only exposes a single `noise` variant (`fx-grain-lg`). The token layer already has `fx-grain-xs`, `fx-grain-sm`, `fx-grain-md`, and `fx-grain-lg` classes. Expose grain size selection through the Card API — either as separate variants (`noise-xs`, `noise-sm`, `noise-md`, `noise-lg`) or a compound variant (`variant="noise" grain="sm"`).
 **Priority:** Low
 
-### 2026-03-12 — Tabs pill variant classes not detected by Tailwind 4 scanner
-
-**Source:** Discovered while integrating `Tabs variant="pill"` in scheduler-dashboard
-**Description:** Tailwind 4's content scanner cannot extract `group-data-[variant=pill]:*` class candidates from source files — the `=` inside the bracket notation breaks the regex-based extraction. This means consumers who scan the DS source via `@source` get zero CSS rules generated for the pill variant overrides (`py-1.5`, `text-sm`, `text-muted-foreground`, `translate-y-0`, active `text-white`, etc.). The sliding indicator renders with 0 height and triggers keep their base `py-3 text-lg` sizing.
-**Workaround:** Consumers add `@source inline("group-data-[variant=pill]:relative group-data-[variant=pill]:z-10 ...")` to their CSS — fragile and duplicates DS internals.
-**Fix:** The DS should ship an `@source inline(...)` (or a dedicated `safelist.css`) that explicitly lists all `group-data-[variant=pill]:*` classes. This ensures any consumer's Tailwind build generates them without workarounds. Add the directive to `src/styles/tokens.css` or a new `src/styles/safelist.css` that consumers import alongside `tokens.css`.
-**Priority:** High
-
 ### 2026-02-26 — Button icon animations
 
 **Source:** Deferred from button component design
@@ -112,5 +104,6 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-03-10 — Alert component (4 variants, dismiss with exit animation, auto-dismiss timer, auto-styled links)
 - [x] 2026-03-10 — Pagination component (controlled API, configurable siblingCount/showFirstLast, pure buildPageRange function, a11y)
 - [x] 2026-03-10 — Breadcrumb component (composable 6-part API, asChild via Radix Slot, semantic nav/ol/li, custom separator)
+- [x] 2026-03-12 — Tabs pill variant Tailwind 4 scanner fix (`@source inline()` safelist in tokens.css)
 
 </details>

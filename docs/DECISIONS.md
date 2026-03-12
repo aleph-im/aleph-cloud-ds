@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #67 — 2026-03-12
+
+**Context:** Tailwind 4's content scanner can't extract `group-data-[variant=pill]:*` class candidates — the `=` inside bracket notation breaks the regex-based extraction, producing zero CSS rules for the pill variant.
+**Decision:** Add `@source inline("...")` in `tokens.css` (after the Layer 3 Tailwind bridge, before utility classes) listing all 12 `group-data-[variant=pill]:*` classes used in `tabs.tsx`.
+**Rationale:** Placing the safelist in `tokens.css` means every consumer who imports DS tokens automatically gets the pill variant classes — no per-project workaround needed. `@source inline()` is Tailwind 4's canonical mechanism for classes that bypass scanner extraction. Keeping it in `tokens.css` (not a separate `safelist.css`) reduces the number of files consumers must import.
+**Alternatives considered:** Separate `safelist.css` file — rejected because it adds an import consumers could forget. Rewriting pill styles as plain CSS classes in `tokens.css` — rejected because it would duplicate the CVA pattern and lose Tailwind utility composability.
+
 ## Decision #66 — 2026-03-12
 
 **Context:** Redesigning the Badge component to match Figma specs with gradient fills, outline mode, and icon slots.
