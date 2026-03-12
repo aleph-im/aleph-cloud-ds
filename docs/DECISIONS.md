@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #66 — 2026-03-12
+
+**Context:** Redesigning the Badge component to match Figma specs with gradient fills, outline mode, and icon slots.
+**Decision:** Use CVA compound variants with a `fill` axis (`solid`/`outline`) crossed with the existing `variant` axis. Named the prop `fill` (not `type` or `mode`) to avoid collision with HTML's `type` attribute. The `default` variant maps to `gradient-fill-info` (primary gradient), while `info` uses a neutral solid fill for low-emphasis labels like counts.
+**Rationale:** Compound variants keep the fill × variant matrix declarative in a single CVA config, avoiding conditional class logic in the render function. The `fill` naming follows the SVG/design convention (fill vs stroke ≈ solid vs outline). Gradient fills are CSS utility classes in tokens.css rather than inline styles, so they're reusable across components.
+**Alternatives considered:** Separate components (`GradientBadge`/`OutlineBadge`) — rejected because the variants share 90% of their code. React context for icon sizing — overkill for a flat component.
+
 ## Decision #65 — 2026-03-12
 
 **Context:** Redesigning the overview page of the preview app. Needed to decide between isolated component demos (prop tables, single-component examples) vs composed showcase blocks (realistic UI compositions).
