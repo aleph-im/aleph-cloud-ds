@@ -335,6 +335,60 @@ export default function OverviewPage() {
             </Alert>
           )}
         </div>
+
+        {/* Block 6: Resource Overview Card */}
+        <Card variant="noise" padding="lg">
+          <Breadcrumb className="mb-4">
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink href="#">Resources</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>Compute</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+          <div className="flex items-center gap-3 mb-5">
+            <h3 className="font-heading text-lg font-bold italic">
+              Compute Resources
+            </h3>
+            <Badge variant="info" size="sm">
+              Pro Plan
+            </Badge>
+          </div>
+          <div className="space-y-4 mb-6">
+            <div>
+              <div className="flex justify-between text-sm mb-1">
+                <span>CPU</span>
+                <span className="text-muted-foreground">65%</span>
+              </div>
+              <Slider value={[65]} max={100} disabled />
+            </div>
+            <div>
+              <div className="flex justify-between text-sm mb-1">
+                <span>Memory</span>
+                <span className="text-muted-foreground">42%</span>
+              </div>
+              <Slider value={[42]} max={100} disabled />
+            </div>
+            <div>
+              <div className="flex justify-between text-sm mb-1">
+                <span>Storage</span>
+                <span className="text-muted-foreground">78%</span>
+              </div>
+              <Slider value={[78]} max={100} disabled />
+            </div>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="primary">Upgrade</Button>
+            <Button variant="outline">Details</Button>
+          </div>
+        </Card>
       </div>
     </>
   );
