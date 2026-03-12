@@ -1191,7 +1191,7 @@ Wrap your app (or a subtree) with `TooltipProvider`, then compose tooltips:
 <TooltipContent side="left" />
 ```
 
-**Styling:** `bg-neutral-900 text-white text-sm rounded-lg px-3 py-1.5 shadow-brand-sm` with Radix animation attributes. Dark mode uses `bg-neutral-700` for contrast against the dark page background.
+**Styling:** `bg-neutral-900 text-white text-sm rounded-lg px-3 py-1.5 shadow-brand-sm` with Radix animation attributes. Dark mode uses `bg-base-800` for contrast against the dark page background.
 
 ### Tabs
 
