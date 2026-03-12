@@ -1234,7 +1234,7 @@ Tab triggers accept arbitrary children — badges, subscripts, icons:
 
 #### Pill Variant
 
-A segmented-control style with a sliding gradient pill indicator. Pass `variant="pill"` to `TabsList`:
+A segmented-control style with a sliding solid pill indicator. Pass `variant="pill"` to `TabsList`:
 
 ```tsx
 <Tabs defaultValue="nodes">
@@ -1256,9 +1256,9 @@ A segmented-control style with a sliding gradient pill indicator. Pass `variant=
 - **Text nudge** — active trigger shifts up 2px (`-translate-y-0.5`) in underline variant only
 - All animations respect `prefers-reduced-motion` via `motion-reduce:transition-none`
 
-**Styling (underline):** `font-heading font-bold text-lg` for triggers. Full-width `border-b-2 border-edge` baseline on the list. Active/hover text uses `primary-600` / `dark:primary-400`. Disabled triggers use `opacity-20 pointer-events-none`. Content gets `mt-4` spacing.
+**Styling (underline):** `font-heading font-bold text-lg` for triggers. Full-width 4px baseline at 40% `edge` opacity on the list, with a 4px solid `primary-600`/`dark:primary-400` sliding indicator. Active/hover text uses `primary-600` / `dark:primary-400`. Disabled triggers use `opacity-20 pointer-events-none`. Content gets `mt-4` spacing.
 
-**Styling (pill):** Rounded container with `bg-neutral-200` / `dark:bg-neutral-800/50`. Active indicator uses `gradient-fill-main`. Triggers use `text-muted-foreground` inactive, `text-white` active, compact `px-5 py-1.5 text-sm`. Variant propagated to triggers via `data-variant` attribute + Tailwind `group-data-[variant=pill]:` utilities.
+**Styling (pill):** Rounded container with `bg-neutral-200` / `dark:bg-neutral-800/50`. Active indicator uses solid `bg-primary-600` / `dark:bg-primary-500`. Triggers use `text-muted-foreground` inactive, `text-white` active, compact `px-5 py-1.5 text-sm`. Variant propagated to triggers via `data-variant` attribute + Tailwind `group-data-[variant=pill]:` utilities.
 
 ### Skeleton
 

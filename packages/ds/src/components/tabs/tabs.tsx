@@ -90,7 +90,7 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
             "absolute left-0",
             isPill
               ? [
-                  "inset-y-1 rounded-full gradient-fill-main",
+                  "inset-y-1 rounded-full bg-primary-600 dark:bg-primary-500",
                   ready ? "opacity-100" : "opacity-0",
                   ready
                     ? "transition-[transform,width,opacity] duration-200 ease-out"
