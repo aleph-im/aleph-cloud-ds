@@ -19,8 +19,8 @@ const checkboxVariants = cva(
     variants: {
       size: {
         xs: "size-4 rounded",
-        sm: "size-6 rounded-md",
-        md: "size-7 rounded-md",
+        sm: "size-5 rounded-md",
+        md: "size-6 rounded-md",
       },
     },
     defaultVariants: {
@@ -67,7 +67,7 @@ const Checkbox = forwardRef<HTMLButtonElement, CheckboxProps>(
             strokeWidth={3}
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="size-[65%]"
+            className="size-[90%]"
           >
             <polyline points="20 6 9 17 4 12" />
           </svg>

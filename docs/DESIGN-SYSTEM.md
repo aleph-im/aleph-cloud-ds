@@ -825,7 +825,7 @@ import { Checkbox } from "@aleph-front/ds/checkbox";
 
 **Props:** `checked`, `defaultChecked`, `onCheckedChange`, `disabled`, `error`, `size` (xs/sm/md), `className`. Forwards ref to `<button>`.
 
-**Sizes:** `xs` (16px, rounded 4px) · `sm` (24px, rounded-md 6px) · `md` (28px, rounded-md 6px, default)
+**Sizes:** `xs` (16px, rounded 4px) · `sm` (20px, rounded-md 6px) · `md` (24px, rounded-md 6px, default)
 
 **Animation:** Check icon reveals with a clip-path circle transition (200ms, bottom-left origin following stroke direction). Uses Radix `forceMount` to keep indicator in DOM.
 
