@@ -856,7 +856,7 @@ import { RadioGroup, RadioGroupItem } from "@aleph-front/ds/radio-group";
 
 **RadioGroupItem props:** `value`, `disabled`, `size` (xs/sm/md), `className`. Forwards ref to `<button>`.
 
-**Sizes:** `xs` (16px) · `sm` (24px) · `md` (28px, default)
+**Sizes:** `xs` (16px) · `sm` (20px) · `md` (24px, default)
 
 **Animation:** Dot reveals with a clip-path circle transition (200ms, centered origin). Uses Radix `forceMount` to keep indicator in DOM.
 

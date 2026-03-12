@@ -18,8 +18,8 @@ const radioItemVariants = cva(
     variants: {
       size: {
         xs: "size-4",
-        sm: "size-6",
-        md: "size-7",
+        sm: "size-5",
+        md: "size-6",
       },
     },
     defaultVariants: {
@@ -70,7 +70,7 @@ const RadioGroupItem = forwardRef<HTMLButtonElement, RadioGroupItemProps>(
             "transition-[clip-path] duration-200 ease-in-out motion-reduce:transition-none",
           )}
         >
-          <span className="block size-[65%] rounded-full bg-primary" />
+          <span className="block size-[90%] rounded-full bg-primary" />
         </RadioGroupPrimitive.Indicator>
       </RadioGroupPrimitive.Item>
     );
