@@ -141,7 +141,9 @@ describe("Badge", () => {
         </Badge>,
       );
       const badge = container.firstElementChild!;
-      expect(badge.children).toHaveLength(3);
+      expect(badge.querySelector("[data-testid='left']")).toBeTruthy();
+      expect(badge.querySelector("[data-testid='right']")).toBeTruthy();
+      expect(badge.children).toHaveLength(2);
     });
 
     it("does not render icon wrappers when no icons provided", () => {
