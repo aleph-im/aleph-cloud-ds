@@ -3,7 +3,7 @@
    ────────────────────────────────────────────── */
 @theme {
   /* Primary (brand purple, H: 285.48) — 600 = brand #5100CD */
-  --color-primary-50: oklch(0.97 0.012 285.48);
+  --color-primary-50: oklch(0.96 0.02 301.63);
   --color-primary-100: oklch(0.93 0.040 285.48);
   --color-primary-200: oklch(0.87 0.080 285.48);
   --color-primary-300: oklch(0.77 0.140 285.48);
