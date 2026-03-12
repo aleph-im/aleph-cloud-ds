@@ -13,7 +13,7 @@ const badgeVariants = cva(
       variant: {
         default: [
           "bg-primary-100 text-primary-700",
-          "dark:bg-primary-900 dark:text-primary-300",
+          "dark:bg-primary-700 dark:text-primary-300",
         ].join(" "),
         success: [
           "bg-success-100 text-success-700",

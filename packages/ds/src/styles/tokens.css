@@ -329,19 +329,19 @@
 /* ── Dark mode texture opacity overrides ── */
 
 .theme-dark .fx-grain-lg::after {
-  opacity: 1;
+  opacity: 0.5;
 }
 
 .theme-dark .fx-grain-xs::after {
-  opacity: 0.5;
+  opacity: 0.2;
 }
 
 .theme-dark .fx-grain-sm::after {
-  opacity: 0.5;
+  opacity: 0.2;
 }
 
 .theme-dark .fx-grain-md::after {
-  opacity: 0.7;
+  opacity: 0.35;
 }
 
 /* ── Texture overlays (::after) ── */
@@ -349,22 +349,22 @@
 /* Texture: scattered purple dots */
 .fx-grain-lg::after {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDAwIiB3aWR0aD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii4yNSIgdHlwZT0iZnJhY3RhbE5vaXNlIiBudW1PY3RhdmVzPSIzIi8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAuMSAwIDAgMCAwIDAgMCAwIDAgMCAwLjgwIDAgMCAwIDEwIC03LjI1Ii8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2YpIi8+PC9zdmc+");
-  opacity: 1;
+  opacity: 0.5;
 }
 
 .fx-grain-xs::after {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDAwIiB3aWR0aD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii4yNSIgdHlwZT0iZnJhY3RhbE5vaXNlIiBudW1PY3RhdmVzPSIzIi8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAuMSAwIDAgMCAwIDAgMCAwIDAgMCAwLjgwIDAgMCAwIDEwIC03LjI1Ii8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2YpIi8+PC9zdmc+");
-  opacity: 0.3;
+  opacity: 0.1;
 }
 
 .fx-grain-sm::after {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDAwIiB3aWR0aD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii4yNSIgdHlwZT0iZnJhY3RhbE5vaXNlIiBudW1PY3RhdmVzPSIzIi8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAuMSAwIDAgMCAwIDAgMCAwIDAgMCAwLjgwIDAgMCAwIDEwIC03LjI1Ii8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2YpIi8+PC9zdmc+");
-  opacity: 0.3;
+  opacity: 0.2;
 }
 
 .fx-grain-md::after {
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDAwIiB3aWR0aD0iNDAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii4yNSIgdHlwZT0iZnJhY3RhbE5vaXNlIiBudW1PY3RhdmVzPSIzIi8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPSIwIDAgMCAwIDAuMSAwIDAgMCAwIDAgMCAwIDAgMCAwLjgwIDAgMCAwIDEwIC03LjI1Ii8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI2YpIi8+PC9zdmc+");
-  opacity: 0.5;
+  opacity: 0.35;
 }
 
 /* ── Alert gradient backgrounds ──────────────────────── */

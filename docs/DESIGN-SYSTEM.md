@@ -274,10 +274,10 @@ CSS utility classes that apply a radial gradient background with an SVG `feTurbu
 
 | Class | Effect | Light overlay | Dark overlay |
 |-------|--------|--------------|-------------|
-| `fx-grain-xs` | Subtle dots | 0.3 | 0.5 |
-| `fx-grain-sm` | Fading edge dots | 0.3 | 0.5 |
-| `fx-grain-md` | Sparse dots | 0.5 | 0.7 |
-| `fx-grain-lg` | Strong dots | 1.0 | 1.0 |
+| `fx-grain-xs` | Subtle dots | 0.1 | 0.2 |
+| `fx-grain-sm` | Fading edge dots | 0.2 | 0.2 |
+| `fx-grain-md` | Sparse dots | 0.35 | 0.35 |
+| `fx-grain-lg` | Strong dots | 0.5 | 0.5 |
 
 **Light mode:** Radial gradients from `primary-100`/`primary-50` center to `primary-50` edge.
 **Dark mode:** Radial gradients from `var(--surface)` center to transparent edge. All colors derived from DS tokens — no hardcoded hex values.
@@ -925,11 +925,11 @@ import { Badge } from "@aleph-front/ds/badge";
 #### Variants
 
 ```tsx
-<Badge variant="default">Default</Badge>   {/* primary-100/700 bg/text */}
-<Badge variant="success">Healthy</Badge>   {/* success-100/700 bg/text */}
-<Badge variant="warning">Degraded</Badge>  {/* warning-100/800 bg/text */}
-<Badge variant="error">Offline</Badge>     {/* error-100/700 bg/text */}
-<Badge variant="info">3 VMs</Badge>        {/* neutral-100/700 bg/text */}
+<Badge variant="default">Default</Badge>   {/* primary-100/700, dark: primary-700/300 */}
+<Badge variant="success">Healthy</Badge>   {/* success-100/700, dark: success-900/300 */}
+<Badge variant="warning">Degraded</Badge>  {/* warning-100/800, dark: warning-900/200 */}
+<Badge variant="error">Offline</Badge>     {/* error-100/700, dark: error-900/300 */}
+<Badge variant="info">3 VMs</Badge>        {/* neutral-100/700, dark: neutral-800/300 */}
 ```
 
 #### Sizes
@@ -1195,7 +1195,7 @@ Wrap your app (or a subtree) with `TooltipProvider`, then compose tooltips:
 
 ### Tabs
 
-Radix UI Tabs with DS styling, sliding active indicator, and text nudge micro-animation. Composable API — Radix Root is re-exported directly; List wraps the indicator logic.
+Radix UI Tabs with DS styling, sliding active indicator, and text nudge micro-animation. Composable API — Radix Root is re-exported directly; List wraps the indicator logic. Underline variant uses a 4px baseline at 40% `edge` opacity with a 4px solid primary indicator that slides to the active tab.
 
 ```tsx
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@aleph-front/ds/tabs";
