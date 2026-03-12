@@ -189,6 +189,36 @@ export default function OverviewPage() {
             </div>
           </div>
         </Card>
+
+        {/* Block 3: Auth Form */}
+        <Card padding="lg">
+          <div className="flex flex-col items-center space-y-5">
+            <Logo className="h-10 text-primary" />
+            <h3 className="font-heading text-xl font-bold italic">
+              Sign In
+            </h3>
+            <div className="w-full space-y-4">
+              <FormField label="Email">
+                <Input type="email" placeholder="you@aleph.cloud" />
+              </FormField>
+              <FormField label="Password">
+                <Input type="password" placeholder="••••••••" />
+              </FormField>
+              <div className="flex items-center gap-2">
+                <Checkbox id="remember" />
+                <label htmlFor="remember" className="text-sm">
+                  Remember me
+                </label>
+              </div>
+              <Button variant="primary" className="w-full">
+                Sign In
+              </Button>
+              <p className="text-center text-sm text-muted-foreground">
+                Forgot password?
+              </p>
+            </div>
+          </div>
+        </Card>
       </div>
     </>
   );
