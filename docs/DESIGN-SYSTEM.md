@@ -274,10 +274,10 @@ CSS utility classes that apply a radial gradient background with an SVG `feTurbu
 
 | Class | Effect | Light overlay | Dark overlay |
 |-------|--------|--------------|-------------|
-| `fx-grain-xs` | Subtle dots | 0.3 | 0.5 |
-| `fx-grain-sm` | Fading edge dots | 0.3 | 0.5 |
-| `fx-grain-md` | Sparse dots | 0.5 | 0.7 |
-| `fx-grain-lg` | Strong dots | 1.0 | 1.0 |
+| `fx-grain-xs` | Subtle dots | 0.1 | 0.2 |
+| `fx-grain-sm` | Fading edge dots | 0.2 | 0.2 |
+| `fx-grain-md` | Sparse dots | 0.35 | 0.35 |
+| `fx-grain-lg` | Strong dots | 0.5 | 0.5 |
 
 **Light mode:** Radial gradients from `primary-100`/`primary-50` center to `primary-50` edge.
 **Dark mode:** Radial gradients from `var(--surface)` center to transparent edge. All colors derived from DS tokens — no hardcoded hex values.
@@ -925,11 +925,11 @@ import { Badge } from "@aleph-front/ds/badge";
 #### Variants
 
 ```tsx
-<Badge variant="default">Default</Badge>   {/* primary-100/700 bg/text */}
-<Badge variant="success">Healthy</Badge>   {/* success-100/700 bg/text */}
-<Badge variant="warning">Degraded</Badge>  {/* warning-100/800 bg/text */}
-<Badge variant="error">Offline</Badge>     {/* error-100/700 bg/text */}
-<Badge variant="info">3 VMs</Badge>        {/* neutral-100/700 bg/text */}
+<Badge variant="default">Default</Badge>   {/* primary-100/700, dark: primary-700/300 */}
+<Badge variant="success">Healthy</Badge>   {/* success-100/700, dark: success-900/300 */}
+<Badge variant="warning">Degraded</Badge>  {/* warning-100/800, dark: warning-900/200 */}
+<Badge variant="error">Offline</Badge>     {/* error-100/700, dark: error-900/300 */}
+<Badge variant="info">3 VMs</Badge>        {/* neutral-100/700, dark: neutral-800/300 */}
 ```
 
 #### Sizes
@@ -1191,11 +1191,11 @@ Wrap your app (or a subtree) with `TooltipProvider`, then compose tooltips:
 <TooltipContent side="left" />
 ```
 
-**Styling:** `bg-neutral-900 text-white text-sm rounded-lg px-3 py-1.5 shadow-brand-sm` with Radix animation attributes. Dark mode uses `bg-neutral-700` for contrast against the dark page background.
+**Styling:** `bg-neutral-900 text-white text-sm rounded-lg px-3 py-1.5 shadow-brand-sm` with Radix animation attributes. Dark mode uses `bg-base-800` for contrast against the dark page background.
 
 ### Tabs
 
-Radix UI Tabs with DS styling, sliding active indicator, and text nudge micro-animation. Composable API — Radix Root is re-exported directly; List wraps the indicator logic.
+Radix UI Tabs with DS styling, sliding active indicator, and text nudge micro-animation. Composable API — Radix Root is re-exported directly; List wraps the indicator logic. Underline variant uses a 4px baseline at 40% `edge` opacity with a 4px solid primary indicator that slides to the active tab.
 
 ```tsx
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@aleph-front/ds/tabs";
@@ -1234,7 +1234,7 @@ Tab triggers accept arbitrary children — badges, subscripts, icons:
 
 #### Pill Variant
 
-A segmented-control style with a sliding gradient pill indicator. Pass `variant="pill"` to `TabsList`:
+A segmented-control style with a sliding solid pill indicator. Pass `variant="pill"` to `TabsList`:
 
 ```tsx
 <Tabs defaultValue="nodes">
@@ -1256,9 +1256,9 @@ A segmented-control style with a sliding gradient pill indicator. Pass `variant=
 - **Text nudge** — active trigger shifts up 2px (`-translate-y-0.5`) in underline variant only
 - All animations respect `prefers-reduced-motion` via `motion-reduce:transition-none`
 
-**Styling (underline):** `font-heading font-bold text-lg` for triggers. Full-width `border-b-2 border-edge` baseline on the list. Active/hover text uses `primary-600` / `dark:primary-400`. Disabled triggers use `opacity-20 pointer-events-none`. Content gets `mt-4` spacing.
+**Styling (underline):** `font-heading font-bold text-lg` for triggers. Full-width 4px baseline at 40% `edge` opacity on the list, with a 4px solid `primary-600`/`dark:primary-400` sliding indicator. Active/hover text uses `primary-600` / `dark:primary-400`. Disabled triggers use `opacity-20 pointer-events-none`. Content gets `mt-4` spacing.
 
-**Styling (pill):** Rounded container with `bg-neutral-200` / `dark:bg-neutral-800/50`. Active indicator uses `gradient-fill-main`. Triggers use `text-muted-foreground` inactive, `text-white` active, compact `px-5 py-1.5 text-sm`. Variant propagated to triggers via `data-variant` attribute + Tailwind `group-data-[variant=pill]:` utilities.
+**Styling (pill):** Rounded container with `bg-neutral-200` / `dark:bg-neutral-800/50`. Active indicator uses solid `bg-primary-600` / `dark:bg-primary-500`. Triggers use `text-muted-foreground` inactive, `text-white` active, compact `px-5 py-1.5 text-sm`. Variant propagated to triggers via `data-variant` attribute + Tailwind `group-data-[variant=pill]:` utilities.
 
 ### Skeleton
 

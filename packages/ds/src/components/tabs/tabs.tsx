@@ -78,7 +78,7 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
           "relative flex",
           isPill
             ? "group inline-flex rounded-full bg-neutral-200 p-1 dark:bg-neutral-800/50"
-            : "border-b-2 border-edge",
+            : "border-b-4 border-edge/40",
           className,
         )}
         {...rest}
@@ -90,14 +90,14 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
             "absolute left-0",
             isPill
               ? [
-                  "inset-y-1 rounded-full gradient-fill-main",
+                  "inset-y-1 rounded-full bg-primary-600 dark:bg-primary-500",
                   ready ? "opacity-100" : "opacity-0",
                   ready
                     ? "transition-[transform,width,opacity] duration-200 ease-out"
                     : "",
                 ]
               : [
-                  "bottom-0 h-0.5",
+                  "-bottom-1 h-1",
                   "bg-primary-600 dark:bg-primary-400",
                   ready
                     ? "transition-[transform,width] duration-200 ease-out"

@@ -110,7 +110,7 @@ const BreadcrumbPage = forwardRef<
   <span
     ref={ref}
     aria-current="page"
-    className={cn("text-neutral opacity-60", className)}
+    className={cn("text-neutral opacity-40", className)}
     {...rest}
   />
 ));
