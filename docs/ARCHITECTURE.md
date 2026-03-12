@@ -247,6 +247,16 @@ When a widely-used convention (shadcn, Bootstrap) uses a different name for a co
 
 **Adding a new variant:** Add an entry to the `variants` object inside the `cva()` call. The variant key becomes the prop value (e.g., `variant="ghost"` → add `ghost: "..."` to the variant map). TypeScript infers the new prop value automatically.
 
+### Data-Attribute Variant Propagation
+
+**Context:** Need to style child components differently based on a parent's variant prop, without React context.
+
+**Approach:** Parent sets `data-variant="pill"` and `class="group"`. Children use `group-data-[variant=pill]:` prefixed Tailwind utilities to conditionally apply styles. No context, no prop drilling.
+
+**Key files:** `packages/ds/src/components/tabs/tabs.tsx` (first usage)
+
+**When to use:** When a parent component has a variant that affects child styling, and the variant is a simple enum (not dynamic or deeply nested). For complex variant propagation across multiple levels, use React context instead.
+
 ### Custom CSS Classes for Complex Effects
 
 **Context:** Some CSS effects (gradient borders, complex backgrounds) require multiple properties working together and can't be expressed as plain Tailwind utilities.

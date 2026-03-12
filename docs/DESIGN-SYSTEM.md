@@ -1232,14 +1232,33 @@ Tab triggers accept arbitrary children — badges, subscripts, icons:
 <TabsTrigger value="upcoming" disabled>Upcoming</TabsTrigger>
 ```
 
-**Exports:** `Tabs` (Root), `TabsList`, `TabsTrigger`, `TabsContent`
+#### Pill Variant
+
+A segmented-control style with a sliding gradient pill indicator. Pass `variant="pill"` to `TabsList`:
+
+```tsx
+<Tabs defaultValue="nodes">
+  <TabsList variant="pill">
+    <TabsTrigger value="vms">VMs</TabsTrigger>
+    <TabsTrigger value="nodes">Nodes</TabsTrigger>
+  </TabsList>
+  <TabsContent value="vms">...</TabsContent>
+  <TabsContent value="nodes">...</TabsContent>
+</Tabs>
+```
+
+**Exports:** `Tabs` (Root), `TabsList`, `TabsTrigger`, `TabsContent`, `TabsListProps`, `TabsVariant`
+
+**Variants:** `TabsList` accepts `variant?: "underline" | "pill"` (default `"underline"`).
 
 **Animations:**
-- **Sliding indicator** — absolutely-positioned bar that slides between tabs via `MutationObserver` + `ResizeObserver`. Initial render positions without transition to avoid slide-in from 0,0.
-- **Text nudge** — active trigger shifts up 2px (`-translate-y-0.5`)
-- Both respect `prefers-reduced-motion` via `motion-reduce:transition-none`
+- **Sliding indicator** — absolutely-positioned element that slides between tabs via `MutationObserver` + `ResizeObserver`. Initial render positions without transition to avoid slide-in from 0,0. Pill variant uses `opacity-0` → `opacity-100` to prevent flash at width 0.
+- **Text nudge** — active trigger shifts up 2px (`-translate-y-0.5`) in underline variant only
+- All animations respect `prefers-reduced-motion` via `motion-reduce:transition-none`
 
-**Styling:** `font-heading font-bold text-lg` for triggers. Full-width `border-b-2 border-edge` baseline on the list. Active/hover text uses `primary-600` / `dark:primary-400`. Disabled triggers use `opacity-20 pointer-events-none`. Content gets `mt-4` spacing.
+**Styling (underline):** `font-heading font-bold text-lg` for triggers. Full-width `border-b-2 border-edge` baseline on the list. Active/hover text uses `primary-600` / `dark:primary-400`. Disabled triggers use `opacity-20 pointer-events-none`. Content gets `mt-4` spacing.
+
+**Styling (pill):** Rounded container with `bg-neutral-200` / `dark:bg-neutral-800/50`. Active indicator uses `gradient-fill-main`. Triggers use `text-muted-foreground` inactive, `text-white` active, compact `px-5 py-1.5 text-sm`. Variant propagated to triggers via `data-variant` attribute + Tailwind `group-data-[variant=pill]:` utilities.
 
 ### Skeleton
 
