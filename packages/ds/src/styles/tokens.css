@@ -233,6 +233,22 @@
     var(--gradient-lime) border-box;
 }
 
+.gradient-fill-success {
+  background: var(--gradient-success) border-box;
+}
+
+.gradient-fill-warning {
+  background: var(--gradient-warning) border-box;
+}
+
+.gradient-fill-error {
+  background: var(--gradient-error) border-box;
+}
+
+.gradient-fill-info {
+  background: var(--gradient-info) border-box;
+}
+
 /* ── FX Grain Textures ───────────────────────────────── */
 
 /* Shared base: stacking context */

@@ -257,6 +257,10 @@ CSS classes for gradient backgrounds with interactive hover/active states. Hover
 |-------|----------|-------|--------|
 | `gradient-fill-main` | `--gradient-main` | White overlay (lighten) | Black overlay (darken) |
 | `gradient-fill-lime` | `--gradient-lime` | Black overlay (subtle darken) | Black overlay (darken) |
+| `gradient-fill-success` | `--gradient-success` | — | — |
+| `gradient-fill-warning` | `--gradient-warning` | — | — |
+| `gradient-fill-error` | `--gradient-error` | — | — |
+| `gradient-fill-info` | `--gradient-info` | — | — |
 
 ```tsx
 {/* Gradient fills with built-in hover/active states */}
@@ -916,27 +920,45 @@ import { Select } from "@aleph-front/ds/select";
 
 ### Badge
 
-Semantic label for status, counts, and categories. Subtle rounded corners (`rounded`, 4px) with color variants.
+Semantic label for status, counts, and categories. Two fill modes (solid gradient, outline), optional icon slots, uppercase heading font.
 
 ```tsx
 import { Badge } from "@aleph-front/ds/badge";
 ```
 
-#### Variants
+#### Fill Modes
+
+**Solid (default):** gradient background with dark text.
 
 ```tsx
-<Badge variant="default">Default</Badge>   {/* primary-100/700, dark: primary-700/300 */}
-<Badge variant="success">Healthy</Badge>   {/* success-100/700, dark: success-900/300 */}
-<Badge variant="warning">Degraded</Badge>  {/* warning-100/800, dark: warning-900/200 */}
-<Badge variant="error">Offline</Badge>     {/* error-100/700, dark: error-900/300 */}
-<Badge variant="info">3 VMs</Badge>        {/* neutral-100/700, dark: neutral-800/300 */}
+<Badge variant="default">Informational</Badge>  {/* gradient-fill-info */}
+<Badge variant="success">Healthy</Badge>         {/* gradient-fill-success */}
+<Badge variant="warning">In Progress</Badge>     {/* gradient-fill-warning */}
+<Badge variant="error">Failed</Badge>            {/* gradient-fill-error */}
+<Badge variant="info">3 VMs</Badge>              {/* neutral solid fill */}
 ```
+
+**Outline:** colored border with subtle background.
+
+```tsx
+<Badge fill="outline" variant="success">Healthy</Badge>
+<Badge fill="outline" variant="error">Failed</Badge>
+```
+
+#### Icons
+
+```tsx
+<Badge variant="success" iconLeft={<CheckCircle size={12} weight="bold" />}>Active</Badge>
+<Badge variant="error" iconRight={<XCircle size={12} weight="bold" />}>Offline</Badge>
+```
+
+Icon wrappers scale with badge size: 10px (`size-2.5`) for sm, 12px (`size-3`) for md.
 
 #### Sizes
 
 ```tsx
-<Badge size="sm">Small</Badge>  {/* px-2, text-xs */}
-<Badge size="md">Medium</Badge> {/* px-2.5, text-sm (default) */}
+<Badge size="sm">Small</Badge>  {/* px-3, text-[10px] */}
+<Badge size="md">Medium</Badge> {/* px-4, text-xs (default) */}
 ```
 
 #### Custom Composition with badgeVariants
@@ -944,8 +966,10 @@ import { Badge } from "@aleph-front/ds/badge";
 ```tsx
 import { badgeVariants } from "@aleph-front/ds/badge";
 
-<span className={badgeVariants({ variant: "success", size: "sm" })}>Active</span>
+<span className={badgeVariants({ fill: "outline", variant: "success", size: "sm" })}>Active</span>
 ```
+
+**Visual style:** `font-heading font-extrabold italic uppercase`, `rounded-md` (6px). Solid fill uses gradient CSS utility classes (`gradient-fill-success`, etc.) from tokens.css. Outline fill uses `border` + token-scale border colors + subtle `/20` opacity backgrounds in dark mode. `default` variant uses `dark:text-white` for contrast on the dark `gradient-info` endpoint.
 
 ### Card
 
