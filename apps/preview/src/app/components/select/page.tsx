@@ -20,6 +20,12 @@ const PLANS = [
   { value: "enterprise", label: "Enterprise" },
 ];
 
+const SHORT = [
+  { value: "25", label: "25" },
+  { value: "50", label: "50" },
+  { value: "100", label: "100" },
+];
+
 export default function SelectPage() {
   const [value, setValue] = useState("");
 
@@ -41,6 +47,12 @@ export default function SelectPage() {
           <div className="max-w-xs space-y-4">
             <Select options={PLANS} placeholder="Small" size="sm" />
             <Select options={PLANS} placeholder="Medium" size="md" />
+          </div>
+        </DemoSection>
+
+        <DemoSection title="Short Options">
+          <div className="w-fit">
+            <Select options={SHORT} placeholder="Count" />
           </div>
         </DemoSection>
 

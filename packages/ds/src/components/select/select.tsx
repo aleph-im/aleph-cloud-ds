@@ -88,7 +88,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
             position="popper"
             sideOffset={4}
           >
-            <SelectPrimitive.Viewport className="p-1">
+            <SelectPrimitive.Viewport className="p-1 min-w-[var(--radix-select-trigger-width)]">
               {options.map((option) => (
                 <SelectPrimitive.Item
                   key={option.value}
@@ -106,7 +106,7 @@ const Select = forwardRef<HTMLButtonElement, SelectProps>(
                   <SelectPrimitive.ItemText>
                     {option.label}
                   </SelectPrimitive.ItemText>
-                  <SelectPrimitive.ItemIndicator className="ml-auto">
+                  <SelectPrimitive.ItemIndicator className="ml-auto pl-4">
                     <Check weight="bold" className="size-4" />
                   </SelectPrimitive.ItemIndicator>
                 </SelectPrimitive.Item>
