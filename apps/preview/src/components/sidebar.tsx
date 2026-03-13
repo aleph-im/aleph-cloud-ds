@@ -52,6 +52,7 @@ const NAV: NavEntry[] = [
         group: "Feedback",
         items: [
           { label: "Alert", href: "/components/alert" },
+          { label: "Dialog", href: "/components/dialog" },
           { label: "Skeleton", href: "/components/skeleton" },
           { label: "Tooltip", href: "/components/tooltip" },
         ],
