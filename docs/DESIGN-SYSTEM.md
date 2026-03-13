@@ -1042,7 +1042,7 @@ import { CopyableText } from "@aleph-front/ds/copyable-text";
 />
 ```
 
-Renders an ArrowUpRight icon that opens in a new tab (`target="_blank"`, `rel="noopener noreferrer"`). When `href` is provided, text color automatically switches to `text-primary-500` (light) / `text-primary-300` (dark) to indicate a navigable link. Override with `className` if needed.
+When `href` is provided, the truncated text itself becomes a clickable link (opens in new tab), plus an ArrowUpRight icon button. Both use `target="_blank"` and `rel="noopener noreferrer"`. Text color automatically switches to `text-primary-500` (light) / `text-primary-300` (dark) to indicate a navigable link. Override with `className` if needed.
 
 #### Animation
 
