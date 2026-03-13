@@ -150,7 +150,7 @@ Entry and exit via Radix's `data-[state=open/closed]` attributes:
 - Closed: `animate-out fade-out-0`
 
 **Panel:**
-- Open: `animate-in fade-in-0 zoom-in-95` + slight translate up
+- Open: `animate-in fade-in-0 zoom-in-95`
 - Closed: `animate-out fade-out-0 zoom-out-95`
 
 **Reduced motion:**
