@@ -61,11 +61,6 @@ Ideas and scope creep captured for later consideration.
 **Description:** The Card component only exposes a single `noise` variant (`fx-grain-lg`). The token layer already has `fx-grain-xs`, `fx-grain-sm`, `fx-grain-md`, and `fx-grain-lg` classes. Expose grain size selection through the Card API — either as separate variants (`noise-xs`, `noise-sm`, `noise-md`, `noise-lg`) or a compound variant (`variant="noise" grain="sm"`).
 **Priority:** Low
 
-### 2026-03-13 — Remove tooltip from CopyableText
-
-**Source:** User request
-**Description:** Remove the tooltip (shows full text on hover) from the CopyableText component. Simplify the component by dropping the Tooltip dependency.
-**Priority:** Medium
 
 ### 2026-02-26 — Button icon animations
 
@@ -106,5 +101,6 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-03-10 — Breadcrumb component (composable 6-part API, asChild via Radix Slot, semantic nav/ol/li, custom separator)
 - [x] 2026-03-12 — Tabs pill variant Tailwind 4 scanner fix (`@source inline()` safelist in tokens.css)
 - [x] 2026-03-13 — Dialog component (Radix UI, composable API, frosted overlay, locked dismiss)
+- [x] 2026-03-13 — CopyableText: remove tooltip, make text clickable when href provided
 
 </details>
