@@ -10,12 +10,6 @@ import {
 } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { ArrowUpRight, Copy } from "@phosphor-icons/react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@ac/components/tooltip/tooltip";
 import { cn } from "@ac/lib/cn";
 
 const copyableTextVariants = cva(
@@ -96,26 +90,32 @@ const CopyableText = forwardRef<HTMLSpanElement, CopyableTextProps>(
     const btnCn = buttonSize[resolvedSize];
 
     return (
-      <TooltipProvider>
-        <span
-          ref={ref}
-          className={cn(
-            copyableTextVariants({ size }),
-            href && "text-primary-500 dark:text-primary-300",
-            className,
-          )}
-          {...rest}
-        >
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <span className="cursor-default">
-                {truncateMiddle(text, startChars, endChars)}
-              </span>
-            </TooltipTrigger>
-            <TooltipContent>{text}</TooltipContent>
-          </Tooltip>
+      <span
+        ref={ref}
+        className={cn(
+          copyableTextVariants({ size }),
+          href && "text-primary-500 dark:text-primary-300",
+          className,
+        )}
+        {...rest}
+      >
+        {href ? (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className="cursor-pointer hover:underline"
+          >
+            {truncateMiddle(text, startChars, endChars)}
+          </a>
+        ) : (
+          <span className="cursor-default">
+            {truncateMiddle(text, startChars, endChars)}
+          </span>
+        )}
 
-          <button
+        <button
             type="button"
             onClick={handleCopy}
             className={cn(
@@ -158,29 +158,28 @@ const CopyableText = forwardRef<HTMLSpanElement, CopyableTextProps>(
             </svg>
           </button>
 
-          {href ? (
-            <a
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className={cn(
-                "inline-flex items-center justify-center rounded-md",
-                "text-muted-foreground hover:text-foreground",
-                "hover:bg-foreground/10 transition-colors",
-                btnCn,
-              )}
-              aria-label="Open in new tab"
-            >
-              <ArrowUpRight
-                weight="bold"
-                className={iconCn}
-                aria-hidden="true"
-              />
-            </a>
-          ) : null}
-        </span>
-      </TooltipProvider>
+        {href ? (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            className={cn(
+              "inline-flex items-center justify-center rounded-md",
+              "text-muted-foreground hover:text-foreground",
+              "hover:bg-foreground/10 transition-colors",
+              btnCn,
+            )}
+            aria-label="Open in new tab"
+          >
+            <ArrowUpRight
+              weight="bold"
+              className={iconCn}
+              aria-hidden="true"
+            />
+          </a>
+        ) : null}
+      </span>
     );
   },
 );

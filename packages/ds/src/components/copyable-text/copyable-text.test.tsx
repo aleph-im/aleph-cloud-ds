@@ -97,6 +97,19 @@ describe("CopyableText", () => {
       expect(link.getAttribute("rel")).toBe("noopener noreferrer");
       expect(link.getAttribute("href")).toBe("https://example.com");
     });
+
+    it("makes truncated text a clickable link when href is provided", () => {
+      render(
+        <CopyableText text={LONG_TEXT} href="https://example.com" />,
+      );
+      const links = screen.getAllByRole("link");
+      const textLink = links.find(
+        (link) => link.textContent === "0x1234...5678",
+      );
+      expect(textLink).toBeTruthy();
+      expect(textLink?.getAttribute("href")).toBe("https://example.com");
+      expect(textLink?.getAttribute("target")).toBe("_blank");
+    });
   });
 
   describe("props", () => {
