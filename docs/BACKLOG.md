@@ -15,6 +15,12 @@ Ideas and scope creep captured for later consideration.
 
 ## Open Items
 
+### 2026-03-13 — CopyableText: internal links open in new tab
+
+**Source:** Scheduler dashboard — clicking hash/wallet links in detail panels opens new tabs for internal routes
+**Description:** `CopyableText` hardcodes `target="_blank"` on all `href` links. Internal links (starting with `/`) should use client-side navigation instead of opening new tabs. Recommended approach: auto-detect based on URL prefix — `/` paths render a plain `<a>` (no `target="_blank"`, compatible with Next.js `<Link>` via wrapping or render prop), absolute URLs keep `target="_blank" rel="noopener noreferrer"`.
+**Priority:** Medium
+
 ### 2026-03-01 — Theme persistence across page reloads
 
 **Source:** Identified during accessibility audit

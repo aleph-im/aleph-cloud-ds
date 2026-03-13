@@ -87,7 +87,7 @@ describe("CopyableText", () => {
       expect(screen.queryByRole("link")).toBeNull();
     });
 
-    it("renders link with correct attributes when href is provided", () => {
+    it("renders link with correct attributes when href is external", () => {
       render(
         <CopyableText text={LONG_TEXT} href="https://example.com" />,
       );
@@ -98,7 +98,7 @@ describe("CopyableText", () => {
       expect(link.getAttribute("href")).toBe("https://example.com");
     });
 
-    it("makes truncated text a clickable link when href is provided", () => {
+    it("makes truncated text a clickable link when href is external", () => {
       render(
         <CopyableText text={LONG_TEXT} href="https://example.com" />,
       );
@@ -109,6 +109,31 @@ describe("CopyableText", () => {
       expect(textLink).toBeTruthy();
       expect(textLink?.getAttribute("href")).toBe("https://example.com");
       expect(textLink?.getAttribute("target")).toBe("_blank");
+    });
+  });
+
+  describe("internal link", () => {
+    it("does not open in new tab for internal href", () => {
+      render(
+        <CopyableText text={LONG_TEXT} href="/nodes/abc123" />,
+      );
+      const links = screen.getAllByRole("link");
+      const textLink = links.find(
+        (link) => link.textContent === "0x1234...5678",
+      );
+      expect(textLink).toBeTruthy();
+      expect(textLink?.getAttribute("href")).toBe("/nodes/abc123");
+      expect(textLink?.getAttribute("target")).toBeNull();
+      expect(textLink?.getAttribute("rel")).toBeNull();
+    });
+
+    it("does not render ArrowUpRight icon for internal href", () => {
+      render(
+        <CopyableText text={LONG_TEXT} href="/nodes/abc123" />,
+      );
+      expect(
+        screen.queryByRole("link", { name: "Open in new tab" }),
+      ).toBeNull();
     });
   });
 
