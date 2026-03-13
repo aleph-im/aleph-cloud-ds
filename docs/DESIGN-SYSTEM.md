@@ -1052,6 +1052,67 @@ Copy button uses a two-layer stack:
 
 Hover state uses `bg-foreground/10` for visibility in both light and dark themes.
 
+### Dialog
+
+Modal dialog wrapping Radix UI Dialog with composable API, frosted overlay (`bg-black/60 backdrop-blur-sm`), entry/exit animations (`fade-in/out` + `zoom-in/out-95`), and configurable dismiss locking. Uses the composable re-export pattern (like Tooltip/Tabs).
+
+```tsx
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@aleph-front/ds/dialog";
+
+{/* Uncontrolled */}
+<Dialog>
+  <DialogTrigger asChild>
+    <Button variant="outline" size="sm">Open</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Title</DialogTitle>
+      <DialogDescription>Description text.</DialogDescription>
+    </DialogHeader>
+    <DialogFooter>
+      <DialogClose asChild>
+        <Button variant="outline" size="sm">Cancel</Button>
+      </DialogClose>
+      <Button variant="primary" size="sm">Confirm</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+
+{/* Controlled + locked (no overlay click, no Escape, no close button) */}
+<Dialog open={open} onOpenChange={setOpen}>
+  <DialogContent locked>
+    <DialogHeader>
+      <DialogTitle>Confirm action</DialogTitle>
+      <DialogDescription>You must choose an action.</DialogDescription>
+    </DialogHeader>
+    <DialogFooter>
+      <Button variant="outline" size="sm" onClick={() => setOpen(false)}>Cancel</Button>
+      <Button variant="primary" size="sm" onClick={() => setOpen(false)}>Confirm</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+**Exports:** `Dialog`, `DialogTrigger`, `DialogContent`, `DialogClose`, `DialogTitle`, `DialogDescription`, `DialogHeader`, `DialogFooter`, `DialogContentProps`
+
+**Props (DialogContent):**
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `locked` | `boolean` | `false` | Prevents overlay click, Escape dismiss, and hides the close button |
+| `className` | `string` | — | Merged onto the content panel |
+
+Plus all Radix `Dialog.Content` props (`onOpenAutoFocus`, `onCloseAutoFocus`, etc.).
+
 ### Pagination
 
 Controlled pagination with fixed-slot layout, configurable sibling count, first/last jump buttons, and ellipsis logic. Pure `buildPageRange()` function always produces `2*siblingCount+5` items when `showFirstLast` is true, eliminating layout shift. Slots are keyed by position so the DOM stays stable during navigation.

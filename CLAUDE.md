@@ -255,10 +255,11 @@ docs/plans/                   # Design and implementation plans
 - Tooltip component wrapping Radix UI with DS styling, dark mode contrast fix (composable API: Provider, Root, Trigger, Content)
 - Tabs component (Radix UI) with composable API (Tabs, TabsList, TabsTrigger, TabsContent), sliding active indicator via MutationObserver, text nudge animation, arbitrary trigger children (badges, subscripts), disabled state, keyboard navigation, pill variant (`variant="pill"`) with solid-fill sliding indicator for segmented-control style
 - CopyableText component with middle-ellipsis truncation, copy-to-clipboard with stroke-draw animation (SVG checkmark via stroke-dashoffset), optional external link (ArrowUpRight), tooltip for full text, 2 sizes (sm/md)
+- Dialog component (Radix UI) with composable 8-part API (Dialog, DialogTrigger, DialogContent, DialogClose, DialogTitle, DialogDescription, DialogHeader, DialogFooter), frosted overlay (backdrop-blur), entry/exit animations (fade + zoom), `locked` prop to prevent all dismiss paths, focus trap
 - Logo components — `Logo` (icon mark) and `LogoFull` (icon + wordmark), SVG with `fill="currentColor"` for automatic theme adaptation
 - Phosphor Icons integration — 7,000+ icons in 6 weights (Thin/Light/Regular/Bold/Fill/Duotone), MIT licensed, used internally for UI chrome (CaretDown, Check, X, CaretUp)
 - All animated components respect prefers-reduced-motion via motion-reduce: variants
-- Preview app with responsive sidebar navigation (desktop fixed + mobile drawer) and route-per-page (29 pages)
+- Preview app with responsive sidebar navigation (desktop fixed + mobile drawer) and route-per-page (30 pages)
 - Static export for deployment
 - CI workflow (GitHub Actions): lint + typecheck + test + build on PRs and main pushes
 - Publish workflow: triggered by GitHub Release, patches version from git tag, publishes `@aleph-front/ds` to npm as raw TypeScript source

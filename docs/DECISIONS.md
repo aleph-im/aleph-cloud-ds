@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #69 — 2026-03-13
+
+**Context:** Building a Dialog component for the DS. Needed to decide between a flat single-component API (like Select) and a composable multi-part API (like Tooltip/Tabs).
+**Decision:** Composable re-export pattern — `Dialog`, `DialogTrigger`, `DialogContent`, `DialogClose`, `DialogTitle`, `DialogDescription`, `DialogHeader`, `DialogFooter`. Only `DialogContent` gets a custom wrapper (bundles Portal + Overlay + Content). `DialogTitle` and `DialogDescription` are thin `forwardRef` wrappers with DS typography. `DialogHeader`/`DialogFooter` are plain layout divs.
+**Rationale:** Dialogs have naturally flexible composition — triggers can be any element, content can include arbitrary forms/layouts, and footer actions vary per use case. A flat API would either limit flexibility or require excessive props. The `locked` prop on `DialogContent` bundles three related concerns (block overlay click, block Escape, hide close button) into one semantic toggle, avoiding three separate boolean props.
+**Alternatives considered:** Flat `<Dialog title="..." onConfirm={...}>` API (rejected — too rigid for varied content). Separate `closeOnOverlayClick`/`closeOnEscape`/`showCloseButton` props (rejected — these always change together, so one `locked` prop is clearer).
+
 ## Decision #68 — 2026-03-13
 
 **Context:** Every CopyableText with an `href` required a manual `className="text-primary-400"` override to indicate it was a link. This was repeated 22 times across the scheduler-dashboard with no enforcement.

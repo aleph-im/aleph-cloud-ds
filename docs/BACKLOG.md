@@ -45,7 +45,7 @@ Ideas and scope creep captured for later consideration.
 
 **Source:** Design doc
 **Description:** Build remaining UI components. Badge, StatusDot, Card, Skeleton, Table, Tooltip are done. Remaining:
-- Modal / Dialog — overlay with focus trap, close on escape
+- ~~Modal / Dialog~~ — done (see completed)
 - ~~Tabs~~ — done (see completed)
 - Accordion / Collapsible — expand/collapse sections
 - ~~Alert / Banner~~ — done (see completed)
@@ -105,5 +105,6 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-03-10 — Pagination component (controlled API, configurable siblingCount/showFirstLast, pure buildPageRange function, a11y)
 - [x] 2026-03-10 — Breadcrumb component (composable 6-part API, asChild via Radix Slot, semantic nav/ol/li, custom separator)
 - [x] 2026-03-12 — Tabs pill variant Tailwind 4 scanner fix (`@source inline()` safelist in tokens.css)
+- [x] 2026-03-13 — Dialog component (Radix UI, composable API, frosted overlay, locked dismiss)
 
 </details>
