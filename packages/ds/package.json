@@ -40,6 +40,7 @@
     "./multi-select": "./src/components/multi-select/multi-select.tsx",
     "./pagination": "./src/components/pagination/pagination.tsx",
     "./copyable-text": "./src/components/copyable-text/copyable-text.tsx",
+    "./dialog": "./src/components/dialog/dialog.tsx",
     "./logo": "./src/components/logo/logo.tsx",
     "./lib/cn": "./src/lib/cn.ts",
     "./styles/tokens.css": "./src/styles/tokens.css"
