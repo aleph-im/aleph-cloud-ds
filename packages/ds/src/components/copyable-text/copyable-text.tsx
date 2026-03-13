@@ -37,6 +37,10 @@ const buttonSize: Record<"sm" | "md", string> = {
   md: "size-5",
 };
 
+function isExternalUrl(url: string): boolean {
+  return /^https?:\/\//.test(url) || url.startsWith("//");
+}
+
 function truncateMiddle(
   text: string,
   startChars: number,
@@ -102,8 +106,9 @@ const CopyableText = forwardRef<HTMLSpanElement, CopyableTextProps>(
         {href ? (
           <a
             href={href}
-            target="_blank"
-            rel="noopener noreferrer"
+            {...(isExternalUrl(href)
+              ? { target: "_blank", rel: "noopener noreferrer" }
+              : {})}
             onClick={(e) => e.stopPropagation()}
             className="cursor-pointer hover:underline"
           >
@@ -158,7 +163,7 @@ const CopyableText = forwardRef<HTMLSpanElement, CopyableTextProps>(
             </svg>
           </button>
 
-        {href ? (
+        {href && isExternalUrl(href) ? (
           <a
             href={href}
             target="_blank"

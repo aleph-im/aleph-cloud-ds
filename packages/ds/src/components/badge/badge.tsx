@@ -30,7 +30,7 @@ const badgeVariants = cva(
       {
         fill: "solid",
         variant: "default",
-        className: "gradient-fill-info text-neutral-950 dark:text-white",
+        className: "gradient-fill-info text-neutral-950",
       },
       {
         fill: "solid",
@@ -52,7 +52,7 @@ const badgeVariants = cva(
         variant: "info",
         className: [
           "bg-neutral-100 text-neutral-700",
-          "dark:bg-neutral-800 dark:text-neutral-300",
+          "dark:bg-neutral-800 dark:text-neutral-200",
         ].join(" "),
       },
       {
@@ -60,7 +60,7 @@ const badgeVariants = cva(
         variant: "default",
         className: [
           "border-primary-300 bg-primary-100 text-neutral-950",
-          "dark:bg-primary-900/20 dark:text-white",
+          "dark:bg-primary-900/20 dark:text-neutral-200",
         ].join(" "),
       },
       {
@@ -68,7 +68,7 @@ const badgeVariants = cva(
         variant: "success",
         className: [
           "border-success-400 bg-success-100 text-neutral-950",
-          "dark:bg-success-900/20 dark:text-neutral-100",
+          "dark:bg-success-900/20 dark:text-neutral-200",
         ].join(" "),
       },
       {
@@ -76,7 +76,7 @@ const badgeVariants = cva(
         variant: "warning",
         className: [
           "border-warning-400 bg-warning-100 text-neutral-950",
-          "dark:bg-warning-900/20 dark:text-neutral-100",
+          "dark:bg-warning-900/20 dark:text-neutral-200",
         ].join(" "),
       },
       {
@@ -84,15 +84,15 @@ const badgeVariants = cva(
         variant: "error",
         className: [
           "border-error-400 bg-error-100 text-neutral-950",
-          "dark:bg-error-900/20 dark:text-neutral-100",
+          "dark:bg-error-900/20 dark:text-neutral-200",
         ].join(" "),
       },
       {
         fill: "outline",
         variant: "info",
         className: [
-          "border-neutral-300 bg-neutral-100 text-neutral-700",
-          "dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-300",
+          "border-neutral-400 bg-neutral-100/50 text-neutral-700",
+          "dark:border-neutral-600 dark:bg-neutral-800/50 dark:text-neutral-300",
         ].join(" "),
       },
     ],
