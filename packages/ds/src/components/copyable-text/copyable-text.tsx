@@ -99,7 +99,11 @@ const CopyableText = forwardRef<HTMLSpanElement, CopyableTextProps>(
       <TooltipProvider>
         <span
           ref={ref}
-          className={cn(copyableTextVariants({ size }), className)}
+          className={cn(
+            copyableTextVariants({ size }),
+            href && "text-primary-500 dark:text-primary-300",
+            className,
+          )}
           {...rest}
         >
           <Tooltip>

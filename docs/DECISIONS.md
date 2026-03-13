@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #68 — 2026-03-13
+
+**Context:** Every CopyableText with an `href` required a manual `className="text-primary-400"` override to indicate it was a link. This was repeated 22 times across the scheduler-dashboard with no enforcement.
+**Decision:** CopyableText automatically applies `text-primary-500 dark:text-primary-300` when `href` is provided. No className needed — consumers can still override via `className`.
+**Rationale:** Link color is a semantic concern of the component, not a consumer styling choice. Darker `primary-500` in light mode improves contrast; lighter `primary-300` in dark mode maintains visibility against dark backgrounds. Consumers no longer need to remember the color class.
+**Alternatives considered:** Always applying link color regardless of `href` (rejected — non-link hashes should inherit parent color). Using `primary-400` for both themes (rejected — too light in light mode).
+
 ## Decision #67 — 2026-03-12
 
 **Context:** Tailwind 4's content scanner can't extract `group-data-[variant=pill]:*` class candidates — the `=` inside bracket notation breaks the regex-based extraction, producing zero CSS rules for the pill variant.
