@@ -38,7 +38,7 @@ const DialogContent = forwardRef<HTMLDivElement, DialogContentProps>(
         <DialogPrimitive.Content
           ref={ref}
           className={cn(
-            "relative w-full max-w-md rounded-2xl bg-surface p-6 shadow-brand-lg",
+            "relative w-full max-w-md rounded-md bg-surface p-6 shadow-brand-lg",
             "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
             "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
             "motion-reduce:animate-none",

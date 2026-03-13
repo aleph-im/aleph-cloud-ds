@@ -200,6 +200,12 @@ If either answer is "no," promote the token:
 
 **Example:** `--gradient-main` has a dark end (`#141421`) that matches the dark mode background. Promoted: `--gradient-main-base` and `--gradient-main-dark` in Layer 1, `--gradient-main` in Layer 2 swaps per theme.
 
+### Card Corner Radius as Surface Default
+
+All elevated surface components (Dialog, dropdowns, popovers, future overlays) must use `rounded-md` — the same corner radius as the Card component. This ensures visual consistency across all "floating panel" surfaces.
+
+**Reference:** `packages/ds/src/components/card/card.tsx` — `cva("rounded-md", ...)`
+
 ### Ecosystem Aliases for Color Tokens
 
 When a widely-used convention (shadcn, Bootstrap) uses a different name for a color the DS already provides, add a `var()` alias in Layer 1 rather than renaming. The canonical name stays authoritative; the alias prevents silent CSS failures in consumer projects.
