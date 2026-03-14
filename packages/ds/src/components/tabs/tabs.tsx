@@ -180,7 +180,9 @@ const OverflowTrigger = forwardRef<HTMLButtonElement, OverflowTriggerProps>(
             className={cn(
               "inline-flex items-center justify-center shrink-0",
               "font-heading font-bold",
-              "text-muted-foreground",
+              hasActiveHidden
+                ? "text-primary-600 dark:text-primary-400"
+                : "text-muted-foreground",
               "transition-colors duration-200",
               "hover:text-primary-600 dark:hover:text-primary-400",
               "focus-visible:outline-none focus-visible:ring-2",
@@ -189,7 +191,6 @@ const OverflowTrigger = forwardRef<HTMLButtonElement, OverflowTriggerProps>(
               isPill
                 ? "relative z-10 rounded-full px-3 py-1.5 text-sm"
                 : "px-4 py-3 text-lg",
-              hasActiveHidden && "text-primary-600 dark:text-primary-400",
               !visible && "invisible",
             )}
           >
@@ -309,7 +310,10 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
         className={cn(
           "relative flex",
           isPill
-            ? "group inline-flex rounded-full bg-neutral-200 p-1 dark:bg-neutral-800/50"
+            ? [
+                "group rounded-full bg-neutral-200 p-1 dark:bg-neutral-800/50",
+                !isCollapse && "inline-flex",
+              ]
             : "border-b-4 border-edge/40",
           className,
         )}

@@ -139,6 +139,80 @@ export default function TabsPage() {
           </TabsContent>
         </Tabs>
       </DemoSection>
+
+      <DemoSection title="Overflow Collapse (Underline)">
+        <div className="max-w-md">
+          <Tabs defaultValue="compute">
+            <TabsList overflow="collapse">
+              <TabsTrigger value="compute">Compute</TabsTrigger>
+              <TabsTrigger value="storage">Storage</TabsTrigger>
+              <TabsTrigger value="network">Network</TabsTrigger>
+              <TabsTrigger value="domains">Domains</TabsTrigger>
+              <TabsTrigger value="functions">Functions</TabsTrigger>
+              <TabsTrigger value="volumes">Volumes</TabsTrigger>
+              <TabsTrigger value="secrets">Secrets</TabsTrigger>
+              <TabsTrigger value="logs">Logs</TabsTrigger>
+            </TabsList>
+            <TabsContent value="compute">
+              <p className="text-muted-foreground">Compute resources and VMs.</p>
+            </TabsContent>
+            <TabsContent value="storage">
+              <p className="text-muted-foreground">Persistent storage volumes.</p>
+            </TabsContent>
+            <TabsContent value="network">
+              <p className="text-muted-foreground">Network policies.</p>
+            </TabsContent>
+            <TabsContent value="domains">
+              <p className="text-muted-foreground">Custom domains.</p>
+            </TabsContent>
+            <TabsContent value="functions">
+              <p className="text-muted-foreground">Serverless functions.</p>
+            </TabsContent>
+            <TabsContent value="volumes">
+              <p className="text-muted-foreground">Volume management.</p>
+            </TabsContent>
+            <TabsContent value="secrets">
+              <p className="text-muted-foreground">Secret management.</p>
+            </TabsContent>
+            <TabsContent value="logs">
+              <p className="text-muted-foreground">Application logs.</p>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </DemoSection>
+
+      <DemoSection title="Overflow Collapse (Pill)">
+        <div className="max-w-sm">
+          <Tabs defaultValue="all">
+            <TabsList variant="pill" overflow="collapse">
+              <TabsTrigger value="all">All</TabsTrigger>
+              <TabsTrigger value="active">Active</TabsTrigger>
+              <TabsTrigger value="pending">Pending</TabsTrigger>
+              <TabsTrigger value="stopped">Stopped</TabsTrigger>
+              <TabsTrigger value="errored">Errored</TabsTrigger>
+              <TabsTrigger value="archived" disabled>Archived</TabsTrigger>
+            </TabsList>
+            <TabsContent value="all">
+              <p className="text-muted-foreground">All resources.</p>
+            </TabsContent>
+            <TabsContent value="active">
+              <p className="text-muted-foreground">Active resources.</p>
+            </TabsContent>
+            <TabsContent value="pending">
+              <p className="text-muted-foreground">Pending resources.</p>
+            </TabsContent>
+            <TabsContent value="stopped">
+              <p className="text-muted-foreground">Stopped resources.</p>
+            </TabsContent>
+            <TabsContent value="errored">
+              <p className="text-muted-foreground">Errored resources.</p>
+            </TabsContent>
+            <TabsContent value="archived">
+              <p className="text-muted-foreground">Archived resources.</p>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </DemoSection>
     </>
   );
 }
