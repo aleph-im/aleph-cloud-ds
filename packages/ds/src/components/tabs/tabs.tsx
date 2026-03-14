@@ -214,7 +214,14 @@ const OverflowTrigger = forwardRef<HTMLButtonElement, OverflowTriggerProps>(
                 type="button"
                 disabled={tab.disabled}
                 onClick={() => {
-                  tab.triggerEl.click();
+                  const el = tab.triggerEl;
+                  // Restore visibility so the trigger can receive focus.
+                  // Radix auto-activation changes the value on focus.
+                  // measure() re-hides via MutationObserver after
+                  // data-state updates.
+                  el.style.visibility = "";
+                  el.style.pointerEvents = "";
+                  el.focus();
                   setOpen(false);
                 }}
                 className={cn(
