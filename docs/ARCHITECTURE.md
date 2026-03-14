@@ -503,6 +503,25 @@ export type Column<T> = {
 
 **Key files:** `packages/ds/src/lib/cn.ts`
 
+### Tabs Implementation Details
+
+**Overflow collapse (`overflow="collapse"`):**
+Hidden tabs stay in the DOM (Radix state machine intact). A `useOverflow` hook measures tab widths via `ResizeObserver` + `getBoundingClientRect` and applies `visibility: hidden` to overflowed tabs. The dropdown uses Radix `DropdownMenu` for arrow key navigation and proper `role="menu"`/`role="menuitem"` semantics. Items activate tabs via deferred `.focus()` (Radix auto-activation after menu closes). Container height is locked via `min-height` snapshot to prevent layout collapse when the tallest tab overflows.
+
+**Sliding indicator:**
+Absolutely-positioned element that slides between tabs via `MutationObserver` + `ResizeObserver`. Initial render positions without transition to avoid slide-in from 0,0. Pill variant uses `opacity-0` → `opacity-100` to prevent flash at width 0.
+
+**Pill variant propagation:**
+Variant is propagated to triggers via `data-variant` attribute + Tailwind `group-data-[variant=pill]:` utilities. All pill variant classes are safelisted via `@source inline(...)` in `tokens.css` — Tailwind 4's scanner can't extract `=` inside data-attribute brackets.
+
+### CopyableText Animation
+
+Copy button uses a two-layer stack:
+1. Default layer: Copy icon in muted color
+2. Reveal layer: `bg-foreground` circle expanding via `clip-path: circle(0% → 50%)` with spring `cubic-bezier(0.34, 1.56, 0.64, 1)`, plus a Check icon that scales in with 75ms delay
+
+Hover state uses `bg-foreground/10` for visibility in both light and dark themes.
+
 ---
 
 ## Testing Philosophy

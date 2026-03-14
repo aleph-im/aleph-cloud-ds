@@ -2,6 +2,75 @@
 
 A design system built with Tailwind CSS 4 + CSS custom properties + OKLCH colors. Includes design tokens, fonts, reusable components, and a preview app.
 
+## Component Index
+
+Quick reference for all DS exports. Click component name to jump to its full documentation below.
+
+| Component | Purpose | Import |
+|-----------|---------|--------|
+| [Alert](#alert) | Dismissible status banner with auto-dismiss timer | `@aleph-front/ds/alert` |
+| [Badge](#badge) | Semantic label for status, counts, categories | `@aleph-front/ds/badge` |
+| [Breadcrumb](#breadcrumb) | Navigation trail with composable 6-part API | `@aleph-front/ds/breadcrumb` |
+| [Button](#button) | Action trigger with 6 variants, 4 sizes, gradient fills | `@aleph-front/ds/button` |
+| [Card](#card) | Content container with 3 variants (default/noise/ghost) | `@aleph-front/ds/card` |
+| [Checkbox](#checkbox) | Boolean toggle with 3 sizes, clip-path animation | `@aleph-front/ds/checkbox` |
+| [Combobox](#combobox) | Searchable dropdown selector | `@aleph-front/ds/combobox` |
+| [CopyableText](#copyabletext) | Truncated text with copy-to-clipboard | `@aleph-front/ds/copyable-text` |
+| [Dialog](#dialog) | Modal with composable 8-part API, lock mode | `@aleph-front/ds/dialog` |
+| [FormField](#formfield) | Label + helper + error wrapper with auto-wired a11y | `@aleph-front/ds/form-field` |
+| [Input](#input) | Text input with 2 sizes, shadow-brand styling | `@aleph-front/ds/input` |
+| [Logo](#logo) | Brand mark (icon + full wordmark variants) | `@aleph-front/ds/logo` |
+| [MultiSelect](#multiselect) | Searchable multi-selection with tags | `@aleph-front/ds/multi-select` |
+| [Pagination](#pagination) | Controlled page navigation with fixed-slot layout | `@aleph-front/ds/pagination` |
+| [RadioGroup](#radiogroup) | Mutually exclusive option set with 3 sizes | `@aleph-front/ds/radio-group` |
+| [Select](#select) | Dropdown selector with flat options prop | `@aleph-front/ds/select` |
+| [Skeleton](#skeleton) | Animated loading placeholder | `@aleph-front/ds/ui/skeleton` |
+| [Slider](#slider) | Range input, single or two-thumb mode | `@aleph-front/ds/slider` |
+| [Spinner](#spinner) | Animated loading indicator | `@aleph-front/ds/ui/spinner` |
+| [StatusDot](#statusdot) | Health status circle with pulse animation | `@aleph-front/ds/status-dot` |
+| [Switch](#switch) | On/off toggle with animated sliding thumb | `@aleph-front/ds/switch` |
+| [Table](#table) | Generic typed table with sorting and row selection | `@aleph-front/ds/table` |
+| [Tabs](#tabs) | Tabbed interface with underline/pill variants | `@aleph-front/ds/tabs` |
+| [Textarea](#textarea) | Multi-line text input with vertical resize | `@aleph-front/ds/textarea` |
+| [Tooltip](#tooltip) | Hover/focus tooltip with DS styling | `@aleph-front/ds/tooltip` |
+
+## Component Selection Guide
+
+### Status & Feedback
+
+| Need | Use | Not |
+|------|-----|-----|
+| Inline health indicator next to text | **StatusDot** — compact, semantic colors, pulse on healthy | Badge — too large for inline status |
+| Categorical label (count, type, state) | **Badge** — gradient fills, icon slots, uppercase heading font | StatusDot — no text content |
+| Dismissible banner message | **Alert** — auto-dismiss timer, progress bar, semantic variants | Dialog — too interruptive for status messages |
+| Blocking user decision | **Dialog** — overlay, focus trap, `locked` mode for forced choice | Alert — can be ignored or dismissed |
+| Passive extra info on hover | **Tooltip** — non-blocking, hover/focus triggered | Dialog — too heavy for supplementary info |
+| Loading placeholder (content area) | **Skeleton** — consumer-sized via className, pulse animation | Spinner — Skeleton is for layout placeholders, Spinner is for inline loading |
+| Inline loading indicator (button, action) | **Spinner** — animated circle, no layout footprint | Skeleton — Skeleton is for content area placeholders |
+
+### Selection & Input
+
+| Need | Use | Not |
+|------|-----|-----|
+| Short list, no search needed | **Select** — flat options, Radix portal dropdown | Combobox — search adds unnecessary complexity |
+| Long list, user needs to search | **Combobox** — type-to-filter with cmdk | Select — no search, unusable with 50+ options |
+| Multiple selections from a list | **MultiSelect** — tags, checkbox indicators, clear-all | Combobox — single selection only |
+| Boolean toggle (form context) | **Checkbox** — standard form control | Switch — use for settings/preferences, not form fields |
+| On/off preference or setting | **Switch** — visual toggle metaphor | Checkbox — Switch communicates "live toggle" better |
+| Mutually exclusive options | **RadioGroup** — visible options, no dropdown | Select — use RadioGroup when ≤5 options and screen space allows |
+| Numeric range | **Slider** — visual, supports two-thumb range mode | Input — unless precise numeric entry is needed |
+
+### Layout & Navigation
+
+| Need | Use | Not |
+|------|-----|-----|
+| Content section with border/shadow | **Card** `variant="default"` — `bg-surface`, `border-edge` | Plain div — Card provides consistent elevation and theming |
+| Textured decorative panel | **Card** `variant="noise"` — grain SVG overlay | Card default — noise adds visual interest for hero/feature cards |
+| Transparent grouping (no chrome) | **Card** `variant="ghost"` — no border, no background | Card default — ghost avoids visual nesting when cards are inside cards |
+| Location in page hierarchy | **Breadcrumb** — semantic nav/ol, `asChild` for router links | Plain text links — Breadcrumb handles separators and aria |
+| Switching between content panels | **Tabs** — underline or pill variant, keyboard navigation | Buttons + conditional rendering — Tabs manages state, a11y, and indicators |
+| Paginated data navigation | **Pagination** — fixed-slot layout, no layout shift | Custom prev/next buttons — Pagination handles ellipsis, boundaries, and aria |
+
 ## Design Methodology
 
 ### Principles
@@ -390,20 +459,6 @@ Timing function: `var(--timing)` = `ease-in-out`
   Animated content
 </div>
 ```
-
----
-
-## Breakpoints
-
-Uses Tailwind defaults. No custom breakpoints.
-
-| Name | Min-width | CSS |
-|------|-----------|-----|
-| `sm` | 640px | `@media (min-width: 640px)` |
-| `md` | 768px | `@media (min-width: 768px)` |
-| `lg` | 1024px | `@media (min-width: 1024px)` |
-| `xl` | 1280px | `@media (min-width: 1280px)` |
-| `2xl` | 1536px | `@media (min-width: 1536px)` |
 
 ---
 
@@ -1044,13 +1099,7 @@ import { CopyableText } from "@aleph-front/ds/copyable-text";
 
 When `href` is provided, the truncated text itself becomes a clickable link (opens in new tab), plus an ArrowUpRight icon button. Both use `target="_blank"` and `rel="noopener noreferrer"`. Text color automatically switches to `text-primary-500` (light) / `text-primary-300` (dark) to indicate a navigable link. Override with `className` if needed.
 
-#### Animation
-
-Copy button uses a two-layer stack:
-1. Default layer: Copy icon in muted color
-2. Reveal layer: `bg-foreground` circle expanding via `clip-path: circle(0% → 50%)` with spring `cubic-bezier(0.34, 1.56, 0.64, 1)`, plus a Check icon that scales in with 75ms delay
-
-Hover state uses `bg-foreground/10` for visibility in both light and dark themes.
+**Animation:** Copy button plays a reveal animation (circle expand + check icon) on click. Respects `prefers-reduced-motion`.
 
 ### Dialog
 
@@ -1351,20 +1400,20 @@ When many tabs exceed the available width, `overflow="collapse"` on `TabsList` a
 </Tabs>
 ```
 
-Hidden tabs stay in the DOM (Radix state machine intact). A `useOverflow` hook measures tab widths via `ResizeObserver` + `getBoundingClientRect` and applies `visibility: hidden` to overflowed tabs. The dropdown uses Radix DropdownMenu for arrow key navigation and proper `role="menu"`/`role="menuitem"` semantics. Items activate tabs via deferred `.focus()` (Radix auto-activation after menu closes). Disabled tabs appear muted in the dropdown. Container height is locked via `min-height` snapshot to prevent layout collapse when the tallest tab overflows.
+**Overflow behavior:** Hidden tabs remain functional (Radix state intact). The dropdown uses `role="menu"` with arrow key navigation. Disabled tabs appear muted in the dropdown. Container height is locked to prevent layout collapse.
+
+**Styling (underline):** `font-heading font-bold text-lg` triggers. 4px baseline at 40% `edge` opacity, 4px solid primary sliding indicator. Active/hover text uses `primary-600` / `dark:primary-400`.
+
+**Styling (pill):** Rounded container `bg-neutral-200` / `dark:bg-neutral-800/50`. Active indicator `bg-primary-600` / `dark:bg-primary-500`. Triggers `text-muted-foreground` inactive, `text-white` active, compact `px-5 py-1.5 text-sm`.
 
 **Exports:** `Tabs` (Root), `TabsList`, `TabsTrigger`, `TabsContent`, `TabsListProps`, `TabsVariant`
 
 **Variants:** `TabsList` accepts `variant?: "underline" | "pill"` (default `"underline"`) and `overflow?: "collapse"`.
 
 **Animations:**
-- **Sliding indicator** — absolutely-positioned element that slides between tabs via `MutationObserver` + `ResizeObserver`. Initial render positions without transition to avoid slide-in from 0,0. Pill variant uses `opacity-0` → `opacity-100` to prevent flash at width 0.
+- **Sliding indicator** — slides between tabs on selection change. Initial render positions instantly (no slide-in from origin).
 - **Text nudge** — active trigger shifts up 2px (`-translate-y-0.5`) in underline variant only
 - All animations respect `prefers-reduced-motion` via `motion-reduce:transition-none`
-
-**Styling (underline):** `font-heading font-bold text-lg` for triggers. Full-width 4px baseline at 40% `edge` opacity on the list, with a 4px solid `primary-600`/`dark:primary-400` sliding indicator. Active/hover text uses `primary-600` / `dark:primary-400`. Disabled triggers use `opacity-20 pointer-events-none`. Content gets `mt-4` spacing.
-
-**Styling (pill):** Rounded container with `bg-neutral-200` / `dark:bg-neutral-800/50`. Active indicator uses solid `bg-primary-600` / `dark:bg-primary-500`. Triggers use `text-muted-foreground` inactive, `text-white` active, compact `px-5 py-1.5 text-sm`. Variant propagated to triggers via `data-variant` attribute + Tailwind `group-data-[variant=pill]:` utilities. All pill variant classes are safelisted via `@source inline(...)` in `tokens.css` — Tailwind 4's scanner can't extract `=` inside data-attribute brackets, so consumers don't need any workaround.
 
 ### Skeleton
 
@@ -1523,33 +1572,69 @@ To modify tokens, edit `packages/ds/src/styles/tokens.css` directly. Changes pro
 
 ## Preview App
 
-Run `npm run dev` and visit http://localhost:3000. Sidebar navigation with route-per-page:
+Run `npm run dev` and visit http://localhost:3000. Sidebar navigation organized by category:
+
+### Foundations
 
 | Route | Content |
 |-------|---------|
-| `/` | Overview — foundation cards, component list |
-| `/foundations/colors` | OKLCH color scales (50–950), semantic tokens, borders |
-| `/foundations/typography` | Heading scale (Header–H7), body styles, font families |
+| `/` | Overview — foundation cards, component showcase |
+| `/foundations/colors` | OKLCH color scales (50-950), semantic tokens, borders |
+| `/foundations/typography` | Heading scale (Header-H7), body styles, font families |
 | `/foundations/spacing` | Spacing scale, breakpoints table, border radius |
 | `/foundations/effects` | Shadow tokens, gradient swatches, transition demos |
 | `/foundations/icons` | Phosphor Icons showcase — weights, sizes, usage |
-| `/components/badge` | Variants, sizes, real-world examples |
+| `/foundations/logo` | Logo and LogoFull variants, theming |
+
+### Components
+
+**Actions**
+
+| Route | Content |
+|-------|---------|
 | `/components/button` | Variants, sizes, icons, loading, disabled, asChild |
-| `/components/card` | Default/ghost variants, padding sizes, stat card composition |
-| `/components/input` | Sizes and states |
-| `/components/textarea` | Default, error, disabled |
-| `/components/checkbox` | Default, sizes, states, controlled, FormField |
-| `/components/radio-group` | Default, sizes, states, controlled, FormField |
-| `/components/switch` | Default, sizes, disabled, controlled, FormField |
-| `/components/select` | Default, sizes, states, controlled, FormField |
-| `/components/combobox` | Default, sizes, states, controlled, FormField |
-| `/components/multi-select` | Default, pre-selected, overflow, sizes, states, controlled, FormField |
-| `/components/slider` | Default, sizes, tooltip, custom range/step, states, controlled, FormField |
-| `/components/form-field` | Label, helper text, error |
-| `/components/skeleton` | Basic shapes, card loading, table row loading |
-| `/components/table` | Sorting, row click, DS component composition |
+
+**Data Display**
+
+| Route | Content |
+|-------|---------|
+| `/components/badge` | Variants, fill modes, sizes, icons |
+| `/components/card` | Default/noise/ghost variants, padding sizes, title |
+| `/components/copyable-text` | Sizes, truncation, external link, copy animation |
 | `/components/status-dot` | Statuses, sizes, inline usage |
-| `/components/tooltip` | Basic, sides, truncated hash example |
+| `/components/table` | Sorting, row click, active row, empty state |
+
+**Feedback**
+
+| Route | Content |
+|-------|---------|
+| `/components/alert` | Variants, title, dismiss, auto-dismiss timer |
+| `/components/dialog` | Uncontrolled, controlled, locked mode |
+| `/components/skeleton` | Basic shapes, card loading, table row loading |
+| `/components/tooltip` | Basic, sides, placement |
+
+**Navigation**
+
+| Route | Content |
+|-------|---------|
+| `/components/breadcrumb` | Default, custom separator, asChild routing |
+| `/components/pagination` | Default, compact, sibling count |
+| `/components/tabs` | Underline, pill, overflow collapse, badges |
+
+**Forms**
+
+| Route | Content |
+|-------|---------|
+| `/components/checkbox` | Sizes, states, controlled, FormField |
+| `/components/combobox` | Sizes, states, search, controlled, FormField |
+| `/components/form-field` | Label, helper text, error |
+| `/components/input` | Sizes and states |
+| `/components/multi-select` | Pre-selected, overflow, sizes, states, FormField |
+| `/components/radio-group` | Sizes, states, controlled, FormField |
+| `/components/select` | Sizes, states, controlled, FormField |
+| `/components/slider` | Sizes, tooltip, range, custom step, states, FormField |
+| `/components/switch` | Sizes, disabled, controlled, FormField |
+| `/components/textarea` | Default, error, disabled |
 
 Theme switcher in the sticky header toggles light/dark. Responsive layout with mobile drawer navigation (below `lg` breakpoint) and fixed desktop sidebar (`lg+`).
 

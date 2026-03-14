@@ -62,6 +62,12 @@ Ideas and scope creep captured for later consideration.
 **Priority:** Low
 
 
+### 2026-03-14 — Composition recipes for DESIGN-SYSTEM.md
+
+**Source:** Identified during DESIGN-SYSTEM.md improvement pass
+**Description:** Expand the Patterns section with more composition recipes: form layout (FormField + inputs), data table page (Table + Pagination + Tabs), settings panel (Switch + Slider + Card), empty state (Skeleton + CopyableText). Show how components compose together for common product UI patterns.
+**Priority:** Low
+
 ### 2026-02-26 — Button icon animations
 
 **Source:** Deferred from button component design

@@ -18,6 +18,14 @@ Each entry includes:
 
 ---
 
+## Decision #71 — 2026-03-14
+
+**Context:** Improving DESIGN-SYSTEM.md for agent consumption. Needed to decide what belongs in the design system doc vs the architecture doc.
+**Decision:** DESIGN-SYSTEM.md serves DS consumers (what to use, how to use it). ARCHITECTURE.md serves DS maintainers (how it works internally). Implementation details (MutationObserver, ResizeObserver, clip-path bezier curves, useOverflow hook internals, Tailwind scanner workarounds) moved from DESIGN-SYSTEM to ARCHITECTURE.
+**Rationale:** Agents building with the DS waste context window on implementation internals they don't need. Consumer-facing docs should answer "what component, what props, what it looks like" — not "how the sliding indicator avoids flash at width 0." Maintainer details still exist, just in the right file.
+
+---
+
 ## Decision #70 — 2026-03-14
 
 **Context:** Adding overflow handling to Tabs when many tabs exceed available width. Needed to decide how hidden tabs interact with Radix's state machine and how to activate them from the dropdown.
