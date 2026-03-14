@@ -153,6 +153,139 @@ describe("Tabs", () => {
   });
 });
 
+/* ── Overflow collapse ───────────────────────── */
+
+function renderOverflowTabs({
+  defaultValue = "tab-1",
+  containerWidth = 300,
+  includeDisabled = false,
+}: {
+  defaultValue?: string;
+  containerWidth?: number;
+  includeDisabled?: boolean;
+} = {}) {
+  return render(
+    <div style={{ width: containerWidth }}>
+      <Tabs defaultValue={defaultValue}>
+        <TabsList overflow="collapse">
+          <TabsTrigger value="tab-1">Tab 1</TabsTrigger>
+          <TabsTrigger value="tab-2">Tab 2</TabsTrigger>
+          <TabsTrigger value="tab-3">Tab 3</TabsTrigger>
+          <TabsTrigger value="tab-4">Tab 4</TabsTrigger>
+          <TabsTrigger value="tab-5">Tab 5</TabsTrigger>
+          <TabsTrigger value="tab-6">Tab 6</TabsTrigger>
+          <TabsTrigger value="tab-7">Tab 7</TabsTrigger>
+          <TabsTrigger value="tab-8" {...(includeDisabled ? { disabled: true } : {})}>
+            Tab 8
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="tab-1">Content 1</TabsContent>
+        <TabsContent value="tab-2">Content 2</TabsContent>
+        <TabsContent value="tab-3">Content 3</TabsContent>
+        <TabsContent value="tab-4">Content 4</TabsContent>
+        <TabsContent value="tab-5">Content 5</TabsContent>
+        <TabsContent value="tab-6">Content 6</TabsContent>
+        <TabsContent value="tab-7">Content 7</TabsContent>
+        <TabsContent value="tab-8">Content 8</TabsContent>
+      </Tabs>
+    </div>,
+  );
+}
+
+describe("Tabs overflow collapse", () => {
+  it("renders overflow trigger when overflow='collapse' is set", () => {
+    renderOverflowTabs();
+    expect(
+      screen.getByRole("button", { name: "More tabs" }),
+    ).toBeDefined();
+  });
+
+  it("does not render overflow trigger without overflow prop", () => {
+    render(
+      <Tabs defaultValue="a">
+        <TabsList>
+          <TabsTrigger value="a">A</TabsTrigger>
+          <TabsTrigger value="b">B</TabsTrigger>
+        </TabsList>
+        <TabsContent value="a">A</TabsContent>
+      </Tabs>,
+    );
+    expect(
+      screen.queryByRole("button", { name: "More tabs" }),
+    ).toBeNull();
+  });
+
+  it("accepts overflow prop on TabsList without type error", () => {
+    const { container } = render(
+      <Tabs defaultValue="a">
+        <TabsList overflow="collapse">
+          <TabsTrigger value="a">A</TabsTrigger>
+        </TabsList>
+        <TabsContent value="a">A</TabsContent>
+      </Tabs>,
+    );
+    expect(container).toBeDefined();
+  });
+
+  it("renders all TabsTrigger elements in the DOM even when overflowed", () => {
+    renderOverflowTabs();
+    const tabs = screen.getAllByRole("tab");
+    expect(tabs).toHaveLength(8);
+  });
+
+  it("shows default tab content when overflow is enabled", () => {
+    renderOverflowTabs({ defaultValue: "tab-1" });
+    expect(screen.getByRole("tabpanel")).toHaveTextContent("Content 1");
+  });
+
+  it("preserves variant prop alongside overflow prop", () => {
+    render(
+      <Tabs defaultValue="a">
+        <TabsList variant="pill" overflow="collapse">
+          <TabsTrigger value="a">A</TabsTrigger>
+          <TabsTrigger value="b">B</TabsTrigger>
+        </TabsList>
+        <TabsContent value="a">A</TabsContent>
+      </Tabs>,
+    );
+    expect(screen.getByRole("tablist")).toHaveAttribute(
+      "data-variant",
+      "pill",
+    );
+    expect(
+      screen.getByRole("button", { name: "More tabs" }),
+    ).toBeDefined();
+  });
+});
+
+describe("Tabs overflow dropdown", () => {
+  it("opens popover when overflow trigger is clicked", async () => {
+    const user = userEvent.setup();
+    renderOverflowTabs();
+    await user.click(screen.getByRole("button", { name: "More tabs" }));
+    expect(
+      screen.getByRole("button", { name: "More tabs" }),
+    ).toHaveAttribute("aria-expanded", "true");
+  });
+
+  it("closes popover on Escape", async () => {
+    const user = userEvent.setup();
+    renderOverflowTabs();
+    await user.click(screen.getByRole("button", { name: "More tabs" }));
+    await user.keyboard("{Escape}");
+    const trigger = screen.getByRole("button", { name: "More tabs" });
+    const expanded = trigger.getAttribute("aria-expanded");
+    expect(expanded === null || expanded === "false").toBe(true);
+  });
+
+  it("does not activate a disabled tab from the dropdown", async () => {
+    const user = userEvent.setup();
+    renderOverflowTabs({ includeDisabled: true });
+    await user.click(screen.getByRole("button", { name: "More tabs" }));
+    expect(screen.getByRole("tabpanel")).toHaveTextContent("Content 1");
+  });
+});
+
 /* ── Pill variant ────────────────────────────── */
 
 function renderPillTabs({

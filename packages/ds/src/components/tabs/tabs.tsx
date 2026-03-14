@@ -2,12 +2,14 @@
 
 import {
   forwardRef,
+  useCallback,
   useEffect,
   useRef,
   useState,
   type ComponentPropsWithoutRef,
 } from "react";
-import { Tabs as TabsPrimitive } from "radix-ui";
+import { Tabs as TabsPrimitive, Popover } from "radix-ui";
+import { DotsThree } from "@phosphor-icons/react";
 import { cn } from "@ac/lib/cn";
 
 /* ── Root (direct re-export) ─────────────────── */
@@ -20,14 +22,105 @@ type TabsVariant = "underline" | "pill";
 
 type TabsListProps = ComponentPropsWithoutRef<typeof TabsPrimitive.List> & {
   variant?: TabsVariant;
+  overflow?: "collapse";
 };
 
+/* ── Overflow types & trigger ────────────────── */
+
+type HiddenTab = {
+  value: string;
+  label: string;
+  disabled: boolean;
+  triggerEl: HTMLElement;
+};
+
+type OverflowTriggerProps = {
+  isPill: boolean;
+  hiddenTabs: HiddenTab[];
+  hasActiveHidden: boolean;
+  visible: boolean;
+};
+
+const OverflowTrigger = forwardRef<HTMLButtonElement, OverflowTriggerProps>(
+  ({ isPill, hiddenTabs, hasActiveHidden, visible }, ref) => {
+    const [open, setOpen] = useState(false);
+
+    return (
+      <Popover.Root open={open} onOpenChange={setOpen}>
+        <Popover.Trigger asChild>
+          <button
+            ref={ref}
+            type="button"
+            aria-label="More tabs"
+            className={cn(
+              "inline-flex items-center justify-center shrink-0",
+              "font-heading font-bold",
+              "text-muted-foreground",
+              "transition-colors duration-200",
+              "hover:text-primary-600 dark:hover:text-primary-400",
+              "focus-visible:outline-none focus-visible:ring-2",
+              "focus-visible:ring-primary-400 focus-visible:ring-offset-2",
+              "motion-reduce:transition-none",
+              isPill
+                ? "relative z-10 rounded-full px-3 py-1.5 text-sm"
+                : "px-4 py-3 text-lg",
+              hasActiveHidden && "text-primary-600 dark:text-primary-400",
+              !visible && "invisible",
+            )}
+          >
+            <DotsThree weight="bold" className="size-5" aria-hidden="true" />
+          </button>
+        </Popover.Trigger>
+        <Popover.Portal>
+          <Popover.Content
+            className={cn(
+              "z-50 min-w-[8rem]",
+              "rounded-md bg-surface border border-edge shadow-brand",
+              "p-1",
+              "motion-reduce:transition-none",
+            )}
+            sideOffset={4}
+            align="end"
+          >
+            {hiddenTabs.map((tab) => (
+              <button
+                key={tab.value}
+                type="button"
+                disabled={tab.disabled}
+                onClick={() => {
+                  tab.triggerEl.click();
+                  setOpen(false);
+                }}
+                className={cn(
+                  "flex w-full items-center rounded-sm px-3 py-2",
+                  "text-sm text-foreground cursor-pointer select-none",
+                  "outline-none",
+                  "hover:bg-muted focus-visible:bg-muted",
+                  "disabled:opacity-50 disabled:pointer-events-none",
+                  tab.triggerEl.dataset.state === "active" &&
+                    "text-primary-600 dark:text-primary-400 font-bold",
+                )}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </Popover.Content>
+        </Popover.Portal>
+      </Popover.Root>
+    );
+  },
+);
+
+OverflowTrigger.displayName = "OverflowTrigger";
+
 const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
-  ({ className, children, variant = "underline", ...rest }, ref) => {
+  ({ className, children, variant = "underline", overflow, ...rest }, ref) => {
     const innerRef = useRef<HTMLDivElement>(null);
     const indicatorRef = useRef<HTMLDivElement>(null);
+    const overflowTriggerRef = useRef<HTMLButtonElement>(null);
     const [ready, setReady] = useState(false);
     const isPill = variant === "pill";
+    const isCollapse = overflow === "collapse";
 
     const setRefs = (node: HTMLDivElement | null) => {
       innerRef.current = node;
@@ -84,6 +177,15 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
         {...rest}
       >
         {children}
+        {isCollapse && (
+          <OverflowTrigger
+            ref={overflowTriggerRef}
+            isPill={isPill}
+            hiddenTabs={[]}
+            hasActiveHidden={false}
+            visible={false}
+          />
+        )}
         <div
           ref={indicatorRef}
           className={cn(
