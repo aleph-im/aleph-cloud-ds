@@ -622,8 +622,8 @@ The published npm package contains raw TypeScript source (no build step). Consum
 9. Run `npm run check` (lint + typecheck + test) — all must pass
 
 **Document (all required — do not skip any):**
-10. `docs/DESIGN-SYSTEM.md` § Components — usage examples, props, variants
-11. `docs/ARCHITECTURE.md` — add new patterns if this component introduced one (see Patterns section)
+10. `docs/DESIGN-SYSTEM.md` § Components — usage examples, props, variants. Consumer-facing only: what to use, how to use it. No implementation internals (hooks, observers, animation curves).
+11. `docs/ARCHITECTURE.md` — add new patterns if this component introduced one. Maintainer-facing: how it works internally, workarounds, implementation details.
 12. `docs/DECISIONS.md` — log design decisions (why this API shape, why these variants, alternatives rejected)
 13. `docs/BACKLOG.md` — move completed items to archive, add deferred ideas
 14. `CLAUDE.md` Current Features list — add component with brief description, update preview page count

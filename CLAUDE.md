@@ -141,9 +141,10 @@ Ready to go — what are we working on?
 
 | File | Purpose |
 |------|---------|
+| `docs/DESIGN-SYSTEM.md` | Consumer-facing: what to use, how to use it (props, variants, examples) |
+| `docs/ARCHITECTURE.md` | Maintainer-facing: how it works internally (patterns, hooks, workarounds) |
 | `docs/DECISIONS.md` | Decision log with rationale |
 | `docs/BACKLOG.md` | Parking lot for scope creep and deferred ideas |
-| `docs/ARCHITECTURE.md` | Technical patterns, component structure, and recipes |
 | `docs/superpowers/specs/` | Design specs from brainstorming sessions (read-only reference) |
 | `docs/superpowers/plans/` | Implementation plans from planning sessions (read-only reference) |
 
