@@ -1332,9 +1332,30 @@ A segmented-control style with a sliding solid pill indicator. Pass `variant="pi
 </Tabs>
 ```
 
+#### Overflow Collapse
+
+When many tabs exceed the available width, `overflow="collapse"` on `TabsList` auto-hides trailing tabs into a "..." popover dropdown. Works with both underline and pill variants. The sliding indicator moves behind the "..." trigger when a hidden tab is active.
+
+```tsx
+<Tabs defaultValue="compute">
+  <TabsList overflow="collapse">
+    <TabsTrigger value="compute">Compute</TabsTrigger>
+    <TabsTrigger value="storage">Storage</TabsTrigger>
+    <TabsTrigger value="network">Network</TabsTrigger>
+    <TabsTrigger value="domains">Domains</TabsTrigger>
+    <TabsTrigger value="functions">Functions</TabsTrigger>
+    <TabsTrigger value="volumes">Volumes</TabsTrigger>
+  </TabsList>
+  <TabsContent value="compute">...</TabsContent>
+  {/* ... */}
+</Tabs>
+```
+
+Hidden tabs stay in the DOM (Radix state machine intact). A `useOverflow` hook measures tab widths via `ResizeObserver` + `getBoundingClientRect` and applies `visibility: hidden` to overflowed tabs. Dropdown items activate tabs via `.focus()` (Radix auto-activation). Disabled tabs appear muted in the dropdown.
+
 **Exports:** `Tabs` (Root), `TabsList`, `TabsTrigger`, `TabsContent`, `TabsListProps`, `TabsVariant`
 
-**Variants:** `TabsList` accepts `variant?: "underline" | "pill"` (default `"underline"`).
+**Variants:** `TabsList` accepts `variant?: "underline" | "pill"` (default `"underline"`) and `overflow?: "collapse"`.
 
 **Animations:**
 - **Sliding indicator** — absolutely-positioned element that slides between tabs via `MutationObserver` + `ResizeObserver`. Initial render positions without transition to avoid slide-in from 0,0. Pill variant uses `opacity-0` → `opacity-100` to prevent flash at width 0.
