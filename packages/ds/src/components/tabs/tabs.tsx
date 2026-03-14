@@ -25,6 +25,131 @@ type TabsListProps = ComponentPropsWithoutRef<typeof TabsPrimitive.List> & {
   overflow?: "collapse";
 };
 
+/* ── Overflow hook ───────────────────────────── */
+
+function useOverflow(
+  listRef: React.RefObject<HTMLElement | null>,
+  overflowTriggerRef: React.RefObject<HTMLElement | null>,
+  enabled: boolean,
+) {
+  const [hiddenTabs, setHiddenTabs] = useState<HiddenTab[]>([]);
+  const [hasActiveHidden, setHasActiveHidden] = useState(false);
+
+  const measure = useCallback(() => {
+    const list = listRef.current;
+    const trigger = overflowTriggerRef.current;
+    if (!list || !trigger || !enabled) {
+      setHiddenTabs([]);
+      setHasActiveHidden(false);
+      return;
+    }
+
+    const tabs = Array.from(
+      list.querySelectorAll<HTMLElement>('[role="tab"]'),
+    );
+
+    // Reset all tabs to normal flow for measurement
+    for (const tab of tabs) {
+      tab.style.visibility = "";
+      tab.style.position = "";
+      tab.style.pointerEvents = "";
+    }
+
+    const containerLeft = list.getBoundingClientRect().left;
+    const containerWidth = list.clientWidth;
+    const triggerWidth = trigger.offsetWidth;
+
+    let newBreakIndex: number | null = null;
+
+    for (let i = 0; i < tabs.length; i++) {
+      const tab = tabs[i] as HTMLElement;
+      const tabRight = tab.getBoundingClientRect().right - containerLeft;
+      if (tabRight + triggerWidth > containerWidth) {
+        newBreakIndex = i;
+        break;
+      }
+    }
+
+    // All tabs fit — no overflow needed
+    if (newBreakIndex === null) {
+      const lastTab = tabs[tabs.length - 1];
+      if (lastTab) {
+        const lastRight =
+          lastTab.getBoundingClientRect().right - containerLeft;
+        if (lastRight <= containerWidth) {
+          setHiddenTabs([]);
+          setHasActiveHidden(false);
+          return;
+        }
+      }
+      setHiddenTabs([]);
+      setHasActiveHidden(false);
+      return;
+    }
+
+    // Hide overflowed tabs
+    for (let i = newBreakIndex; i < tabs.length; i++) {
+      const tab = tabs[i] as HTMLElement;
+      tab.style.visibility = "hidden";
+      tab.style.position = "absolute";
+      tab.style.pointerEvents = "none";
+    }
+
+    // Focus management: move focus to trigger if focused tab overflowed
+    const focused = document.activeElement;
+    if (focused instanceof HTMLElement) {
+      for (let i = newBreakIndex; i < tabs.length; i++) {
+        const tab = tabs[i] as HTMLElement;
+        if (tab === focused || tab.contains(focused)) {
+          trigger.focus();
+          break;
+        }
+      }
+    }
+
+    // Build hiddenTabs array
+    const newHidden: HiddenTab[] = [];
+    let activeHidden = false;
+    for (let i = newBreakIndex; i < tabs.length; i++) {
+      const tab = tabs[i] as HTMLElement;
+      newHidden.push({
+        value: tab.getAttribute("data-value") ?? tab.id ?? "",
+        label: tab.textContent ?? "",
+        disabled: tab.hasAttribute("disabled"),
+        triggerEl: tab,
+      });
+      if (tab.dataset["state"] === "active") activeHidden = true;
+    }
+
+    setHiddenTabs(newHidden);
+    setHasActiveHidden(activeHidden);
+  }, [listRef, overflowTriggerRef, enabled]);
+
+  useEffect(() => {
+    const list = listRef.current;
+    if (!list || !enabled) return;
+
+    measure();
+
+    const resizeObserver = new ResizeObserver(measure);
+    resizeObserver.observe(list);
+
+    const mutationObserver = new MutationObserver(measure);
+    mutationObserver.observe(list, {
+      attributes: true,
+      subtree: true,
+      attributeFilter: ["data-state"],
+    });
+
+    return () => {
+      resizeObserver.disconnect();
+      mutationObserver.disconnect();
+    };
+  }, [enabled, measure]);
+
+  return { hiddenTabs, hasActiveHidden };
+}
+
 /* ── Overflow types & trigger ────────────────── */
 
 type HiddenTab = {
@@ -97,7 +222,7 @@ const OverflowTrigger = forwardRef<HTMLButtonElement, OverflowTriggerProps>(
                   "outline-none",
                   "hover:bg-muted focus-visible:bg-muted",
                   "disabled:opacity-50 disabled:pointer-events-none",
-                  tab.triggerEl.dataset.state === "active" &&
+                  tab.triggerEl.dataset["state"] === "active" &&
                     "text-primary-600 dark:text-primary-400 font-bold",
                 )}
               >
@@ -128,6 +253,12 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
       else if (ref) ref.current = node;
     };
 
+    const { hiddenTabs, hasActiveHidden } = useOverflow(
+      innerRef,
+      overflowTriggerRef,
+      isCollapse,
+    );
+
     useEffect(() => {
       const list = innerRef.current;
       const indicator = indicatorRef.current;
@@ -138,6 +269,14 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
           '[data-state="active"]',
         );
         if (!activeTab || !indicator) return;
+
+        // Hide indicator when the active tab is visually hidden (overflowed)
+        if (activeTab.style.visibility === "hidden") {
+          indicator.style.opacity = "0";
+          return;
+        }
+        indicator.style.opacity = "";
+
         const left = activeTab.offsetLeft;
         const width = activeTab.offsetWidth;
         indicator.style.transform = `translateX(${String(left)}px)`;
@@ -181,9 +320,9 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
           <OverflowTrigger
             ref={overflowTriggerRef}
             isPill={isPill}
-            hiddenTabs={[]}
-            hasActiveHidden={false}
-            visible={false}
+            hiddenTabs={hiddenTabs}
+            hasActiveHidden={hasActiveHidden}
+            visible={hiddenTabs.length > 0}
           />
         )}
         <div
