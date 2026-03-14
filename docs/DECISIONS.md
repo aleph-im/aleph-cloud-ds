@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #70 — 2026-03-14
+
+**Context:** Adding overflow handling to Tabs when many tabs exceed available width. Needed to decide how hidden tabs interact with Radix's state machine and how to activate them from the dropdown.
+**Decision:** Opt-in `overflow="collapse"` prop on `TabsList`. Hidden tabs use `visibility: hidden; position: absolute` to stay in the DOM (Radix state machine intact). A `useOverflow` hook measures via `ResizeObserver` + `getBoundingClientRect`. Dropdown items activate hidden tabs via `.focus()` with temporary visibility restoration (Radix auto-activation on focus). The sliding indicator positions behind the "..." trigger when the active tab is overflowed.
+**Rationale:** `visibility: hidden` keeps tabs in the DOM so Radix keyboard navigation and value tracking continue to work — removing tabs would break the state machine. `.focus()` is used instead of `.click()` because Radix Tabs activates on focus (not click). The indicator slides behind "..." rather than hiding to give clear visual feedback that a hidden tab is selected. Pill variant uses `flex` instead of `inline-flex` when overflow is enabled so the list respects parent width constraints (inline-flex shrink-wraps content, preventing overflow detection).
+**Alternatives considered:** Removing hidden tabs from DOM (rejected — breaks Radix). Using `.click()` for activation (rejected — Radix ignores click events, uses focus-based activation). Hiding the indicator when active tab overflows (rejected — no visual feedback that a hidden tab is selected).
+
 ## Decision #69 — 2026-03-13
 
 **Context:** Building a Dialog component for the DS. Needed to decide between a flat single-component API (like Select) and a composable multi-part API (like Tooltip/Tabs).
