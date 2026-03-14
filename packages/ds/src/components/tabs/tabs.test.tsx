@@ -259,29 +259,39 @@ describe("Tabs overflow collapse", () => {
 });
 
 describe("Tabs overflow dropdown", () => {
-  it("opens popover when overflow trigger is clicked", async () => {
+  it("opens dropdown menu when overflow trigger is clicked", async () => {
     const user = userEvent.setup();
     renderOverflowTabs();
-    await user.click(screen.getByRole("button", { name: "More tabs" }));
-    expect(
-      screen.getByRole("button", { name: "More tabs" }),
-    ).toHaveAttribute("aria-expanded", "true");
+    // Hold ref before click — Radix portal sets aria-hidden on siblings
+    const trigger = screen.getByRole("button", { name: "More tabs" });
+    await user.click(trigger);
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
   });
 
-  it("closes popover on Escape", async () => {
+  it("closes dropdown on Escape", async () => {
+    const user = userEvent.setup();
+    renderOverflowTabs();
+    const trigger = screen.getByRole("button", { name: "More tabs" });
+    await user.click(trigger);
+    await user.keyboard("{Escape}");
+    const expanded = trigger.getAttribute("aria-expanded");
+    expect(expanded === null || expanded === "false").toBe(true);
+  });
+
+  it("renders dropdown with menu role when open", async () => {
     const user = userEvent.setup();
     renderOverflowTabs();
     await user.click(screen.getByRole("button", { name: "More tabs" }));
-    await user.keyboard("{Escape}");
-    const trigger = screen.getByRole("button", { name: "More tabs" });
-    const expanded = trigger.getAttribute("aria-expanded");
-    expect(expanded === null || expanded === "false").toBe(true);
+    // Menu renders but items require real geometry (jsdom returns 0)
+    expect(screen.getByRole("menu")).toBeDefined();
   });
 
   it("does not activate a disabled tab from the dropdown", async () => {
     const user = userEvent.setup();
     renderOverflowTabs({ includeDisabled: true });
     await user.click(screen.getByRole("button", { name: "More tabs" }));
+    // Close dropdown first — portal sets aria-hidden on page content
+    await user.keyboard("{Escape}");
     expect(screen.getByRole("tabpanel")).toHaveTextContent("Content 1");
   });
 });

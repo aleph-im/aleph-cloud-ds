@@ -1334,7 +1334,7 @@ A segmented-control style with a sliding solid pill indicator. Pass `variant="pi
 
 #### Overflow Collapse
 
-When many tabs exceed the available width, `overflow="collapse"` on `TabsList` auto-hides trailing tabs into a "..." popover dropdown. Works with both underline and pill variants. The sliding indicator moves behind the "..." trigger when a hidden tab is active.
+When many tabs exceed the available width, `overflow="collapse"` on `TabsList` auto-hides trailing tabs into a "..." dropdown menu. Works with both underline and pill variants. The sliding indicator moves behind the "..." trigger when a hidden tab is active.
 
 ```tsx
 <Tabs defaultValue="compute">
@@ -1351,7 +1351,7 @@ When many tabs exceed the available width, `overflow="collapse"` on `TabsList` a
 </Tabs>
 ```
 
-Hidden tabs stay in the DOM (Radix state machine intact). A `useOverflow` hook measures tab widths via `ResizeObserver` + `getBoundingClientRect` and applies `visibility: hidden` to overflowed tabs. Dropdown items activate tabs via `.focus()` (Radix auto-activation). Disabled tabs appear muted in the dropdown.
+Hidden tabs stay in the DOM (Radix state machine intact). A `useOverflow` hook measures tab widths via `ResizeObserver` + `getBoundingClientRect` and applies `visibility: hidden` to overflowed tabs. The dropdown uses Radix DropdownMenu for arrow key navigation and proper `role="menu"`/`role="menuitem"` semantics. Items activate tabs via deferred `.focus()` (Radix auto-activation after menu closes). Disabled tabs appear muted in the dropdown. Container height is locked via `min-height` snapshot to prevent layout collapse when the tallest tab overflows.
 
 **Exports:** `Tabs` (Root), `TabsList`, `TabsTrigger`, `TabsContent`, `TabsListProps`, `TabsVariant`
 
