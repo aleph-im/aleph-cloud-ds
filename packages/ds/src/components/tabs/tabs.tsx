@@ -180,9 +180,11 @@ const OverflowTrigger = forwardRef<HTMLButtonElement, OverflowTriggerProps>(
             className={cn(
               "inline-flex items-center justify-center shrink-0",
               "font-heading font-bold",
-              hasActiveHidden
-                ? "text-primary-600 dark:text-primary-400"
-                : "text-muted-foreground",
+              hasActiveHidden && isPill
+                ? "text-white"
+                : hasActiveHidden
+                  ? "text-primary-600 dark:text-primary-400"
+                  : "text-muted-foreground",
               "transition-colors duration-200",
               "hover:text-primary-600 dark:hover:text-primary-400",
               "focus-visible:outline-none focus-visible:ring-2",
