@@ -278,9 +278,18 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
         );
         if (!activeTab || !indicator) return;
 
-        // Hide indicator when the active tab is visually hidden (overflowed)
+        // When the active tab is overflowed, slide the indicator
+        // behind the "..." trigger instead of hiding it
         if (activeTab.style.visibility === "hidden") {
-          indicator.style.opacity = "0";
+          const trigger = overflowTriggerRef.current;
+          if (trigger) {
+            indicator.style.opacity = "";
+            indicator.style.transform = `translateX(${String(trigger.offsetLeft)}px)`;
+            indicator.style.width = `${String(trigger.offsetWidth)}px`;
+            if (!ready) setReady(true);
+          } else {
+            indicator.style.opacity = "0";
+          }
           return;
         }
         indicator.style.opacity = "";
