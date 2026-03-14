@@ -8,7 +8,7 @@ import {
   useState,
   type ComponentPropsWithoutRef,
 } from "react";
-import { Tabs as TabsPrimitive, Popover } from "radix-ui";
+import { Tabs as TabsPrimitive, DropdownMenu } from "radix-ui";
 import { DotsThree } from "@phosphor-icons/react";
 import { cn } from "@ac/lib/cn";
 
@@ -54,7 +54,12 @@ function useOverflow(
       tab.style.position = "";
       tab.style.pointerEvents = "";
     }
+    list.style.minHeight = "";
 
+    // Snapshot container height before hiding tabs so the tallest
+    // tab's height is captured. Applied as min-height after hiding
+    // to prevent layout collapse when the tallest tab overflows.
+    const containerHeight = list.offsetHeight;
     const containerLeft = list.getBoundingClientRect().left;
     const containerWidth = list.clientWidth;
     const triggerWidth = trigger.offsetWidth;
@@ -94,6 +99,10 @@ function useOverflow(
       tab.style.position = "absolute";
       tab.style.pointerEvents = "none";
     }
+
+    // Lock container height so it doesn't collapse when the
+    // tallest tab is removed from flow by position:absolute
+    list.style.minHeight = `${String(containerHeight)}px`;
 
     // Focus management: move focus to trigger if focused tab overflowed
     const focused = document.activeElement;
@@ -167,83 +176,80 @@ type OverflowTriggerProps = {
 };
 
 const OverflowTrigger = forwardRef<HTMLButtonElement, OverflowTriggerProps>(
-  ({ isPill, hiddenTabs, hasActiveHidden, visible }, ref) => {
-    const [open, setOpen] = useState(false);
-
-    return (
-      <Popover.Root open={open} onOpenChange={setOpen}>
-        <Popover.Trigger asChild>
-          <button
-            ref={ref}
-            type="button"
-            aria-label="More tabs"
-            className={cn(
-              "inline-flex items-center justify-center shrink-0",
-              "font-heading font-bold",
-              hasActiveHidden && isPill
-                ? "text-white"
-                : hasActiveHidden
-                  ? "text-primary-600 dark:text-primary-400"
-                  : "text-muted-foreground",
-              "transition-colors duration-200",
-              "hover:text-primary-600 dark:hover:text-primary-400",
-              "focus-visible:outline-none focus-visible:ring-2",
-              "focus-visible:ring-primary-400 focus-visible:ring-offset-2",
-              "motion-reduce:transition-none",
-              isPill
-                ? "relative z-10 rounded-full px-3 py-1.5 text-sm"
-                : "px-4 py-3 text-lg",
-              !visible && "invisible",
-            )}
-          >
-            <DotsThree weight="bold" className="size-5" aria-hidden="true" />
-          </button>
-        </Popover.Trigger>
-        <Popover.Portal>
-          <Popover.Content
-            className={cn(
-              "z-50 min-w-[8rem]",
-              "rounded-md bg-surface border border-edge shadow-brand",
-              "p-1",
-              "motion-reduce:transition-none",
-            )}
-            sideOffset={4}
-            align="end"
-          >
-            {hiddenTabs.map((tab) => (
-              <button
-                key={tab.value}
-                type="button"
-                disabled={tab.disabled}
-                onClick={() => {
-                  const el = tab.triggerEl;
-                  // Restore visibility so the trigger can receive focus.
-                  // Radix auto-activation changes the value on focus.
-                  // measure() re-hides via MutationObserver after
-                  // data-state updates.
+  ({ isPill, hiddenTabs, hasActiveHidden, visible }, ref) => (
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger asChild>
+        <button
+          ref={ref}
+          type="button"
+          aria-label="More tabs"
+          className={cn(
+            "inline-flex items-center justify-center shrink-0",
+            "font-heading font-bold",
+            hasActiveHidden && isPill
+              ? "text-white"
+              : hasActiveHidden
+                ? "text-primary-600 dark:text-primary-400"
+                : "text-muted-foreground",
+            "transition-colors duration-200",
+            "hover:text-primary-600 dark:hover:text-primary-400",
+            "focus-visible:outline-none focus-visible:ring-2",
+            "focus-visible:ring-primary-400 focus-visible:ring-offset-2",
+            "motion-reduce:transition-none",
+            isPill
+              ? "relative z-10 rounded-full px-3 py-1.5 text-sm"
+              : "px-4 py-3 text-lg",
+            !visible && "invisible",
+          )}
+        >
+          <DotsThree weight="bold" className="size-5" aria-hidden="true" />
+        </button>
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content
+          className={cn(
+            "z-50 min-w-[8rem]",
+            "rounded-md bg-surface border border-edge shadow-brand",
+            "p-1",
+            "motion-reduce:transition-none",
+          )}
+          sideOffset={4}
+          align="end"
+        >
+          {hiddenTabs.map((tab) => (
+            <DropdownMenu.Item
+              key={tab.value}
+              disabled={tab.disabled}
+              onSelect={() => {
+                const el = tab.triggerEl;
+                // Defer focus until after DropdownMenu closes and
+                // releases its focus trap. Restoring visibility lets
+                // the trigger receive focus, which activates the tab
+                // via Radix. measure() re-hides via MutationObserver
+                // after data-state updates.
+                requestAnimationFrame(() => {
                   el.style.visibility = "";
                   el.style.pointerEvents = "";
                   el.focus();
-                  setOpen(false);
-                }}
-                className={cn(
-                  "flex w-full items-center rounded-sm px-3 py-2",
-                  "text-sm text-foreground cursor-pointer select-none",
-                  "outline-none",
-                  "hover:bg-muted focus-visible:bg-muted",
-                  "disabled:opacity-50 disabled:pointer-events-none",
-                  tab.triggerEl.dataset["state"] === "active" &&
-                    "text-primary-600 dark:text-primary-400 font-bold",
-                )}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </Popover.Content>
-        </Popover.Portal>
-      </Popover.Root>
-    );
-  },
+                });
+              }}
+              className={cn(
+                "flex w-full items-center rounded-sm px-3 py-2",
+                "text-sm text-foreground cursor-pointer select-none",
+                "outline-none",
+                "hover:bg-muted focus-visible:bg-muted",
+                "data-[disabled]:opacity-50 data-[disabled]:pointer-events-none",
+                tab.triggerEl.dataset["state"] === "active" &&
+                  "text-primary-600 dark:text-primary-400 font-bold",
+              )}
+            >
+              {tab.label}
+            </DropdownMenu.Item>
+          ))}
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
+  ),
 );
 
 OverflowTrigger.displayName = "OverflowTrigger";
