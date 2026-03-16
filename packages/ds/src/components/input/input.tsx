@@ -4,13 +4,13 @@ import { cn } from "@ac/lib/cn";
 
 const inputVariants = cva(
   [
-    "w-full font-sans text-foreground bg-surface dark:bg-base-800",
-    "border-0 shadow-brand rounded-full",
+    "w-full font-sans text-foreground bg-primary-100 dark:bg-base-700",
+    "border-0 rounded-full",
     "placeholder:text-muted-foreground",
     "focus-visible:outline-none focus-visible:ring-3",
     "focus-visible:ring-primary-500",
     "disabled:opacity-50 disabled:pointer-events-none",
-    "ring-0 transition-[color,box-shadow]",
+    "ring-0 transition-colors",
   ].join(" "),
   {
     variants: {

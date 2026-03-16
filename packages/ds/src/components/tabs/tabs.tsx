@@ -335,7 +335,7 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
           "relative flex",
           isPill
             ? [
-                "group rounded-full bg-neutral-200 p-1 dark:bg-neutral-800/50",
+                "group rounded-full bg-muted p-1",
                 !isCollapse && "inline-flex",
               ]
             : "border-b-4 border-edge/40",

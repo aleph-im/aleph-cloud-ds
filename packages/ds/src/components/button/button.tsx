@@ -38,9 +38,9 @@ const buttonVariants = cva(
         ].join(" "),
         text: [
           "bg-transparent text-primary-600 dark:text-primary-300 border-transparent",
-          "hover:bg-primary-100 hover:text-primary-700",
+          "hover:bg-primary-50 hover:text-primary-700",
           "dark:hover:bg-primary-200/10 dark:hover:text-primary-200",
-          "active:bg-primary-200 active:text-primary-800",
+          "active:bg-primary-100 active:text-primary-800",
           "dark:active:bg-primary-700 dark:active:text-primary-100",
           "disabled:bg-transparent disabled:text-primary-600/50",
           "dark:disabled:text-primary-300/50",

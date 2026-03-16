@@ -234,14 +234,14 @@ docs/plans/                   # Design and implementation plans
 - Button component with 6 variants, 4 sizes, CVA architecture (primary/secondary use gradient fills, outline uses gradient border)
 - Spinner component for loading states
 - cn() utility (clsx + tailwind-merge)
-- Input component with 2 sizes, shadow-brand (borderless), error/disabled states
-- Textarea component with rows default, shadow-brand (borderless), vertical resize, error/disabled states
+- Input component with 2 sizes, borderless flat fill, error/disabled states
+- Textarea component with rows default, borderless flat fill, vertical resize, error/disabled states
 - Checkbox component (Radix UI) with 3 sizes (xs/sm/md), error/disabled states, clip-path reveal animation
 - RadioGroup component (Radix UI) with 3 sizes (xs/sm/md), group/item-level disabled, clip-path reveal animation
 - Switch component (Radix UI) with 3 sizes (xs/sm/md), animated sliding thumb, disabled state
-- Select component (Radix UI) with flat options prop, 2 sizes, shadow-brand (borderless), error/disabled, portal dropdown
-- Combobox component (cmdk + Radix Popover) with searchable dropdown, flat options prop, 2 sizes, shadow-brand, error/disabled, check icon on selected
-- MultiSelect component (cmdk + Radix Popover) with searchable multi-select dropdown, flat options prop, tags with overflow (maxDisplayedTags=2), per-tag dismiss, clear-all action, checkbox indicators, 2 sizes, shadow-brand, error/disabled
+- Select component (Radix UI) with flat options prop, 2 sizes, borderless flat fill, error/disabled, portal dropdown
+- Combobox component (cmdk + Radix Popover) with searchable dropdown, flat options prop, 2 sizes, borderless flat fill, error/disabled, check icon on selected
+- MultiSelect component (cmdk + Radix Popover) with searchable multi-select dropdown, flat options prop, tags with overflow (maxDisplayedTags=2), per-tag dismiss, clear-all action, checkbox indicators, 2 sizes, borderless flat fill, error/disabled
 - Slider component (Radix Slider) with CVA track/thumb variants, 2 sizes (sm/md), single or range (two-thumb) mode, optional hover tooltip, error state, keyboard accessible
 - FormField wrapper with label, required asterisk, helper text, error message, auto-wired accessibility, auto-injects error/aria-invalid into child
 - Alert component with 4 semantic variants (warning/error/info/success), optional title, dismissible with XCircle button and exit animation, auto-dismiss timer with progress bar, auto-styled links (bold, underline, ↗ icon via ::after), CSS gradient backgrounds at 10% opacity with dark mode support
