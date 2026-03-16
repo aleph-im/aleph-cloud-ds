@@ -109,5 +109,6 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-03-13 — Dialog component (Radix UI, composable API, frosted overlay, locked dismiss)
 - [x] 2026-03-13 — CopyableText: remove tooltip, make text clickable when href provided
 - [x] 2026-03-13 — CopyableText: internal links open in new tab (auto-detect relative vs absolute URLs)
+- [x] 2026-03-16 — Button `text` variant hover invisible on `surface` background (bumped hover to primary-100, active to primary-200)
 
 </details>
