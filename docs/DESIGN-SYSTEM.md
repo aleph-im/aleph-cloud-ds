@@ -18,7 +18,7 @@ Quick reference for all DS exports. Click component name to jump to its full doc
 | [CopyableText](#copyabletext) | Truncated text with copy-to-clipboard | `@aleph-front/ds/copyable-text` |
 | [Dialog](#dialog) | Modal with composable 8-part API, lock mode | `@aleph-front/ds/dialog` |
 | [FormField](#formfield) | Label + helper + error wrapper with auto-wired a11y | `@aleph-front/ds/form-field` |
-| [Input](#input) | Text input with 2 sizes, shadow-brand styling | `@aleph-front/ds/input` |
+| [Input](#input) | Text input with 2 sizes, borderless flat styling | `@aleph-front/ds/input` |
 | [Logo](#logo) | Brand mark (icon + full wordmark variants) | `@aleph-front/ds/logo` |
 | [MultiSelect](#multiselect) | Searchable multi-selection with tags | `@aleph-front/ds/multi-select` |
 | [Pagination](#pagination) | Controlled page navigation with fixed-slot layout | `@aleph-front/ds/pagination` |
@@ -64,7 +64,7 @@ Quick reference for all DS exports. Click component name to jump to its full doc
 
 | Need | Use | Not |
 |------|-----|-----|
-| Content section with border/shadow | **Card** `variant="default"` — `bg-surface`, `border-edge` | Plain div — Card provides consistent elevation and theming |
+| Content section | **Card** `variant="default"` — `bg-surface`, borderless | Plain div — Card provides consistent surface fill and theming |
 | Textured decorative panel | **Card** `variant="noise"` — grain SVG overlay | Card default — noise adds visual interest for hero/feature cards |
 | Transparent grouping (no chrome) | **Card** `variant="ghost"` — no border, no background | Card default — ghost avoids visual nesting when cards are inside cards |
 | Location in page hierarchy | **Breadcrumb** — semantic nav/ol, `asChild` for router links | Plain text links — Breadcrumb handles separators and aria |
@@ -396,7 +396,7 @@ Available as Tailwind utility classes.
 | Name | Tailwind class | Value | Use for |
 |------|---------------|-------|---------|
 | `brand-sm` | `shadow-brand-sm` | `0px 4px 4px` (15% brand) | Tight elements (tooltips, hover accents) |
-| `brand` | `shadow-brand` | `0px 4px 24px` (10% brand) | Default surface shadow (form fields, dropdowns) |
+| `brand` | `shadow-brand` | `0px 4px 24px` (10% brand) | Elevated surfaces (dropdowns, popovers) |
 | `brand-lg` | `shadow-brand-lg` | `0px 4px 48px` (25% brand) | Emphasized elements, modals |
 
 ### Usage Examples
@@ -818,7 +818,7 @@ import { Input } from "@aleph-front/ds/input";
 
 **Sizes:** `sm` (py-1.5, text-sm) · `md` (py-2, text-base, default)
 
-**Visuals:** Borderless with `shadow-brand` (purple-tinted shadow). `rounded-full` pill shape. Dark mode uses `bg-neutral-800` for a slightly elevated fill.
+**Visuals:** Borderless flat fill (`bg-primary-100 dark:bg-base-700`). `rounded-full` pill shape. Distinguishes from page background via fill contrast alone.
 
 **Error:** `error={true}` adds 3px `border-error-400` border, sets `aria-invalid`.
 
@@ -826,7 +826,7 @@ import { Input } from "@aleph-front/ds/input";
 
 ### Textarea
 
-Multi-line text input. Same API as Input, `rounded-2xl`, `shadow-brand`, vertical resize. Dark mode uses `bg-neutral-800`.
+Multi-line text input. Same API as Input, `rounded-2xl`, borderless flat fill, vertical resize.
 
 ```tsx
 import { Textarea } from "@aleph-front/ds/textarea";
@@ -967,7 +967,7 @@ import { Select } from "@aleph-front/ds/select";
 
 **Sizes:** `sm` (Input sm padding) · `md` (Input md padding, default)
 
-**Visuals:** Borderless with `shadow-brand`, matching Input/Textarea. `rounded-full` pill shape. Dark mode uses `bg-neutral-800`.
+**Visuals:** Borderless flat fill, matching Input/Textarea. `rounded-full` pill shape.
 
 **Error:** `error={true}` adds 3px `border-error-400` border, sets `aria-invalid`.
 
@@ -1037,7 +1037,7 @@ import { Card } from "@aleph-front/ds/card";
 #### Variants
 
 ```tsx
-<Card variant="default">Bordered card</Card>  {/* bg-surface, border-edge, rounded-md */}
+<Card variant="default">Default card</Card>  {/* bg-surface, borderless, rounded-md */}
 <Card variant="noise">Grain texture</Card>    {/* purple grain SVG overlay */}
 <Card variant="ghost">No border</Card>        {/* transparent, no border */}
 ```
@@ -1404,7 +1404,7 @@ When many tabs exceed the available width, `overflow="collapse"` on `TabsList` a
 
 **Styling (underline):** `font-heading font-bold text-lg` triggers. 4px baseline at 40% `edge` opacity, 4px solid primary sliding indicator. Active/hover text uses `primary-600` / `dark:primary-400`.
 
-**Styling (pill):** Rounded container `bg-neutral-200` / `dark:bg-neutral-800/50`. Active indicator `bg-primary-600` / `dark:bg-primary-500`. Triggers `text-muted-foreground` inactive, `text-white` active, compact `px-5 py-1.5 text-sm`.
+**Styling (pill):** Rounded container `bg-muted` (brand-tinted). Active indicator `bg-primary-600` / `dark:bg-primary-500`. Triggers `text-muted-foreground` inactive, `text-white` active, compact `px-5 py-1.5 text-sm`.
 
 **Exports:** `Tabs` (Root), `TabsList`, `TabsTrigger`, `TabsContent`, `TabsListProps`, `TabsVariant`
 
@@ -1458,7 +1458,7 @@ import { Combobox } from "@aleph-front/ds/combobox";
 
 **Sizes:** `sm` (Input sm padding) · `md` (Input md padding, default)
 
-**Visuals:** Borderless with `shadow-brand`, matching Input/Textarea/Select. `rounded-full` pill shape. Dark mode uses `bg-neutral-800`. Chevron rotates on open.
+**Visuals:** Borderless flat fill, matching Input/Textarea/Select. `rounded-full` pill shape. Chevron rotates on open.
 
 **Search:** Type to filter options by label. `emptyMessage` shown when no options match (default: "No results found.").
 
@@ -1538,7 +1538,7 @@ import { MultiSelect } from "@aleph-front/ds/multi-select";
 
 **Selection:** Clicking an item toggles it (adds or removes). Dropdown stays open after selection for multi-toggle. Checkbox visuals on each item indicate selected state.
 
-**Visuals:** Borderless with `shadow-brand`, `rounded-2xl`. Dark mode uses `bg-neutral-800`. Trigger uses `<div role="button">` (not `<button>`) to allow nested dismiss buttons without HTML nesting violations.
+**Visuals:** Borderless flat fill, `rounded-2xl`. Trigger uses `<div role="button">` (not `<button>`) to allow nested dismiss buttons without HTML nesting violations.
 
 **Error:** `error={true}` adds 3px `border-error-400` border, sets `aria-invalid`.
 

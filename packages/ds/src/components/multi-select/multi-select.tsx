@@ -8,12 +8,12 @@ import { cn } from "@ac/lib/cn";
 const triggerVariants = cva(
   [
     "inline-flex items-center gap-1.5",
-    "w-full font-sans text-foreground bg-surface dark:bg-neutral-800",
-    "border-0 shadow-brand rounded-2xl",
+    "w-full font-sans text-foreground bg-primary-100 dark:bg-base-700",
+    "border-0 rounded-2xl",
     "focus-visible:outline-none focus-visible:ring-3",
     "focus-visible:ring-primary-500",
     "aria-disabled:opacity-50 aria-disabled:pointer-events-none",
-    "ring-0 transition-[color,box-shadow]",
+    "ring-0 transition-colors",
   ].join(" "),
   {
     variants: {
