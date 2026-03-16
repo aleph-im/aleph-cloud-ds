@@ -296,6 +296,70 @@ describe("Tabs overflow dropdown", () => {
   });
 });
 
+/* ── Size prop ───────────────────────────────── */
+
+describe("Tabs size prop", () => {
+  it("defaults to data-size='md'", () => {
+    renderTabs();
+    expect(screen.getByRole("tablist")).toHaveAttribute("data-size", "md");
+  });
+
+  it("renders data-size='sm' when size='sm'", () => {
+    render(
+      <Tabs defaultValue="a">
+        <TabsList size="sm">
+          <TabsTrigger value="a">A</TabsTrigger>
+        </TabsList>
+        <TabsContent value="a">A</TabsContent>
+      </Tabs>,
+    );
+    expect(screen.getByRole("tablist")).toHaveAttribute("data-size", "sm");
+  });
+
+  it("uses thinner border for small underline variant", () => {
+    render(
+      <Tabs defaultValue="a">
+        <TabsList size="sm">
+          <TabsTrigger value="a">A</TabsTrigger>
+        </TabsList>
+        <TabsContent value="a">A</TabsContent>
+      </Tabs>,
+    );
+    const list = screen.getByRole("tablist");
+    expect(list.className).toContain("border-b-2");
+    expect(list.className).not.toContain("border-b-4");
+  });
+
+  it("combines size='sm' with variant='pill'", () => {
+    render(
+      <Tabs defaultValue="a">
+        <TabsList variant="pill" size="sm">
+          <TabsTrigger value="a">A</TabsTrigger>
+        </TabsList>
+        <TabsContent value="a">A</TabsContent>
+      </Tabs>,
+    );
+    const list = screen.getByRole("tablist");
+    expect(list).toHaveAttribute("data-variant", "pill");
+    expect(list).toHaveAttribute("data-size", "sm");
+    expect(list.className).toContain("rounded-full");
+  });
+
+  it("combines size='sm' with overflow='collapse'", () => {
+    render(
+      <Tabs defaultValue="a">
+        <TabsList size="sm" overflow="collapse">
+          <TabsTrigger value="a">A</TabsTrigger>
+          <TabsTrigger value="b">B</TabsTrigger>
+        </TabsList>
+        <TabsContent value="a">A</TabsContent>
+      </Tabs>,
+    );
+    expect(screen.getByRole("tablist")).toHaveAttribute("data-size", "sm");
+    expect(screen.getByRole("button", { name: "More tabs" })).toBeDefined();
+  });
+});
+
 /* ── Pill variant ────────────────────────────── */
 
 function renderPillTabs({

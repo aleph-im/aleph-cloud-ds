@@ -62,6 +62,44 @@ export default function TabsPage() {
         </Tabs>
       </DemoSection>
 
+      <DemoSection title="Small Underline">
+        <Tabs defaultValue="compute">
+          <TabsList size="sm">
+            <TabsTrigger value="compute">Compute</TabsTrigger>
+            <TabsTrigger value="storage">Storage</TabsTrigger>
+            <TabsTrigger value="network">Network</TabsTrigger>
+          </TabsList>
+          <TabsContent value="compute">
+            <p className="text-muted-foreground">Manage your compute resources and virtual machines.</p>
+          </TabsContent>
+          <TabsContent value="storage">
+            <p className="text-muted-foreground">Configure persistent and immutable storage volumes.</p>
+          </TabsContent>
+          <TabsContent value="network">
+            <p className="text-muted-foreground">Set up custom domains and network policies.</p>
+          </TabsContent>
+        </Tabs>
+      </DemoSection>
+
+      <DemoSection title="Small Pill">
+        <Tabs defaultValue="vms">
+          <TabsList variant="pill" size="sm">
+            <TabsTrigger value="vms">VMs</TabsTrigger>
+            <TabsTrigger value="nodes">Nodes</TabsTrigger>
+            <TabsTrigger value="network">Network</TabsTrigger>
+          </TabsList>
+          <TabsContent value="vms">
+            <p className="text-muted-foreground">Virtual machines overview.</p>
+          </TabsContent>
+          <TabsContent value="nodes">
+            <p className="text-muted-foreground">Compute nodes overview.</p>
+          </TabsContent>
+          <TabsContent value="network">
+            <p className="text-muted-foreground">Network configuration.</p>
+          </TabsContent>
+        </Tabs>
+      </DemoSection>
+
       <DemoSection title="Disabled Tab">
         <Tabs defaultValue="active">
           <TabsList>

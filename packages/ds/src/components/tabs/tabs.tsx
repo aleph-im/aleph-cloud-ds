@@ -19,9 +19,11 @@ const Tabs = TabsPrimitive.Root;
 /* ── List (with sliding indicator) ───────────── */
 
 type TabsVariant = "underline" | "pill";
+type TabsSize = "sm" | "md";
 
 type TabsListProps = ComponentPropsWithoutRef<typeof TabsPrimitive.List> & {
   variant?: TabsVariant;
+  size?: TabsSize;
   overflow?: "collapse";
 };
 
@@ -170,13 +172,14 @@ type HiddenTab = {
 
 type OverflowTriggerProps = {
   isPill: boolean;
+  isSmall: boolean;
   hiddenTabs: HiddenTab[];
   hasActiveHidden: boolean;
   visible: boolean;
 };
 
 const OverflowTrigger = forwardRef<HTMLButtonElement, OverflowTriggerProps>(
-  ({ isPill, hiddenTabs, hasActiveHidden, visible }, ref) => (
+  ({ isPill, isSmall, hiddenTabs, hasActiveHidden, visible }, ref) => (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <button
@@ -197,8 +200,13 @@ const OverflowTrigger = forwardRef<HTMLButtonElement, OverflowTriggerProps>(
             "focus-visible:ring-primary-400 focus-visible:ring-offset-2",
             "motion-reduce:transition-none",
             isPill
-              ? "relative z-10 rounded-full px-3 py-1.5 text-sm"
-              : "px-4 py-3 text-lg",
+              ? cn(
+                  "relative z-10 rounded-full",
+                  isSmall ? "px-2 py-0.5 text-xs" : "px-3 py-1.5 text-sm",
+                )
+              : isSmall
+                ? "px-3 py-1.5 text-sm"
+                : "px-4 py-3 text-lg",
             !visible && "invisible",
           )}
         >
@@ -255,12 +263,13 @@ const OverflowTrigger = forwardRef<HTMLButtonElement, OverflowTriggerProps>(
 OverflowTrigger.displayName = "OverflowTrigger";
 
 const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
-  ({ className, children, variant = "underline", overflow, ...rest }, ref) => {
+  ({ className, children, variant = "underline", size = "md", overflow, ...rest }, ref) => {
     const innerRef = useRef<HTMLDivElement>(null);
     const indicatorRef = useRef<HTMLDivElement>(null);
     const overflowTriggerRef = useRef<HTMLButtonElement>(null);
     const [ready, setReady] = useState(false);
     const isPill = variant === "pill";
+    const isSmall = size === "sm";
     const isCollapse = overflow === "collapse";
 
     const setRefs = (node: HTMLDivElement | null) => {
@@ -331,14 +340,18 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
       <TabsPrimitive.List
         ref={setRefs}
         data-variant={variant}
+        data-size={size}
         className={cn(
-          "relative flex",
+          "group relative flex",
           isPill
             ? [
-                "group rounded-full bg-muted p-1",
+                "rounded-full bg-muted",
+                isSmall ? "p-0.5" : "p-1",
                 !isCollapse && "inline-flex",
               ]
-            : "border-b-4 border-edge/40",
+            : isSmall
+              ? "border-b-2 border-edge/40"
+              : "border-b-4 border-edge/40",
           className,
         )}
         {...rest}
@@ -348,6 +361,7 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
           <OverflowTrigger
             ref={overflowTriggerRef}
             isPill={isPill}
+            isSmall={isSmall}
             hiddenTabs={hiddenTabs}
             hasActiveHidden={hasActiveHidden}
             visible={hiddenTabs.length > 0}
@@ -359,14 +373,15 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
             "absolute left-0",
             isPill
               ? [
-                  "inset-y-1 rounded-full bg-primary-600 dark:bg-primary-500",
+                  isSmall ? "inset-y-0.5" : "inset-y-1",
+                  "rounded-full bg-primary-600 dark:bg-primary-500",
                   ready ? "opacity-100" : "opacity-0",
                   ready
                     ? "transition-[transform,width,opacity] duration-200 ease-out"
                     : "",
                 ]
               : [
-                  "-bottom-1 h-1",
+                  isSmall ? "-bottom-0.5 h-0.5" : "-bottom-1 h-1",
                   "bg-primary-600 dark:bg-primary-400",
                   ready
                     ? "transition-[transform,width] duration-200 ease-out"
@@ -405,6 +420,9 @@ const TabsTrigger = forwardRef<
         "focus-visible:outline-none focus-visible:ring-2",
         "focus-visible:ring-primary-400 focus-visible:ring-offset-2",
         "motion-reduce:transition-none",
+        // Small size overrides (underline)
+        "group-data-[size=sm]:px-3 group-data-[size=sm]:py-1.5",
+        "group-data-[size=sm]:text-sm group-data-[size=sm]:gap-1.5",
         // Pill variant overrides (via group data attribute on TabsList)
         "group-data-[variant=pill]:relative group-data-[variant=pill]:z-10",
         "group-data-[variant=pill]:rounded-full",
@@ -416,6 +434,10 @@ const TabsTrigger = forwardRef<
         "group-data-[variant=pill]:data-[state=active]:text-white",
         "group-data-[variant=pill]:data-[state=active]:translate-y-0",
         "group-data-[variant=pill]:focus-visible:ring-offset-0",
+        // Small pill overrides (compound group selector)
+        "group-[[data-variant=pill][data-size=sm]]:px-3",
+        "group-[[data-variant=pill][data-size=sm]]:py-1",
+        "group-[[data-variant=pill][data-size=sm]]:text-xs",
       ].join(" "),
       className,
     )}
@@ -448,5 +470,6 @@ export {
   TabsList,
   TabsTrigger,
   type TabsListProps,
+  type TabsSize,
   type TabsVariant,
 };

@@ -1381,6 +1381,28 @@ A segmented-control style with a sliding solid pill indicator. Pass `variant="pi
 </Tabs>
 ```
 
+#### Small Size
+
+Pass `size="sm"` to `TabsList` for a compact variant. Works with both underline and pill:
+
+```tsx
+<Tabs defaultValue="compute">
+  <TabsList size="sm">
+    <TabsTrigger value="compute">Compute</TabsTrigger>
+    <TabsTrigger value="storage">Storage</TabsTrigger>
+  </TabsList>
+  <TabsContent value="compute">...</TabsContent>
+  <TabsContent value="storage">...</TabsContent>
+</Tabs>
+```
+
+| | md (default) | sm |
+|---|---|---|
+| **Underline trigger** | `px-4 py-3 text-lg` | `px-3 py-1.5 text-sm` |
+| **Underline border** | `border-b-4`, indicator `h-1` | `border-b-2`, indicator `h-0.5` |
+| **Pill trigger** | `px-5 py-1.5 text-sm` | `px-3 py-1 text-xs` |
+| **Pill container** | `p-1` | `p-0.5` |
+
 #### Overflow Collapse
 
 When many tabs exceed the available width, `overflow="collapse"` on `TabsList` auto-hides trailing tabs into a "..." dropdown menu. Works with both underline and pill variants. The sliding indicator moves behind the "..." trigger when a hidden tab is active.
@@ -1406,9 +1428,9 @@ When many tabs exceed the available width, `overflow="collapse"` on `TabsList` a
 
 **Styling (pill):** Rounded container `bg-muted` (brand-tinted). Active indicator `bg-primary-600` / `dark:bg-primary-500`. Triggers `text-muted-foreground` inactive, `text-white` active, compact `px-5 py-1.5 text-sm`.
 
-**Exports:** `Tabs` (Root), `TabsList`, `TabsTrigger`, `TabsContent`, `TabsListProps`, `TabsVariant`
+**Exports:** `Tabs` (Root), `TabsList`, `TabsTrigger`, `TabsContent`, `TabsListProps`, `TabsSize`, `TabsVariant`
 
-**Variants:** `TabsList` accepts `variant?: "underline" | "pill"` (default `"underline"`) and `overflow?: "collapse"`.
+**Variants:** `TabsList` accepts `variant?: "underline" | "pill"` (default `"underline"`), `size?: "sm" | "md"` (default `"md"`), and `overflow?: "collapse"`. All three props compose freely.
 
 **Animations:**
 - **Sliding indicator** — slides between tabs on selection change. Initial render positions instantly (no slide-in from origin).
