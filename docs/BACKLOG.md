@@ -68,6 +68,13 @@ Ideas and scope creep captured for later consideration.
 **Description:** Expand the Patterns section with more composition recipes: form layout (FormField + inputs), data table page (Table + Pagination + Tabs), settings panel (Switch + Slider + Card), empty state (Skeleton + CopyableText). Show how components compose together for common product UI patterns.
 **Priority:** Low
 
+### 2026-03-17 — Scheduler API endpoint reference
+
+**Source:** External reference from aleph-vm-scheduler repo
+**Description:** Track the scheduler API endpoints for building dashboard UI that consumes them. Check periodically for new or changed routes.
+**Link:** https://github.com/aleph-im/aleph-vm-scheduler/blob/260302ee7ac4a81f972a7b44b04e4f537091080d/scheduler-api/src/routes/mod.rs#L882
+**Priority:** Low
+
 ### 2026-02-26 — Button icon animations
 
 **Source:** Deferred from button component design
