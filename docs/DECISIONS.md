@@ -18,6 +18,24 @@ Each entry includes:
 
 ---
 
+## Decision #73 — 2026-04-10
+
+**Context:** Building a Stepper component for multi-step workflows. Needed to decide API shape (monolithic vs composable) and how to propagate orientation and step state to children.
+**Decision:** Composable 7-part compound pattern (`Stepper`, `StepperList`, `StepperItem`, `StepperIndicator`, `StepperLabel`, `StepperDescription`, `StepperConnector`) with `nav > ol > li` semantics. Two React contexts: `StepperContext` for orientation, `StepperItemContext` for step state. No opinionated colors — consumers style via `data-state` and `data-orientation` attribute selectors.
+**Rationale:** Composable API matches the established DS pattern (Breadcrumb, Tabs, Tooltip). Dual context separates orthogonal concerns (orientation is container-level, state is item-level) without prop drilling. Unstyled-by-default follows Radix's philosophy — the DS provides structure and accessibility, consumers provide the visual treatment. Semantic `nav > ol > li` markup matches the Breadcrumb pattern and is accessible by default.
+**Alternatives considered:** Monolithic `<Stepper steps={[...]}` (rejected — too rigid for custom indicators, icons, descriptions). Single context for both orientation and state (rejected — conflates container and item concerns). CVA variants for step states (rejected — step styling is too application-specific; data attributes give consumers full control).
+
+---
+
+## Decision #72 — 2026-04-10
+
+**Context:** Building a ProgressBar component. Needed to decide on the API for optional description text and the indeterminate animation approach.
+**Decision:** Single `ProgressBar` component with `ProgressBarDescription` child. The component inspects children to conditionally render a wrapper div and link description via `aria-describedby`. Indeterminate mode triggered by omitting `value`. Custom `@keyframes progress-indeterminate` in tokens.css using CSS `translate` for the sliding fill.
+**Rationale:** Child-based description (not a prop) follows React composition patterns — the description can contain any ReactNode, not just a string. Omitting `value` for indeterminate follows the WAI-ARIA progressbar spec (no `aria-valuenow` = indeterminate). The animation uses `translate` instead of `transform: translateX()` for better composability with other transforms.
+**Alternatives considered:** `description` string prop (rejected — limits to plain text). Radix Progress primitive (rejected — adds a dependency for a simple div + aria attributes). CSS `@property` for animated gradient (rejected — less browser support than keyframe translate).
+
+---
+
 ## Decision #71 — 2026-03-14
 
 **Context:** Improving DESIGN-SYSTEM.md for agent consumption. Needed to decide what belongs in the design system doc vs the architecture doc.
