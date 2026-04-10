@@ -184,6 +184,14 @@ The preview app needs `@ac/*` in its tsconfig because TypeScript follows imports
 
 ## Rules
 
+### Styled by Default, Overridable via className
+
+Every DS component must ship with sensible default styling — colors, borders, typography, transitions, state-based visual changes. A consumer who imports the component and renders it with only required props should get a polished, usable result that matches the preview app.
+
+Consumers override defaults via `className` (merged with `cn()`). No component should require the consumer to build visual treatment from scratch using `data-*` attribute selectors.
+
+**Test:** `<StepperIndicator>1</StepperIndicator>` should render a styled circle with border, font, and state-based fills — not an unstyled `<div>`.
+
 ### No Tailwind Prefix Collisions in Token Names
 
 Semantic token names must not duplicate a Tailwind utility prefix. When a token name matches a prefix, the resulting class stutters (e.g., `border-border`). Check against: `bg-`, `text-`, `border-`, `shadow-`, `ring-`, `outline-`.

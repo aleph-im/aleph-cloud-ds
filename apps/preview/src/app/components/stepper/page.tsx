@@ -17,12 +17,7 @@ import { DemoSection } from "@preview/components/demo-section";
 
 type StepState = "completed" | "active" | "inactive";
 
-const INDICATOR =
-  "relative flex size-8 items-center justify-center rounded-full font-heading text-sm font-bold " +
-  "border-2 border-edge text-muted-foreground " +
-  "data-[state=active]:border-primary-500 data-[state=active]:bg-primary-500 data-[state=active]:text-white " +
-  "data-[state=completed]:border-primary-500 data-[state=completed]:bg-primary-500 data-[state=completed]:text-white " +
-  "transition-all duration-300 motion-reduce:transition-colors";
+/* ── Preview-only enhancements (not part of DS) ── */
 
 function ActiveRipple({ active }: { active: boolean }) {
   if (!active) return null;
@@ -33,19 +28,6 @@ function ActiveRipple({ active }: { active: boolean }) {
     </>
   );
 }
-
-const LABEL =
-  "block text-sm text-muted-foreground " +
-  "data-[state=active]:text-foreground data-[state=active]:font-medium " +
-  "data-[state=completed]:text-foreground " +
-  "transition-colors";
-
-const DESCRIPTION = "block text-xs text-muted-foreground mt-0.5";
-
-const CONNECTOR =
-  "relative overflow-hidden " +
-  "data-[orientation=horizontal]:h-1 data-[orientation=vertical]:w-1 " +
-  "rounded-full bg-edge/50";
 
 function ConnectorFill({
   filled,
@@ -66,6 +48,8 @@ function ConnectorFill({
     />
   );
 }
+
+/* ── Helpers ──────────────────────────────────── */
 
 function getStepState(index: number, activeStep: number): StepState {
   if (index < activeStep) return "completed";
@@ -90,19 +74,17 @@ function InteractiveStepper() {
           {DEPLOY_STEPS.map((s, i) => (
             <Fragment key={s.label}>
               <StepperItem state={getStepState(i, step)}>
-                <StepperIndicator className={INDICATOR}>
+                <StepperIndicator>
                   <ActiveRipple active={i === step} />
                   {i < step ? <Check size={14} weight="bold" /> : i + 1}
                 </StepperIndicator>
                 <div className="hidden sm:block">
-                  <StepperLabel className={LABEL}>{s.label}</StepperLabel>
-                  <StepperDescription className={DESCRIPTION}>
-                    {s.description}
-                  </StepperDescription>
+                  <StepperLabel>{s.label}</StepperLabel>
+                  <StepperDescription>{s.description}</StepperDescription>
                 </div>
               </StepperItem>
               {i < DEPLOY_STEPS.length - 1 && (
-                <StepperConnector className={CONNECTOR}>
+                <StepperConnector>
                   <ConnectorFill filled={i < step} />
                 </StepperConnector>
               )}
@@ -149,7 +131,7 @@ export default function StepperPage() {
       `}</style>
       <PageHeader
         title="Stepper"
-        description="A composable multi-step indicator with horizontal/vertical orientation, state propagation via context, and unstyled-by-default parts for full consumer control."
+        description="A composable multi-step indicator with horizontal/vertical orientation, state propagation via context, and default styling that works out of the box."
       />
 
       <div className="space-y-12">
@@ -157,29 +139,27 @@ export default function StepperPage() {
           <Stepper aria-label="Setup steps">
             <StepperList>
               <StepperItem state="completed">
-                <StepperIndicator className={INDICATOR}>
+                <StepperIndicator>
                   <Check size={14} weight="bold" />
                 </StepperIndicator>
-                <StepperLabel className={LABEL}>Account</StepperLabel>
+                <StepperLabel>Account</StepperLabel>
               </StepperItem>
-              <StepperConnector className={CONNECTOR}>
+              <StepperConnector>
                 <ConnectorFill filled />
               </StepperConnector>
               <StepperItem state="active">
-                <StepperIndicator className={INDICATOR}>
+                <StepperIndicator>
                   <ActiveRipple active />
                   2
                 </StepperIndicator>
-                <StepperLabel className={LABEL}>Profile</StepperLabel>
+                <StepperLabel>Profile</StepperLabel>
               </StepperItem>
-              <StepperConnector className={CONNECTOR}>
+              <StepperConnector>
                 <ConnectorFill filled={false} />
               </StepperConnector>
               <StepperItem state="inactive">
-                <StepperIndicator className={INDICATOR}>
-                  3
-                </StepperIndicator>
-                <StepperLabel className={LABEL}>Complete</StepperLabel>
+                <StepperIndicator>3</StepperIndicator>
+                <StepperLabel>Complete</StepperLabel>
               </StepperItem>
             </StepperList>
           </Stepper>
@@ -189,55 +169,49 @@ export default function StepperPage() {
           <Stepper orientation="vertical" aria-label="Deployment pipeline">
             <StepperList>
               <StepperItem state="completed">
-                <StepperIndicator className={INDICATOR}>
+                <StepperIndicator>
                   <Check size={14} weight="bold" />
                 </StepperIndicator>
                 <div>
-                  <StepperLabel className={LABEL}>Build</StepperLabel>
-                  <StepperDescription className={DESCRIPTION}>
-                    Compiled in 12s
-                  </StepperDescription>
+                  <StepperLabel>Build</StepperLabel>
+                  <StepperDescription>Compiled in 12s</StepperDescription>
                 </div>
               </StepperItem>
-              <StepperConnector className={`${CONNECTOR} ml-4 my-1 min-h-6`}>
+              <StepperConnector className="ml-4 my-1 min-h-6">
                 <ConnectorFill filled vertical />
               </StepperConnector>
               <StepperItem state="completed">
-                <StepperIndicator className={INDICATOR}>
+                <StepperIndicator>
                   <Check size={14} weight="bold" />
                 </StepperIndicator>
                 <div>
-                  <StepperLabel className={LABEL}>Test</StepperLabel>
-                  <StepperDescription className={DESCRIPTION}>
-                    320 tests passed
-                  </StepperDescription>
+                  <StepperLabel>Test</StepperLabel>
+                  <StepperDescription>320 tests passed</StepperDescription>
                 </div>
               </StepperItem>
-              <StepperConnector className={`${CONNECTOR} ml-4 my-1 min-h-6`}>
+              <StepperConnector className="ml-4 my-1 min-h-6">
                 <ConnectorFill filled vertical />
               </StepperConnector>
               <StepperItem state="active">
-                <StepperIndicator className={INDICATOR}>
+                <StepperIndicator>
                   <ActiveRipple active />
                   3
                 </StepperIndicator>
                 <div>
-                  <StepperLabel className={LABEL}>Deploy</StepperLabel>
-                  <StepperDescription className={DESCRIPTION}>
+                  <StepperLabel>Deploy</StepperLabel>
+                  <StepperDescription>
                     Deploying to production...
                   </StepperDescription>
                 </div>
               </StepperItem>
-              <StepperConnector className={`${CONNECTOR} ml-4 my-1 min-h-6`}>
+              <StepperConnector className="ml-4 my-1 min-h-6">
                 <ConnectorFill filled={false} vertical />
               </StepperConnector>
               <StepperItem state="inactive">
-                <StepperIndicator className={INDICATOR}>
-                  4
-                </StepperIndicator>
+                <StepperIndicator>4</StepperIndicator>
                 <div>
-                  <StepperLabel className={LABEL}>Verify</StepperLabel>
-                  <StepperDescription className={DESCRIPTION}>
+                  <StepperLabel>Verify</StepperLabel>
+                  <StepperDescription>
                     Health checks pending
                   </StepperDescription>
                 </div>
@@ -256,7 +230,7 @@ export default function StepperPage() {
               {["Select", "Configure", "Deploy"].map((label, i) => (
                 <Fragment key={label}>
                   <StepperItem state={getStepState(i, 1)}>
-                    <StepperIndicator className={INDICATOR}>
+                    <StepperIndicator>
                       <ActiveRipple active={i === 1} />
                       {i < 1 ? (
                         <Check size={14} weight="bold" />
@@ -264,10 +238,10 @@ export default function StepperPage() {
                         i + 1
                       )}
                     </StepperIndicator>
-                    <StepperLabel className={LABEL}>{label}</StepperLabel>
+                    <StepperLabel>{label}</StepperLabel>
                   </StepperItem>
                   {i < 2 && (
-                    <StepperConnector className={CONNECTOR}>
+                    <StepperConnector>
                       <ConnectorFill filled={i < 1} />
                     </StepperConnector>
                   )}
@@ -283,13 +257,13 @@ export default function StepperPage() {
               {["Upload", "Process", "Complete"].map((label, i) => (
                 <Fragment key={label}>
                   <StepperItem state="completed">
-                    <StepperIndicator className={INDICATOR}>
+                    <StepperIndicator>
                       <Check size={14} weight="bold" />
                     </StepperIndicator>
-                    <StepperLabel className={LABEL}>{label}</StepperLabel>
+                    <StepperLabel>{label}</StepperLabel>
                   </StepperItem>
                   {i < 2 && (
-                    <StepperConnector className={CONNECTOR}>
+                    <StepperConnector>
                       <ConnectorFill filled />
                     </StepperConnector>
                   )}
