@@ -47,6 +47,7 @@ Quick reference for all DS exports. Click component name to jump to its full doc
 | Passive extra info on hover | **Tooltip** — non-blocking, hover/focus triggered | Dialog — too heavy for supplementary info |
 | Loading placeholder (content area) | **Skeleton** — consumer-sized via className, pulse animation | Spinner — Skeleton is for layout placeholders, Spinner is for inline loading |
 | Inline loading indicator (button, action) | **Spinner** — animated circle, no layout footprint | Skeleton — Skeleton is for content area placeholders |
+| Determinate/indeterminate progress | **ProgressBar** — 3 sizes, optional description, value clamping | Spinner — ProgressBar shows measurable progress, Spinner is for unknown duration |
 
 ### Selection & Input
 
@@ -70,6 +71,7 @@ Quick reference for all DS exports. Click component name to jump to its full doc
 | Location in page hierarchy | **Breadcrumb** — semantic nav/ol, `asChild` for router links | Plain text links — Breadcrumb handles separators and aria |
 | Switching between content panels | **Tabs** — underline or pill variant, keyboard navigation | Buttons + conditional rendering — Tabs manages state, a11y, and indicators |
 | Paginated data navigation | **Pagination** — fixed-slot layout, no layout shift | Custom prev/next buttons — Pagination handles ellipsis, boundaries, and aria |
+| Multi-step workflow indicator | **Stepper** — composable 7-part compound, horizontal/vertical, unstyled | Breadcrumb — Stepper tracks progress state, Breadcrumb tracks location |
 
 ## Design Methodology
 
@@ -1566,6 +1568,93 @@ import { MultiSelect } from "@aleph-front/ds/multi-select";
 
 **Dropdown:** `rounded-2xl`, `bg-surface`, `border border-edge`, `shadow-brand`. Items highlight with `bg-muted`. Selected items show filled checkbox with check icon.
 
+### ProgressBar
+
+Determinate or indeterminate progress indicator with 3 sizes and optional description.
+
+```tsx
+import { ProgressBar, ProgressBarDescription } from "@aleph-front/ds/progress-bar";
+
+// Determinate — value out of max (default 100)
+<ProgressBar value={35} label="Upload progress" />
+
+// Indeterminate — omit value
+<ProgressBar label="Loading data" />
+
+// With description (linked via aria-describedby)
+<ProgressBar value={75} label="Deployment">
+  <ProgressBarDescription>Deploying 3 of 4 services...</ProgressBarDescription>
+</ProgressBar>
+
+// Custom max
+<ProgressBar value={3} max={5} label="Step progress" />
+
+// Custom fill color via data-fill selector
+<ProgressBar value={90} label="Critical" className="[&_[data-fill]]:bg-error-500" />
+```
+
+**Props:** `value` (number, omit for indeterminate), `max` (number, default 100), `label` (string, required — becomes `aria-label`), `size` (`"sm"` | `"md"` | `"lg"`, default `"md"`).
+
+**Sizes:** `sm` = 4px, `md` = 6px (default), `lg` = 10px track height.
+
+**Indeterminate mode:** Omit `value`. The fill bar animates a sliding loop. `aria-valuenow` is omitted per WAI-ARIA spec.
+
+**Custom colors:** Target the fill via `[&_[data-fill]]` selector in className. Works with any Tailwind `bg-*` class.
+
+### Stepper
+
+Composable multi-step indicator with horizontal/vertical orientation. Unstyled by default — consumers apply visual treatment via `data-state` and `data-orientation` attribute selectors.
+
+```tsx
+import {
+  Stepper, StepperList, StepperItem, StepperIndicator,
+  StepperLabel, StepperDescription, StepperConnector,
+} from "@aleph-front/ds/stepper";
+
+<Stepper aria-label="Deployment wizard">
+  <StepperList>
+    <StepperItem state="completed">
+      <StepperIndicator className="...">1</StepperIndicator>
+      <StepperLabel className="...">Select</StepperLabel>
+    </StepperItem>
+    <StepperConnector />
+    <StepperItem state="active">
+      <StepperIndicator className="...">2</StepperIndicator>
+      <StepperLabel className="...">Configure</StepperLabel>
+      <StepperDescription className="...">Setting up...</StepperDescription>
+    </StepperItem>
+    <StepperConnector />
+    <StepperItem state="inactive">
+      <StepperIndicator className="...">3</StepperIndicator>
+      <StepperLabel className="...">Deploy</StepperLabel>
+    </StepperItem>
+  </StepperList>
+</Stepper>
+
+// Vertical
+<Stepper orientation="vertical" aria-label="Pipeline">
+  ...
+</Stepper>
+```
+
+**Parts:**
+
+| Part | Element | Purpose |
+|------|---------|---------|
+| `Stepper` | `<nav>` | Root, carries `orientation` context |
+| `StepperList` | `<ol>` | Ordered list container |
+| `StepperItem` | `<li>` | Step, carries `state` context, sets `data-state` and `aria-current="step"` |
+| `StepperIndicator` | `<div>` | Number/icon circle, inherits `data-state` |
+| `StepperLabel` | `<span>` | Step title, inherits `data-state` |
+| `StepperDescription` | `<span>` | Step subtitle, inherits `data-state` |
+| `StepperConnector` | `<li>` | Line between steps, `aria-hidden`, inherits `data-orientation` |
+
+**State:** `StepperItem` accepts `state` prop (`"completed"` | `"active"` | `"inactive"`, default `"inactive"`). State propagates as `data-state` to all child parts via React context. Style with `data-[state=completed]:`, `data-[state=active]:`, etc.
+
+**Orientation:** `Stepper` accepts `orientation` (`"horizontal"` | `"vertical"`, default `"horizontal"`). Propagates as `data-orientation` to `StepperConnector` and layout classes on `StepperList`.
+
+**Connectors are siblings:** `StepperConnector` must be a sibling of `StepperItem` in the list — not a child. Both render as `<li>`.
+
 ### Spinner
 
 Animated loading indicator. Used internally by Button but available standalone.
@@ -1632,6 +1721,7 @@ Run `npm run dev` and visit http://localhost:3000. Sidebar navigation organized 
 |-------|---------|
 | `/components/alert` | Variants, title, dismiss, auto-dismiss timer |
 | `/components/dialog` | Uncontrolled, controlled, locked mode |
+| `/components/progress-bar` | Determinate, indeterminate, sizes, description, custom max, animated, custom colors |
 | `/components/skeleton` | Basic shapes, card loading, table row loading |
 | `/components/tooltip` | Basic, sides, placement |
 
@@ -1641,6 +1731,7 @@ Run `npm run dev` and visit http://localhost:3000. Sidebar navigation organized 
 |-------|---------|
 | `/components/breadcrumb` | Default, custom separator, asChild routing |
 | `/components/pagination` | Default, compact, sibling count |
+| `/components/stepper` | Horizontal, vertical, interactive, minimal, all-completed |
 | `/components/tabs` | Underline, pill, overflow collapse, badges |
 
 **Forms**

@@ -18,11 +18,21 @@ import { DemoSection } from "@preview/components/demo-section";
 type StepState = "completed" | "active" | "inactive";
 
 const INDICATOR =
-  "flex size-8 items-center justify-center rounded-full text-sm font-bold " +
+  "relative flex size-8 items-center justify-center rounded-full font-heading text-sm font-bold " +
   "border-2 border-edge text-muted-foreground " +
   "data-[state=active]:border-primary-500 data-[state=active]:bg-primary-500 data-[state=active]:text-white " +
   "data-[state=completed]:border-primary-500 data-[state=completed]:bg-primary-500 data-[state=completed]:text-white " +
-  "transition-colors";
+  "transition-all duration-300 motion-reduce:transition-colors";
+
+function ActiveRipple({ active }: { active: boolean }) {
+  if (!active) return null;
+  return (
+    <>
+      <span className="absolute -inset-1 rounded-full border-2 border-primary-400/35 animate-[ring-wave_2.4s_ease-in-out_infinite] motion-reduce:animate-none" />
+      <span className="absolute -inset-1.5 rounded-full border border-primary-300/25 animate-[ring-wave_2.4s_ease-in-out_-1.2s_infinite] motion-reduce:animate-none" />
+    </>
+  );
+}
 
 const LABEL =
   "block text-sm text-muted-foreground " +
@@ -33,8 +43,29 @@ const LABEL =
 const DESCRIPTION = "block text-xs text-muted-foreground mt-0.5";
 
 const CONNECTOR =
-  "data-[orientation=horizontal]:h-0.5 data-[orientation=vertical]:w-0.5 " +
-  "rounded-full bg-edge";
+  "relative overflow-hidden " +
+  "data-[orientation=horizontal]:h-1 data-[orientation=vertical]:w-1 " +
+  "rounded-full bg-edge/50";
+
+function ConnectorFill({
+  filled,
+  vertical = false,
+}: {
+  filled: boolean;
+  vertical?: boolean;
+}) {
+  return (
+    <span
+      className={
+        "absolute inset-0 rounded-full bg-primary-500/70 " +
+        "transition-transform duration-500 ease-out motion-reduce:transition-none " +
+        (vertical
+          ? `origin-top ${filled ? "scale-y-100" : "scale-y-0"}`
+          : `origin-left ${filled ? "scale-x-100" : "scale-x-0"}`)
+      }
+    />
+  );
+}
 
 function getStepState(index: number, activeStep: number): StepState {
   if (index < activeStep) return "completed";
@@ -60,6 +91,7 @@ function InteractiveStepper() {
             <Fragment key={s.label}>
               <StepperItem state={getStepState(i, step)}>
                 <StepperIndicator className={INDICATOR}>
+                  <ActiveRipple active={i === step} />
                   {i < step ? <Check size={14} weight="bold" /> : i + 1}
                 </StepperIndicator>
                 <div className="hidden sm:block">
@@ -70,7 +102,9 @@ function InteractiveStepper() {
                 </div>
               </StepperItem>
               {i < DEPLOY_STEPS.length - 1 && (
-                <StepperConnector className={CONNECTOR} />
+                <StepperConnector className={CONNECTOR}>
+                  <ConnectorFill filled={i < step} />
+                </StepperConnector>
               )}
             </Fragment>
           ))}
@@ -107,6 +141,12 @@ function InteractiveStepper() {
 export default function StepperPage() {
   return (
     <>
+      <style>{`
+        @keyframes ring-wave {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.15); }
+        }
+      `}</style>
       <PageHeader
         title="Stepper"
         description="A composable multi-step indicator with horizontal/vertical orientation, state propagation via context, and unstyled-by-default parts for full consumer control."
@@ -122,14 +162,19 @@ export default function StepperPage() {
                 </StepperIndicator>
                 <StepperLabel className={LABEL}>Account</StepperLabel>
               </StepperItem>
-              <StepperConnector className={CONNECTOR} />
+              <StepperConnector className={CONNECTOR}>
+                <ConnectorFill filled />
+              </StepperConnector>
               <StepperItem state="active">
                 <StepperIndicator className={INDICATOR}>
+                  <ActiveRipple active />
                   2
                 </StepperIndicator>
                 <StepperLabel className={LABEL}>Profile</StepperLabel>
               </StepperItem>
-              <StepperConnector className={CONNECTOR} />
+              <StepperConnector className={CONNECTOR}>
+                <ConnectorFill filled={false} />
+              </StepperConnector>
               <StepperItem state="inactive">
                 <StepperIndicator className={INDICATOR}>
                   3
@@ -154,9 +199,9 @@ export default function StepperPage() {
                   </StepperDescription>
                 </div>
               </StepperItem>
-              <StepperConnector
-                className={`${CONNECTOR} ml-4 my-1 min-h-6`}
-              />
+              <StepperConnector className={`${CONNECTOR} ml-4 my-1 min-h-6`}>
+                <ConnectorFill filled vertical />
+              </StepperConnector>
               <StepperItem state="completed">
                 <StepperIndicator className={INDICATOR}>
                   <Check size={14} weight="bold" />
@@ -168,11 +213,12 @@ export default function StepperPage() {
                   </StepperDescription>
                 </div>
               </StepperItem>
-              <StepperConnector
-                className={`${CONNECTOR} ml-4 my-1 min-h-6`}
-              />
+              <StepperConnector className={`${CONNECTOR} ml-4 my-1 min-h-6`}>
+                <ConnectorFill filled vertical />
+              </StepperConnector>
               <StepperItem state="active">
                 <StepperIndicator className={INDICATOR}>
+                  <ActiveRipple active />
                   3
                 </StepperIndicator>
                 <div>
@@ -182,9 +228,9 @@ export default function StepperPage() {
                   </StepperDescription>
                 </div>
               </StepperItem>
-              <StepperConnector
-                className={`${CONNECTOR} ml-4 my-1 min-h-6`}
-              />
+              <StepperConnector className={`${CONNECTOR} ml-4 my-1 min-h-6`}>
+                <ConnectorFill filled={false} vertical />
+              </StepperConnector>
               <StepperItem state="inactive">
                 <StepperIndicator className={INDICATOR}>
                   4
@@ -211,6 +257,7 @@ export default function StepperPage() {
                 <Fragment key={label}>
                   <StepperItem state={getStepState(i, 1)}>
                     <StepperIndicator className={INDICATOR}>
+                      <ActiveRipple active={i === 1} />
                       {i < 1 ? (
                         <Check size={14} weight="bold" />
                       ) : (
@@ -219,7 +266,11 @@ export default function StepperPage() {
                     </StepperIndicator>
                     <StepperLabel className={LABEL}>{label}</StepperLabel>
                   </StepperItem>
-                  {i < 2 && <StepperConnector className={CONNECTOR} />}
+                  {i < 2 && (
+                    <StepperConnector className={CONNECTOR}>
+                      <ConnectorFill filled={i < 1} />
+                    </StepperConnector>
+                  )}
                 </Fragment>
               ))}
             </StepperList>
@@ -237,7 +288,11 @@ export default function StepperPage() {
                     </StepperIndicator>
                     <StepperLabel className={LABEL}>{label}</StepperLabel>
                   </StepperItem>
-                  {i < 2 && <StepperConnector className={CONNECTOR} />}
+                  {i < 2 && (
+                    <StepperConnector className={CONNECTOR}>
+                      <ConnectorFill filled />
+                    </StepperConnector>
+                  )}
                 </Fragment>
               ))}
             </StepperList>
