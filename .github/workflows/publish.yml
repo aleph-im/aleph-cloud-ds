@@ -26,7 +26,7 @@ jobs:
           # No registry-url — it auto-sets NODE_AUTH_TOKEN which blocks OIDC
 
       - name: Upgrade npm (OIDC requires >= 11.5.1)
-        run: npm install -g npm@latest
+        run: npm install -g npm@11.4.2
 
       - run: npm ci
 
