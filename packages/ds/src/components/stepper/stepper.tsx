@@ -113,7 +113,15 @@ const StepperIndicator = forwardRef<HTMLDivElement, StepperIndicatorProps>(
       <div
         ref={ref}
         data-state={state}
-        className={cn(className)}
+        className={cn(
+          "relative flex size-8 items-center justify-center rounded-full",
+          "font-heading text-sm font-bold",
+          "border-2 border-edge text-muted-foreground",
+          "data-[state=active]:border-primary-500 data-[state=active]:bg-primary-500 data-[state=active]:text-white",
+          "data-[state=completed]:border-primary-500 data-[state=completed]:bg-primary-500 data-[state=completed]:text-white",
+          "transition-all duration-300 motion-reduce:transition-colors",
+          className,
+        )}
         {...rest}
       />
     );
@@ -133,7 +141,12 @@ const StepperLabel = forwardRef<HTMLSpanElement, StepperLabelProps>(
       <span
         ref={ref}
         data-state={state}
-        className={cn(className)}
+        className={cn(
+          "block text-sm text-muted-foreground transition-colors",
+          "data-[state=active]:text-foreground data-[state=active]:font-medium",
+          "data-[state=completed]:text-foreground",
+          className,
+        )}
         {...rest}
       />
     );
@@ -155,7 +168,7 @@ const StepperDescription = forwardRef<
     <span
       ref={ref}
       data-state={state}
-      className={cn(className)}
+      className={cn("block text-xs text-muted-foreground mt-0.5", className)}
       {...rest}
     />
   );
@@ -176,8 +189,8 @@ const StepperConnector = forwardRef<HTMLLIElement, StepperConnectorProps>(
         aria-hidden="true"
         data-orientation={orientation}
         className={cn(
-          "bg-edge flex-1",
-          orientation === "horizontal" ? "h-px" : "w-px",
+          "relative overflow-hidden rounded-full bg-edge/50 flex-1",
+          orientation === "horizontal" ? "h-1" : "w-1",
           className,
         )}
         {...rest}

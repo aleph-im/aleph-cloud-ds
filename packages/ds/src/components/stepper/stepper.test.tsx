@@ -391,7 +391,7 @@ describe("StepperConnector", () => {
     );
   });
 
-  it("applies h-px for horizontal and w-px for vertical", () => {
+  it("applies h-1 for horizontal and w-1 for vertical", () => {
     const { rerender } = render(
       <Stepper aria-label="Steps">
         <StepperList>
@@ -405,7 +405,7 @@ describe("StepperConnector", () => {
         </StepperList>
       </Stepper>,
     );
-    expect(screen.getByTestId("conn").className).toContain("h-px");
+    expect(screen.getByTestId("conn").className).toContain("h-1");
 
     rerender(
       <Stepper orientation="vertical" aria-label="Steps">
@@ -420,7 +420,7 @@ describe("StepperConnector", () => {
         </StepperList>
       </Stepper>,
     );
-    expect(screen.getByTestId("conn").className).toContain("w-px");
+    expect(screen.getByTestId("conn").className).toContain("w-1");
   });
 });
 
