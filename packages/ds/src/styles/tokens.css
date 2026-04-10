@@ -438,3 +438,15 @@
     linear-gradient(90deg, oklch(from var(--color-success-400) l c h / 0.15), oklch(from var(--color-success-600) l c h / 0.15)),
     var(--background);
 }
+
+/* ── ProgressBar indeterminate animation ───────── */
+
+@keyframes progress-indeterminate {
+  0% { translate: -100% 0; }
+  100% { translate: 100% 0; }
+}
+
+.animate-progress-indeterminate {
+  width: 40%;
+  animation: progress-indeterminate 1.5s ease-in-out infinite;
+}

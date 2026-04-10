@@ -51,7 +51,7 @@ Ideas and scope creep captured for later consideration.
 - ~~Alert / Banner~~ — done (see completed)
 - Avatar — user image with fallback initials
 - ~~Pagination~~ — done (see completed)
-- Progress — determinate progress bar
+- ~~Progress~~ — done (see completed)
 - ~~Breadcrumb~~ — done (see completed)
 **Priority:** High
 
@@ -74,6 +74,18 @@ Ideas and scope creep captured for later consideration.
 **Description:** Track the scheduler API endpoints for building dashboard UI that consumes them. Check periodically for new or changed routes.
 **Link:** https://github.com/aleph-im/aleph-vm-scheduler/blob/260302ee7ac4a81f972a7b44b04e4f537091080d/scheduler-api/src/routes/mod.rs#L882
 **Priority:** Low
+
+### 2026-04-10 — Restyle app progress bars to use DS ProgressBar
+
+**Source:** Identified during ProgressBar implementation
+**Description:** The cloud app has hand-rolled progress bars (likely inline divs with width %). Replace with `@aleph-front/ds/progress-bar` ProgressBar component for consistency and accessibility.
+**Priority:** Medium
+
+### 2026-04-10 — Restyle app stepper/pipeline to use DS Stepper
+
+**Source:** Identified during Stepper implementation
+**Description:** The cloud app has a StepIndicator and pipeline component for multi-step flows. Replace with `@aleph-front/ds/stepper` compound Stepper for consistency, accessibility, and orientation support.
+**Priority:** Medium
 
 ### 2026-02-26 — Button icon animations
 
@@ -117,5 +129,7 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-03-13 — CopyableText: remove tooltip, make text clickable when href provided
 - [x] 2026-03-13 — CopyableText: internal links open in new tab (auto-detect relative vs absolute URLs)
 - [x] 2026-03-16 — Button `text` variant hover invisible on `surface` background (bumped hover to primary-100, active to primary-200)
+- [x] 2026-04-10 — ProgressBar component (determinate + indeterminate, 3 sizes, ProgressBarDescription child)
+- [x] 2026-04-10 — Stepper compound component (7 parts, horizontal/vertical orientation, dual-context state propagation)
 
 </details>

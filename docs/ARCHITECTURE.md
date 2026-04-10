@@ -69,6 +69,12 @@ aleph-cloud-ds/
 │       │   │   ├── form-field/
 │       │   │   │   ├── form-field.tsx
 │       │   │   │   └── form-field.test.tsx
+│       │   │   ├── progress-bar/
+│       │   │   │   ├── progress-bar.tsx
+│       │   │   │   └── progress-bar.test.tsx
+│       │   │   ├── stepper/
+│       │   │   │   ├── stepper.tsx
+│       │   │   │   └── stepper.test.tsx
 │       │   │   ├── table/
 │       │   │   │   ├── table.tsx
 │       │   │   │   └── table.test.tsx
@@ -513,6 +519,30 @@ Absolutely-positioned element that slides between tabs via `MutationObserver` + 
 
 **Pill variant propagation:**
 Variant is propagated to triggers via `data-variant` attribute + Tailwind `group-data-[variant=pill]:` utilities. All pill variant classes are safelisted via `@source inline(...)` in `tokens.css` — Tailwind 4's scanner can't extract `=` inside data-attribute brackets.
+
+### Dual-Context Compound Component (Stepper)
+
+**Context:** A compound component needs to propagate two independent pieces of state: an outer layout concern (orientation) and a per-item concern (step state), without prop drilling.
+
+**Approach:** Two separate React contexts:
+1. `StepperContext` — carries `orientation` from `Stepper` (nav root) down to `StepperList` and `StepperConnector` for layout decisions (flex direction, connector axis).
+2. `StepperItemContext` — carries `state` (completed/active/inactive) from `StepperItem` down to its children (`StepperIndicator`, `StepperLabel`, `StepperDescription`) as `data-state` attributes.
+
+The component is intentionally unstyled — no CVA variants, no opinionated colors. Consumers style via `data-state` and `data-orientation` attribute selectors in their own Tailwind classes (e.g., `data-[state=completed]:text-success-500`).
+
+**Key files:** `packages/ds/src/components/stepper/stepper.tsx`
+
+**When to use dual context:** When a compound component has orthogonal concerns at different nesting levels. Orientation applies at the container level; state applies at the item level. A single context would conflate the two, and prop drilling through intermediate components (`StepperList`) would be fragile.
+
+### ProgressBar Description Pattern
+
+**Context:** A ProgressBar optionally has a description below the track. When present, the component needs a wrapper div for layout, and the description must be linked to the progressbar via `aria-describedby`.
+
+**Approach:** The component inspects its children for `ProgressBarDescription` via `Children.forEach` + `isValidElement` + type comparison. If found, it wraps the track and description in a flex column layout, and uses `cloneElement` to inject the auto-generated `id` into the description span. If no description, it renders the bare track div directly — no unnecessary wrapper.
+
+**Key files:** `packages/ds/src/components/progress-bar/progress-bar.tsx`
+
+**Notes:** `cloneElement` is used instead of spread (`{...child.props}`) because React 19's stricter types make `ReactElement.props` opaque (`Record<string, unknown>`), which TypeScript can't spread as JSX props. The `isValidElement<ProgressBarDescriptionProps>` generic parameter narrows the type for `cloneElement`.
 
 ### CopyableText Animation
 
