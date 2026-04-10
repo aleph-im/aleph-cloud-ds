@@ -53,6 +53,7 @@ const NAV: NavEntry[] = [
         items: [
           { label: "Alert", href: "/components/alert" },
           { label: "Dialog", href: "/components/dialog" },
+          { label: "ProgressBar", href: "/components/progress-bar" },
           { label: "Skeleton", href: "/components/skeleton" },
           { label: "Tooltip", href: "/components/tooltip" },
         ],
@@ -62,6 +63,7 @@ const NAV: NavEntry[] = [
         items: [
           { label: "Breadcrumb", href: "/components/breadcrumb" },
           { label: "Pagination", href: "/components/pagination" },
+          { label: "Stepper", href: "/components/stepper" },
           { label: "Tabs", href: "/components/tabs" },
         ],
       },
