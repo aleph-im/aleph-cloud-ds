@@ -107,7 +107,7 @@ StepperItem.displayName = "StepperItem";
 type StepperIndicatorProps = HTMLAttributes<HTMLDivElement>;
 
 const StepperIndicator = forwardRef<HTMLDivElement, StepperIndicatorProps>(
-  ({ className, ...rest }, ref) => {
+  ({ className, children, ...rest }, ref) => {
     const { state } = useStepperItemContext();
     return (
       <div
@@ -123,7 +123,15 @@ const StepperIndicator = forwardRef<HTMLDivElement, StepperIndicatorProps>(
           className,
         )}
         {...rest}
-      />
+      >
+        {state === "active" && (
+          <>
+            <span className="absolute -inset-1 rounded-full border-2 border-primary-400/35 animate-[ring-wave_2.4s_ease-in-out_infinite] motion-reduce:animate-none" />
+            <span className="absolute -inset-1.5 rounded-full border border-primary-300/25 animate-[ring-wave_2.4s_ease-in-out_-1.2s_infinite] motion-reduce:animate-none" />
+          </>
+        )}
+        {children}
+      </div>
     );
   },
 );

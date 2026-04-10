@@ -450,3 +450,10 @@
   width: 40%;
   animation: progress-indeterminate 1.5s ease-in-out infinite;
 }
+
+/* ── Stepper active indicator ripple ───────────── */
+
+@keyframes ring-wave {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}

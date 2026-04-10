@@ -17,17 +17,7 @@ import { DemoSection } from "@preview/components/demo-section";
 
 type StepState = "completed" | "active" | "inactive";
 
-/* ── Preview-only enhancements (not part of DS) ── */
-
-function ActiveRipple({ active }: { active: boolean }) {
-  if (!active) return null;
-  return (
-    <>
-      <span className="absolute -inset-1 rounded-full border-2 border-primary-400/35 animate-[ring-wave_2.4s_ease-in-out_infinite] motion-reduce:animate-none" />
-      <span className="absolute -inset-1.5 rounded-full border border-primary-300/25 animate-[ring-wave_2.4s_ease-in-out_-1.2s_infinite] motion-reduce:animate-none" />
-    </>
-  );
-}
+/* ── Preview-only enhancement (not part of DS) ─── */
 
 function ConnectorFill({
   filled,
@@ -75,7 +65,6 @@ function InteractiveStepper() {
             <Fragment key={s.label}>
               <StepperItem state={getStepState(i, step)}>
                 <StepperIndicator>
-                  <ActiveRipple active={i === step} />
                   {i < step ? <Check size={14} weight="bold" /> : i + 1}
                 </StepperIndicator>
                 <div className="hidden sm:block">
@@ -123,12 +112,6 @@ function InteractiveStepper() {
 export default function StepperPage() {
   return (
     <>
-      <style>{`
-        @keyframes ring-wave {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.15); }
-        }
-      `}</style>
       <PageHeader
         title="Stepper"
         description="A composable multi-step indicator with horizontal/vertical orientation, state propagation via context, and default styling that works out of the box."
@@ -148,10 +131,7 @@ export default function StepperPage() {
                 <ConnectorFill filled />
               </StepperConnector>
               <StepperItem state="active">
-                <StepperIndicator>
-                  <ActiveRipple active />
-                  2
-                </StepperIndicator>
+                <StepperIndicator>2</StepperIndicator>
                 <StepperLabel>Profile</StepperLabel>
               </StepperItem>
               <StepperConnector>
@@ -193,10 +173,7 @@ export default function StepperPage() {
                 <ConnectorFill filled vertical />
               </StepperConnector>
               <StepperItem state="active">
-                <StepperIndicator>
-                  <ActiveRipple active />
-                  3
-                </StepperIndicator>
+                <StepperIndicator>3</StepperIndicator>
                 <div>
                   <StepperLabel>Deploy</StepperLabel>
                   <StepperDescription>
@@ -231,7 +208,6 @@ export default function StepperPage() {
                 <Fragment key={label}>
                   <StepperItem state={getStepState(i, 1)}>
                     <StepperIndicator>
-                      <ActiveRipple active={i === 1} />
                       {i < 1 ? (
                         <Check size={14} weight="bold" />
                       ) : (
