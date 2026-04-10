@@ -1,5 +1,6 @@
 import {
   Children,
+  cloneElement,
   forwardRef,
   isValidElement,
   useId,
@@ -102,14 +103,11 @@ const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
     if (!hasDescription) return track;
 
     const descChildren = Children.map(children, (child) => {
-      if (isValidElement(child) && child.type === ProgressBarDescription) {
-        return (
-          <ProgressBarDescription
-            {...child.props}
-            id={descId}
-            key={child.key}
-          />
-        );
+      if (
+        isValidElement<ProgressBarDescriptionProps>(child) &&
+        child.type === ProgressBarDescription
+      ) {
+        return cloneElement(child, { id: descId });
       }
       return child;
     });
