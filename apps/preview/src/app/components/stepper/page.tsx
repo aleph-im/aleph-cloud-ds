@@ -25,12 +25,12 @@ const INDICATOR =
   "transition-colors";
 
 const LABEL =
-  "text-sm text-muted-foreground " +
+  "block text-sm text-muted-foreground " +
   "data-[state=active]:text-foreground data-[state=active]:font-medium " +
   "data-[state=completed]:text-foreground " +
   "transition-colors";
 
-const DESCRIPTION = "text-xs text-muted-foreground mt-0.5";
+const DESCRIPTION = "block text-xs text-muted-foreground mt-0.5";
 
 const CONNECTOR =
   "data-[orientation=horizontal]:h-0.5 data-[orientation=vertical]:w-0.5 " +
