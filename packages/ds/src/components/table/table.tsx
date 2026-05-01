@@ -34,7 +34,7 @@ function SortIcon({
     <CaretUp
       weight="bold"
       className={cn(
-        "ml-1 inline size-3 transition-transform motion-reduce:transition-none",
+        "inline size-3 transition-transform motion-reduce:transition-none",
         direction === "desc" && "rotate-180",
         direction === null && "opacity-0",
       )}
@@ -138,11 +138,20 @@ export function Table<T>({
                     : undefined
                 }
               >
-                {col.header}
-                {col.sortable && (
-                  <SortIcon
-                    direction={sortCol === i ? sortDir : null}
-                  />
+                {col.sortable ? (
+                  <span
+                    className={cn(
+                      "inline-flex items-center gap-1",
+                      col.align === "right" && "flex-row-reverse",
+                    )}
+                  >
+                    {col.header}
+                    <SortIcon
+                      direction={sortCol === i ? sortDir : null}
+                    />
+                  </span>
+                ) : (
+                  col.header
                 )}
               </th>
             ))}

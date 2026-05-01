@@ -18,6 +18,15 @@ Each entry includes:
 
 ---
 
+## Decision #74 — 2026-05-01
+
+**Context:** A colleague reported that the scheduler-dashboard `/credits` recipient table showed a visible misalignment between right-aligned sortable column headers and their body cells at mobile widths (CRN/CCN/Staking/Total/% columns). Root cause: `Table` always renders the sort icon (with `opacity-0` when inactive) so column width doesn't shift on toggle. For a right-aligned column the always-rendered icon sits at the cell's tail, pushing the visible header text ~16px to the left of where the right-aligned body cells end.
+**Decision:** For sortable columns with `align === "right"`, wrap the header text and icon in an `inline-flex items-center gap-1` span and apply `flex-row-reverse`. The cell's `text-right` still positions the flex group at the right edge; row-reverse moves the icon to the visual left of the group so the header text ends flush with the cell's right padding edge — matching body cells. Left and center alignment behavior is unchanged. The icon's prior `ml-1` was replaced with `gap-1` on the flex container so spacing works regardless of direction. The invisible-when-inactive icon behavior is intentionally preserved to keep column width stable on sort toggle.
+**Rationale:** This is the smallest possible CSS-only change that fixes the alignment without sacrificing the no-shift-on-toggle property. No new props, no consumer-visible API changes. The fix is invisible at desktop widths (where the existing layout was barely off) but immediately visible at mobile widths where columns are narrow.
+**Alternatives considered:** Conditionally rendering the icon only when active (rejected — would reintroduce width jumps on sort toggle). Reserving icon space via fixed-width spacer instead of always rendering the icon (rejected — adds DOM nodes for no behavior gain over the flex approach). Solving in the consuming app (rejected — fix belongs in the DS so every table benefits).
+
+---
+
 ## Decision #73 — 2026-04-10
 
 **Context:** Building a Stepper component for multi-step workflows. Needed to decide API shape (monolithic vs composable) and how to propagate orientation and step state to children.

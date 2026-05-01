@@ -131,5 +131,6 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-03-16 — Button `text` variant hover invisible on `surface` background (bumped hover to primary-100, active to primary-200)
 - [x] 2026-04-10 — ProgressBar component (determinate + indeterminate, 3 sizes, ProgressBarDescription child)
 - [x] 2026-04-10 — Stepper compound component (7 parts, horizontal/vertical orientation, dual-context state propagation)
+- [x] 2026-05-01 — Table sort-icon alignment fix on right-aligned headers (inline-flex + flex-row-reverse, no width shift on toggle)
 
 </details>

@@ -85,6 +85,20 @@ export default function TablePage() {
           keyExtractor={(r) => r.id}
         />
       </DemoSection>
+      <DemoSection title="Right-aligned sortable columns (narrow)">
+        <p className="mb-3 text-sm text-muted-foreground">
+          Right-aligned sortable header text must end flush with the right
+          edge of body cells. Verify the CPU % header aligns with its values
+          even at mobile width.
+        </p>
+        <div className="max-w-sm">
+          <Table
+            columns={columns.slice(1, 3)}
+            data={nodes}
+            keyExtractor={(r) => r.id}
+          />
+        </div>
+      </DemoSection>
     </>
   );
 }
