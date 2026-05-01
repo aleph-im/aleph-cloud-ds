@@ -477,6 +477,8 @@ export type Column<T> = {
 
 **Notes:** The generic type parameter flows from `columns` to `data` to `keyExtractor` to `onRowClick` — TypeScript enforces that all four agree on the row type. No `forwardRef` — the outermost element is a `<div>` wrapper for `overflow-x-auto`, not a single semantic element worth ref-forwarding.
 
+**Sort-icon alignment on right-aligned headers:** The sort icon is always present in the DOM (with `opacity-0` when inactive) so that toggling sort never changes the column width. For a right-aligned column, an always-rendered icon at the inline tail would push the visible header text ~16px to the left of where right-aligned body cells end — a misalignment most visible at narrow widths. The fix wraps sortable header content in an `inline-flex` span with `flex-row-reverse` for `align === "right"`. The cell's `text-right` still positions the whole flex group at the right edge; row-reverse moves the icon to the visual left of the group so the text ends flush with the cell's right padding edge — matching body cells. `gap-1` on the flex container replaces the icon's previous `ml-1` so spacing works in both directions. Left and center alignment are unchanged.
+
 ### Composable Radix Re-export
 
 **Context:** Tooltip has a naturally composable API (trigger + content can wrap any element) where flattening into a single component would lose flexibility. Different tradeoff from Select, where flat `options` simplified the consumer API.

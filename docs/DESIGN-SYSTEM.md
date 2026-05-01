@@ -1291,6 +1291,8 @@ const columns: Column<Node>[] = [
 
 **Keyboard accessibility:** Sortable headers are focusable (`tabIndex={0}`) and respond to Enter/Space. Clickable rows are focusable and respond to Enter. Headers include `aria-sort` (`ascending`/`descending`/`none`). Active row has `aria-current="true"`.
 
+**Sort-icon alignment on right-aligned columns:** Sortable headers always render the sort icon (opacity-0 when inactive) so toggling sort doesn't shift column width. For `align: "right"`, the header content is wrapped in an inline-flex with `flex-row-reverse` so the icon sits to the left of the header text — keeping the text's right edge flush with the right edge of body cells at any width.
+
 **Empty state:** Pass `emptyState` (ReactNode) to render a centered message spanning all columns when `data` is empty.
 
 ### Tooltip
