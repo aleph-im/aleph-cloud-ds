@@ -132,5 +132,6 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-04-10 — ProgressBar component (determinate + indeterminate, 3 sizes, ProgressBarDescription child)
 - [x] 2026-04-10 — Stepper compound component (7 parts, horizontal/vertical orientation, dual-context state propagation)
 - [x] 2026-05-01 — Table sort-icon alignment fix on right-aligned headers (inline-flex + flex-row-reverse, no width shift on toggle)
+- [x] 2026-05-02 — Table controlled-sort props (`sortColumn`/`sortDirection`/`onSortChange`) so externally paginated tables can sort the full dataset rather than only the current page
 
 </details>

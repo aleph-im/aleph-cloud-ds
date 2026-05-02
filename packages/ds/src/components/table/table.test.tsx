@@ -280,4 +280,89 @@ describe("Table", () => {
       expect(row.hasAttribute("aria-current")).toBe(false);
     }
   });
+
+  // --- Controlled sort ---
+
+  it("controlled mode does not sort data internally", () => {
+    // Pre-sorted desc by value: Gamma (30), Beta (20), Alpha (10)
+    const desc = [...data].reverse();
+    render(
+      <Table
+        columns={sortableColumns}
+        data={desc}
+        keyExtractor={(r) => r.id}
+        sortColumn="Value"
+        sortDirection="desc"
+        onSortChange={() => {}}
+      />,
+    );
+    const rows = screen.getAllByRole("row");
+    // Header row first, then data in passed order (Gamma, Beta, Alpha)
+    expect(rows[1]?.textContent).toContain("Gamma");
+    expect(rows[3]?.textContent).toContain("Alpha");
+  });
+
+  it("controlled mode shows sort indicator on sortColumn", () => {
+    render(
+      <Table
+        columns={sortableColumns}
+        data={data}
+        keyExtractor={(r) => r.id}
+        sortColumn="Value"
+        sortDirection="desc"
+        onSortChange={() => {}}
+      />,
+    );
+    const valueHeader = screen.getByText("Value").closest("th");
+    expect(valueHeader?.getAttribute("aria-sort")).toBe("descending");
+  });
+
+  it("controlled mode calls onSortChange with asc on first click", async () => {
+    const user = userEvent.setup();
+    const onSortChange = vi.fn();
+    render(
+      <Table
+        columns={sortableColumns}
+        data={data}
+        keyExtractor={(r) => r.id}
+        onSortChange={onSortChange}
+      />,
+    );
+    await user.click(screen.getByText("Value").closest("th")!);
+    expect(onSortChange).toHaveBeenCalledWith("Value", "asc");
+  });
+
+  it("controlled mode toggles direction when clicking the active column", async () => {
+    const user = userEvent.setup();
+    const onSortChange = vi.fn();
+    render(
+      <Table
+        columns={sortableColumns}
+        data={data}
+        keyExtractor={(r) => r.id}
+        sortColumn="Value"
+        sortDirection="asc"
+        onSortChange={onSortChange}
+      />,
+    );
+    await user.click(screen.getByText("Value").closest("th")!);
+    expect(onSortChange).toHaveBeenCalledWith("Value", "desc");
+  });
+
+  it("controlled mode resets to asc when switching columns", async () => {
+    const user = userEvent.setup();
+    const onSortChange = vi.fn();
+    render(
+      <Table
+        columns={sortableColumns}
+        data={data}
+        keyExtractor={(r) => r.id}
+        sortColumn="Value"
+        sortDirection="desc"
+        onSortChange={onSortChange}
+      />,
+    );
+    await user.click(screen.getByText("Name").closest("th")!);
+    expect(onSortChange).toHaveBeenCalledWith("Name", "asc");
+  });
 });

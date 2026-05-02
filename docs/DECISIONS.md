@@ -18,6 +18,15 @@ Each entry includes:
 
 ---
 
+## Decision #75 — 2026-05-02
+
+**Context:** Scheduler dashboard users reported that clicking "VMs"/"Memory"/"vCPU" descending in the Nodes and VMs tables didn't show the highest-stat rows first. Root cause: the dashboard paginates externally and passes only the current page (`pageItems`) to `Table`, but `Table` sorted the array internally. Sorting only operated on the visible 25 rows, so high-stat rows on later pages never bubbled up.
+**Decision:** Add controlled-sort props to `Table`: `sortColumn` (header string), `sortDirection`, and `onSortChange(column, direction)`. When `onSortChange` is provided, the table operates in controlled mode — it does not sort `data` internally and renders the sort indicator from the controlled props. The parent owns sort state, applies it to the full filtered dataset, and passes the resulting page slice as `data`. Uncontrolled behavior is preserved when these props are absent. Columns are identified by `header` string, not index.
+**Rationale:** Additive API — no breaking change for the existing preview demos or the credits recipient table that already work correctly under the uncontrolled model. Controlled mode activates only when `onSortChange` is supplied, preventing soft-locked state where indicator props are passed without a way to update them. Header strings are more stable than positional indices when columns get re-ordered. Reusing the column's `sortValue` getter externally is trivially small (a few lines per consumer), so the table doesn't need to expose a sort utility.
+**Alternatives considered:** Listen-only `onSortChange` callback while keeping the table uncontrolled (rejected — URL-driven initial sort can't seed the indicator, and external state changes can't drive the indicator). Move pagination into `Table` itself (rejected — too opinionated for a primitive; consumers want their own pagination chrome). Identify columns by index (rejected — fragile across re-orderings).
+
+---
+
 ## Decision #74 — 2026-05-01
 
 **Context:** A colleague reported that the scheduler-dashboard `/credits` recipient table showed a visible misalignment between right-aligned sortable column headers and their body cells at mobile widths (CRN/CCN/Staking/Total/% columns). Root cause: `Table` always renders the sort icon (with `opacity-0` when inactive) so column width doesn't shift on toggle. For a right-aligned column the always-rendered icon sits at the cell's tail, pushing the visible header text ~16px to the left of where the right-aligned body cells end.
