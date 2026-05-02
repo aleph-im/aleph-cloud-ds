@@ -56,6 +56,39 @@ const columns: Column<Node>[] = [
   },
 ];
 
+function ControlledSortDemo() {
+  const [sortColumn, setSortColumn] = useState<string>("VMs");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">(
+    "desc",
+  );
+
+  const sorted = [...nodes].sort((a, b) => {
+    const col = columns.find((c) => c.header === sortColumn);
+    if (!col?.sortValue) return 0;
+    const aVal = col.sortValue(a);
+    const bVal = col.sortValue(b);
+    const dir = sortDirection === "asc" ? 1 : -1;
+    if (typeof aVal === "number" && typeof bVal === "number") {
+      return (aVal - bVal) * dir;
+    }
+    return String(aVal).localeCompare(String(bVal)) * dir;
+  });
+
+  return (
+    <Table
+      columns={columns}
+      data={sorted}
+      keyExtractor={(r) => r.id}
+      sortColumn={sortColumn}
+      sortDirection={sortDirection}
+      onSortChange={(col, dir) => {
+        setSortColumn(col);
+        setSortDirection(dir);
+      }}
+    />
+  );
+}
+
 export default function TablePage() {
   const [selected, setSelected] = useState<string | null>(null);
 
@@ -98,6 +131,16 @@ export default function TablePage() {
             keyExtractor={(r) => r.id}
           />
         </div>
+      </DemoSection>
+      <DemoSection title="Controlled sort">
+        <p className="mb-3 text-sm text-muted-foreground">
+          Use when sorting must apply to a larger dataset than the rows
+          rendered (e.g. a paginated list). The parent owns sort state and
+          pre-sorts the data; the table delegates header clicks via{" "}
+          <code>onSortChange</code> and renders the indicator from{" "}
+          <code>sortColumn</code>/<code>sortDirection</code>.
+        </p>
+        <ControlledSortDemo />
       </DemoSection>
     </>
   );

@@ -1293,6 +1293,27 @@ const columns: Column<Node>[] = [
 
 **Sort-icon alignment on right-aligned columns:** Sortable headers always render the sort icon (opacity-0 when inactive) so toggling sort doesn't shift column width. For `align: "right"`, the header content is wrapped in an inline-flex with `flex-row-reverse` so the icon sits to the left of the header text — keeping the text's right edge flush with the right edge of body cells at any width.
 
+**Controlled sort:** By default, the table sorts the `data` array internally — fine when `data` contains every row that should participate in the sort. When the rows passed to `data` are a subset of a larger dataset (for example, the current page of an externally paginated list), pass `sortColumn`, `sortDirection`, and `onSortChange` to operate in controlled mode. The table delegates header clicks via `onSortChange(column, direction)` and renders the indicator from the controlled props; the parent owns the sort state and pre-sorts the full dataset before passing the visible slice.
+
+```tsx
+const [sortColumn, setSortColumn] = useState("VMs");
+const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+const sorted = applySort(filteredRows, columns, sortColumn, sortDirection);
+const pageItems = paginate(sorted);
+
+<Table
+  columns={columns}
+  data={pageItems}
+  keyExtractor={(r) => r.id}
+  sortColumn={sortColumn}
+  sortDirection={sortDirection}
+  onSortChange={(col, dir) => {
+    setSortColumn(col);
+    setSortDirection(dir);
+  }}
+/>
+```
+
 **Empty state:** Pass `emptyState` (ReactNode) to render a centered message spanning all columns when `data` is empty.
 
 ### Tooltip

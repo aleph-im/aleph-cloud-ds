@@ -23,6 +23,17 @@ type TableProps<T> = {
   activeKey?: string | undefined;
   emptyState?: ReactNode;
   className?: string;
+  /**
+   * Header of the column to indicate as sorted.
+   * When provided alongside `onSortChange`, the table operates in
+   * controlled mode: it does not sort `data` internally and assumes
+   * the parent passes pre-sorted rows. Use this when sorting must
+   * apply to a larger dataset than the rows currently rendered
+   * (e.g. when paginating outside the table).
+   */
+  sortColumn?: string;
+  sortDirection?: SortDirection;
+  onSortChange?: (column: string, direction: SortDirection) => void;
 };
 
 function SortIcon({
@@ -60,16 +71,47 @@ export function Table<T>({
   activeKey,
   emptyState,
   className,
+  sortColumn,
+  sortDirection,
+  onSortChange,
 }: TableProps<T>) {
-  const [sortCol, setSortCol] = useState<number | null>(null);
-  const [sortDir, setSortDir] = useState<SortDirection>("asc");
+  const isControlled = onSortChange != null;
+
+  const [internalSortCol, setInternalSortCol] = useState<number | null>(
+    null,
+  );
+  const [internalSortDir, setInternalSortDir] =
+    useState<SortDirection>("asc");
+
+  const controlledSortCol =
+    sortColumn != null
+      ? columns.findIndex((c) => c.header === sortColumn)
+      : -1;
+  const activeSortCol = isControlled
+    ? controlledSortCol >= 0
+      ? controlledSortCol
+      : null
+    : internalSortCol;
+  const activeSortDir = isControlled
+    ? (sortDirection ?? "asc")
+    : internalSortDir;
 
   function handleSort(colIndex: number) {
-    if (sortCol === colIndex) {
-      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+    const col = columns[colIndex];
+    if (!col?.sortable) return;
+    if (isControlled) {
+      const isCurrent = activeSortCol === colIndex;
+      const nextDir: SortDirection = isCurrent
+        ? activeSortDir === "asc"
+          ? "desc"
+          : "asc"
+        : "asc";
+      onSortChange(col.header, nextDir);
+    } else if (internalSortCol === colIndex) {
+      setInternalSortDir((d) => (d === "asc" ? "desc" : "asc"));
     } else {
-      setSortCol(colIndex);
-      setSortDir("asc");
+      setInternalSortCol(colIndex);
+      setInternalSortDir("asc");
     }
   }
 
@@ -91,18 +133,21 @@ export function Table<T>({
   }
 
   let sortedData = data;
-  const activeCol = sortCol !== null ? columns[sortCol] : undefined;
-  if (activeCol?.sortValue) {
-    const getValue = activeCol.sortValue;
-    const dir = sortDir === "asc" ? 1 : -1;
-    sortedData = [...data].sort((a, b) => {
-      const aVal = getValue(a);
-      const bVal = getValue(b);
-      if (typeof aVal === "number" && typeof bVal === "number") {
-        return (aVal - bVal) * dir;
-      }
-      return String(aVal).localeCompare(String(bVal)) * dir;
-    });
+  if (!isControlled) {
+    const activeCol =
+      activeSortCol !== null ? columns[activeSortCol] : undefined;
+    if (activeCol?.sortValue) {
+      const getValue = activeCol.sortValue;
+      const dir = activeSortDir === "asc" ? 1 : -1;
+      sortedData = [...data].sort((a, b) => {
+        const aVal = getValue(a);
+        const bVal = getValue(b);
+        if (typeof aVal === "number" && typeof bVal === "number") {
+          return (aVal - bVal) * dir;
+        }
+        return String(aVal).localeCompare(String(bVal)) * dir;
+      });
+    }
   }
 
   const alignClass = {
@@ -128,7 +173,7 @@ export function Table<T>({
                 tabIndex={col.sortable ? 0 : undefined}
                 aria-sort={
                   col.sortable
-                    ? ariaSortValue(i, sortCol, sortDir)
+                    ? ariaSortValue(i, activeSortCol, activeSortDir)
                     : undefined
                 }
                 onClick={col.sortable ? () => handleSort(i) : undefined}
@@ -147,7 +192,9 @@ export function Table<T>({
                   >
                     {col.header}
                     <SortIcon
-                      direction={sortCol === i ? sortDir : null}
+                      direction={
+                        activeSortCol === i ? activeSortDir : null
+                      }
                     />
                   </span>
                 ) : (
