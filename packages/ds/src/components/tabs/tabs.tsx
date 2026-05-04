@@ -25,6 +25,7 @@ type TabsListProps = ComponentPropsWithoutRef<typeof TabsPrimitive.List> & {
   variant?: TabsVariant;
   size?: TabsSize;
   overflow?: "collapse";
+  maxVisible?: number;
 };
 
 /* ── Overflow hook ───────────────────────────── */
@@ -33,6 +34,7 @@ function useOverflow(
   listRef: React.RefObject<HTMLElement | null>,
   overflowTriggerRef: React.RefObject<HTMLElement | null>,
   enabled: boolean,
+  maxVisible: number | undefined,
 ) {
   const [hiddenTabs, setHiddenTabs] = useState<HiddenTab[]>([]);
   const [hasActiveHidden, setHasActiveHidden] = useState(false);
@@ -66,18 +68,29 @@ function useOverflow(
     const containerWidth = list.clientWidth;
     const triggerWidth = trigger.offsetWidth;
 
-    let newBreakIndex: number | null = null;
+    let widthBreakIndex: number | null = null;
 
     for (let i = 0; i < tabs.length; i++) {
       const tab = tabs[i] as HTMLElement;
       const tabRight = tab.getBoundingClientRect().right - containerLeft;
       if (tabRight + triggerWidth > containerWidth) {
-        newBreakIndex = i;
+        widthBreakIndex = i;
         break;
       }
     }
 
-    // All tabs fit — no overflow needed
+    // Final break index — stricter of width-based and count-based limits.
+    // null means no overflow.
+    let newBreakIndex: number | null = null;
+    if (widthBreakIndex !== null && maxVisible !== undefined) {
+      newBreakIndex = Math.min(widthBreakIndex, maxVisible);
+    } else if (widthBreakIndex !== null) {
+      newBreakIndex = widthBreakIndex;
+    } else if (maxVisible !== undefined && maxVisible < tabs.length) {
+      newBreakIndex = maxVisible;
+    }
+
+    // All tabs fit by width — verify last tab actually fits before bailing
     if (newBreakIndex === null) {
       const lastTab = tabs[tabs.length - 1];
       if (lastTab) {
@@ -134,7 +147,7 @@ function useOverflow(
 
     setHiddenTabs(newHidden);
     setHasActiveHidden(activeHidden);
-  }, [listRef, overflowTriggerRef, enabled]);
+  }, [listRef, overflowTriggerRef, enabled, maxVisible]);
 
   useEffect(() => {
     const list = listRef.current;
@@ -263,7 +276,7 @@ const OverflowTrigger = forwardRef<HTMLButtonElement, OverflowTriggerProps>(
 OverflowTrigger.displayName = "OverflowTrigger";
 
 const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
-  ({ className, children, variant = "underline", size = "md", overflow, ...rest }, ref) => {
+  ({ className, children, variant = "underline", size = "md", overflow, maxVisible, ...rest }, ref) => {
     const innerRef = useRef<HTMLDivElement>(null);
     const indicatorRef = useRef<HTMLDivElement>(null);
     const overflowTriggerRef = useRef<HTMLButtonElement>(null);
@@ -271,6 +284,10 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
     const isPill = variant === "pill";
     const isSmall = size === "sm";
     const isCollapse = overflow === "collapse";
+    // maxVisible activates the same overflow code path; isCollapse stays
+    // bound to overflow="collapse" so layout (full-width pill) only changes
+    // when the consumer opts into width-based collapse.
+    const showOverflow = isCollapse || maxVisible !== undefined;
 
     const setRefs = (node: HTMLDivElement | null) => {
       innerRef.current = node;
@@ -281,7 +298,8 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
     const { hiddenTabs, hasActiveHidden } = useOverflow(
       innerRef,
       overflowTriggerRef,
-      isCollapse,
+      showOverflow,
+      maxVisible,
     );
 
     useEffect(() => {
@@ -357,7 +375,7 @@ const TabsList = forwardRef<HTMLDivElement, TabsListProps>(
         {...rest}
       >
         {children}
-        {isCollapse && (
+        {showOverflow && (
           <OverflowTrigger
             ref={overflowTriggerRef}
             isPill={isPill}
