@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
 import { createRef } from "react";
@@ -426,5 +426,196 @@ describe("Tabs pill variant", () => {
     const list = screen.getByRole("tablist");
     expect(list).toHaveClass("custom-pill");
     expect(list).toHaveClass("rounded-full");
+  });
+});
+
+/* ── maxVisible prop ─────────────────────────── */
+
+function renderManyTabs({
+  maxVisible,
+  overflow,
+  defaultValue = "tab-1",
+  count = 10,
+}: {
+  maxVisible?: number;
+  overflow?: "collapse";
+  defaultValue?: string;
+  count?: number;
+} = {}) {
+  return render(
+    <Tabs defaultValue={defaultValue}>
+      <TabsList
+        {...(maxVisible !== undefined ? { maxVisible } : {})}
+        {...(overflow ? { overflow } : {})}
+      >
+        {Array.from({ length: count }, (_, i) => (
+          <TabsTrigger key={`tab-${String(i + 1)}`} value={`tab-${String(i + 1)}`}>
+            Tab {i + 1}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+      {Array.from({ length: count }, (_, i) => (
+        <TabsContent key={`tab-${String(i + 1)}`} value={`tab-${String(i + 1)}`}>
+          Content {i + 1}
+        </TabsContent>
+      ))}
+    </Tabs>,
+  );
+}
+
+function makeRect(left: number, right: number) {
+  return {
+    left,
+    right,
+    top: 0,
+    bottom: 30,
+    width: right - left,
+    height: 30,
+    x: left,
+    y: 0,
+    toJSON: () => ({}),
+  } as DOMRect;
+}
+
+describe("Tabs maxVisible", () => {
+  it("caps visible tabs to the count cap when set", () => {
+    renderManyTabs({ maxVisible: 3, count: 10 });
+    const tabs = screen.getAllByRole("tab", { hidden: true });
+    expect(tabs).toHaveLength(10);
+    for (let i = 0; i < 3; i++) {
+      expect(tabs[i]?.style.visibility).not.toBe("hidden");
+    }
+    for (let i = 3; i < 10; i++) {
+      expect(tabs[i]?.style.visibility).toBe("hidden");
+    }
+  });
+
+  it("renders the overflow trigger when only maxVisible is set (no overflow prop)", () => {
+    renderManyTabs({ maxVisible: 3, count: 10 });
+    expect(
+      screen.getByRole("button", { name: "More tabs" }),
+    ).toBeDefined();
+  });
+
+  it("does not render the overflow trigger when neither maxVisible nor overflow is set", () => {
+    renderManyTabs({ count: 4 });
+    expect(
+      screen.queryByRole("button", { name: "More tabs" }),
+    ).toBeNull();
+  });
+
+  it("does not hide tabs when no overflow props are set (default unchanged)", () => {
+    renderManyTabs({ count: 4 });
+    const tabs = screen.getAllByRole("tab");
+    for (const tab of tabs) {
+      expect(tab.style.visibility).not.toBe("hidden");
+    }
+  });
+
+  it("does not hide tabs when maxVisible >= tab count", () => {
+    renderManyTabs({ maxVisible: 5, count: 3 });
+    const tabs = screen.getAllByRole("tab");
+    for (const tab of tabs) {
+      expect(tab.style.visibility).not.toBe("hidden");
+    }
+  });
+
+  it("applies maxVisible alongside overflow='collapse' (count cap holds)", () => {
+    renderManyTabs({ maxVisible: 3, overflow: "collapse", count: 10 });
+    const tabs = screen.getAllByRole("tab", { hidden: true });
+    for (let i = 0; i < 3; i++) {
+      expect(tabs[i]?.style.visibility).not.toBe("hidden");
+    }
+    for (let i = 3; i < 10; i++) {
+      expect(tabs[i]?.style.visibility).toBe("hidden");
+    }
+  });
+
+  it("uses the width-based limit when stricter than maxVisible", async () => {
+    // Container=250, trigger=30, each tab=80.
+    // tab[2].right=240, +30 trigger = 270 > 250 → widthBreakIndex=2
+    // maxVisible=5 → min(2, 5) = 2 visible.
+    renderManyTabs({ maxVisible: 5, overflow: "collapse", count: 10 });
+
+    const list = screen.getByRole("tablist");
+    Object.defineProperty(list, "clientWidth", { value: 250, configurable: true });
+    Object.defineProperty(list, "offsetHeight", { value: 30, configurable: true });
+    list.getBoundingClientRect = () => makeRect(0, 250);
+
+    const trigger = screen.getByRole("button", { name: "More tabs" });
+    Object.defineProperty(trigger, "offsetWidth", { value: 30, configurable: true });
+
+    const tabs = screen.getAllByRole("tab", { hidden: true });
+    tabs.forEach((tab, i) => {
+      tab.getBoundingClientRect = () => makeRect(i * 80, (i + 1) * 80);
+    });
+
+    // Trigger remeasure by toggling data-state on the active tab.
+    // The MutationObserver in useOverflow watches data-state changes.
+    const activeTab = tabs[0];
+    if (!activeTab) throw new Error("missing tab");
+    activeTab.setAttribute("data-state", "inactive");
+    activeTab.setAttribute("data-state", "active");
+
+    await waitFor(() => {
+      expect(tabs[0]?.style.visibility).not.toBe("hidden");
+      expect(tabs[1]?.style.visibility).not.toBe("hidden");
+      expect(tabs[2]?.style.visibility).toBe("hidden");
+    });
+  });
+
+  it("uses maxVisible when stricter than the width-based limit", async () => {
+    // Container=600, trigger=30, each tab=80. Five tabs fit (5*80=400, +30=430 < 600).
+    // widthBreakIndex covers more than maxVisible=2, so count cap wins.
+    renderManyTabs({ maxVisible: 2, overflow: "collapse", count: 10 });
+
+    const list = screen.getByRole("tablist");
+    Object.defineProperty(list, "clientWidth", { value: 600, configurable: true });
+    Object.defineProperty(list, "offsetHeight", { value: 30, configurable: true });
+    list.getBoundingClientRect = () => makeRect(0, 600);
+
+    const trigger = screen.getByRole("button", { name: "More tabs" });
+    Object.defineProperty(trigger, "offsetWidth", { value: 30, configurable: true });
+
+    const tabs = screen.getAllByRole("tab", { hidden: true });
+    tabs.forEach((tab, i) => {
+      tab.getBoundingClientRect = () => makeRect(i * 80, (i + 1) * 80);
+    });
+
+    const activeTab = tabs[0];
+    if (!activeTab) throw new Error("missing tab");
+    activeTab.setAttribute("data-state", "inactive");
+    activeTab.setAttribute("data-state", "active");
+
+    await waitFor(() => {
+      expect(tabs[0]?.style.visibility).not.toBe("hidden");
+      expect(tabs[1]?.style.visibility).not.toBe("hidden");
+      expect(tabs[2]?.style.visibility).toBe("hidden");
+    });
+  });
+
+  it("activates an overflowed tab when selected via dropdown's focus path", async () => {
+    renderManyTabs({ maxVisible: 2, count: 4 });
+
+    // Active tab is "tab-1" by default
+    expect(screen.getByRole("tabpanel")).toHaveTextContent("Content 1");
+
+    // "Tab 3" is past the cap — index 2, hidden
+    const allTabs = screen.getAllByRole("tab", { hidden: true });
+    const tabThree = allTabs[2];
+    if (!tabThree) throw new Error("missing Tab 3");
+    expect(tabThree.style.visibility).toBe("hidden");
+    expect(tabThree.textContent).toContain("Tab 3");
+
+    // Replicate what the dropdown's onSelect does: clear inline visibility/
+    // pointer-events then focus the trigger. Radix activates tabs on focus
+    // (activationMode="automatic" default).
+    tabThree.style.visibility = "";
+    tabThree.style.pointerEvents = "";
+    tabThree.focus();
+
+    await waitFor(() => {
+      expect(screen.getByRole("tabpanel")).toHaveTextContent("Content 3");
+    });
   });
 });

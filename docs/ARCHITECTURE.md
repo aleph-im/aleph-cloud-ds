@@ -526,6 +526,9 @@ export type Column<T> = {
 **Overflow collapse (`overflow="collapse"`):**
 Hidden tabs stay in the DOM (Radix state machine intact). A `useOverflow` hook measures tab widths via `ResizeObserver` + `getBoundingClientRect` and applies `visibility: hidden` to overflowed tabs. The dropdown uses Radix `DropdownMenu` for arrow key navigation and proper `role="menu"`/`role="menuitem"` semantics. Items activate tabs via deferred `.focus()` (Radix auto-activation after menu closes). Container height is locked via `min-height` snapshot to prevent layout collapse when the tallest tab overflows.
 
+**Count cap (`maxVisible`):**
+Composes with the same `useOverflow` hook. The hook computes a width-based break index, then takes `min(widthBreakIndex, maxVisible)` so the stricter limit wins. Either prop alone activates the overflow trigger; passing both is supported. `maxVisible` does not change the layout (the pill container only drops `inline-flex` when `overflow="collapse"` is set, since width-based detection requires a full-width container).
+
 **Sliding indicator:**
 Absolutely-positioned element that slides between tabs via `MutationObserver` + `ResizeObserver`. Initial render positions without transition to avoid slide-in from 0,0. Pill variant uses `opacity-0` → `opacity-100` to prevent flash at width 0.
 

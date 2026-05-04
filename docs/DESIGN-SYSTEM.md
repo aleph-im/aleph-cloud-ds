@@ -1449,13 +1449,33 @@ When many tabs exceed the available width, `overflow="collapse"` on `TabsList` a
 
 **Overflow behavior:** Hidden tabs remain functional (Radix state intact). The dropdown uses `role="menu"` with arrow key navigation. Disabled tabs appear muted in the dropdown. Container height is locked to prevent layout collapse.
 
+#### Max Visible (count cap)
+
+`maxVisible?: number` on `TabsList` hard-caps the number of visible tabs regardless of available width. Trailing tabs collapse into the same overflow dropdown as `overflow="collapse"`. Use this when you need a deterministic count cap (e.g., always show the 3 primary status tabs, send the rest to the dropdown).
+
+```tsx
+<Tabs defaultValue="all">
+  <TabsList maxVisible={3}>
+    <TabsTrigger value="all">All</TabsTrigger>
+    <TabsTrigger value="dispatched">Dispatched</TabsTrigger>
+    <TabsTrigger value="scheduled">Scheduled</TabsTrigger>
+    <TabsTrigger value="running">Running</TabsTrigger>
+    <TabsTrigger value="stopped">Stopped</TabsTrigger>
+    {/* ...more tabs collapse into the "..." dropdown */}
+  </TabsList>
+  {/* TabsContent panels */}
+</Tabs>
+```
+
+`maxVisible` activates the same overflow code path as `overflow="collapse"` — passing it alone is enough; you don't need to also pass `overflow`. When both are set, the **stricter** limit wins: visible = `min(widthFit, maxVisible)`. Hidden tabs go into the dropdown either way.
+
 **Styling (underline):** `font-heading font-bold text-lg` triggers. 4px baseline at 40% `edge` opacity, 4px solid primary sliding indicator. Active/hover text uses `primary-600` / `dark:primary-400`.
 
 **Styling (pill):** Rounded container `bg-muted` (brand-tinted). Active indicator `bg-primary-600` / `dark:bg-primary-500`. Triggers `text-muted-foreground` inactive, `text-white` active, compact `px-5 py-1.5 text-sm`.
 
 **Exports:** `Tabs` (Root), `TabsList`, `TabsTrigger`, `TabsContent`, `TabsListProps`, `TabsSize`, `TabsVariant`
 
-**Variants:** `TabsList` accepts `variant?: "underline" | "pill"` (default `"underline"`), `size?: "sm" | "md"` (default `"md"`), and `overflow?: "collapse"`. All three props compose freely.
+**Variants:** `TabsList` accepts `variant?: "underline" | "pill"` (default `"underline"`), `size?: "sm" | "md"` (default `"md"`), `overflow?: "collapse"`, and `maxVisible?: number`. All four props compose freely. `overflow` and `maxVisible` both activate the overflow dropdown; when both are set, the stricter limit wins.
 
 **Animations:**
 - **Sliding indicator** — slides between tabs on selection change. Initial render positions instantly (no slide-in from origin).

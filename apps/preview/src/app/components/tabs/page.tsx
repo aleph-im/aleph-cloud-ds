@@ -219,6 +219,88 @@ export default function TabsPage() {
         </div>
       </DemoSection>
 
+      <DemoSection title="Max Visible (count cap)">
+        <p className="text-sm text-muted-foreground mb-3">
+          <code>maxVisible={"{3}"}</code> hard-caps the visible tab count. Trailing tabs collapse into the same overflow dropdown as
+          <code> overflow=&quot;collapse&quot;</code>. Use this when you want a deterministic cap regardless of available width.
+        </p>
+        <Tabs defaultValue="all">
+          <TabsList maxVisible={3}>
+            <TabsTrigger value="all">All</TabsTrigger>
+            <TabsTrigger value="dispatched">Dispatched</TabsTrigger>
+            <TabsTrigger value="scheduled">Scheduled</TabsTrigger>
+            <TabsTrigger value="running">Running</TabsTrigger>
+            <TabsTrigger value="stopped">Stopped</TabsTrigger>
+            <TabsTrigger value="errored">Errored</TabsTrigger>
+            <TabsTrigger value="archived">Archived</TabsTrigger>
+            <TabsTrigger value="paused">Paused</TabsTrigger>
+            <TabsTrigger value="failed">Failed</TabsTrigger>
+            <TabsTrigger value="completed">Completed</TabsTrigger>
+          </TabsList>
+          <TabsContent value="all">
+            <p className="text-muted-foreground">All VMs across every status.</p>
+          </TabsContent>
+          <TabsContent value="dispatched">
+            <p className="text-muted-foreground">VMs that have been dispatched to a worker.</p>
+          </TabsContent>
+          <TabsContent value="scheduled">
+            <p className="text-muted-foreground">VMs awaiting dispatch.</p>
+          </TabsContent>
+          <TabsContent value="running">
+            <p className="text-muted-foreground">VMs currently running.</p>
+          </TabsContent>
+          <TabsContent value="stopped">
+            <p className="text-muted-foreground">VMs that have been stopped.</p>
+          </TabsContent>
+          <TabsContent value="errored">
+            <p className="text-muted-foreground">VMs that errored during execution.</p>
+          </TabsContent>
+          <TabsContent value="archived">
+            <p className="text-muted-foreground">Archived VMs.</p>
+          </TabsContent>
+          <TabsContent value="paused">
+            <p className="text-muted-foreground">Paused VMs.</p>
+          </TabsContent>
+          <TabsContent value="failed">
+            <p className="text-muted-foreground">Failed VMs.</p>
+          </TabsContent>
+          <TabsContent value="completed">
+            <p className="text-muted-foreground">Completed VMs.</p>
+          </TabsContent>
+        </Tabs>
+      </DemoSection>
+
+      <DemoSection title="Max Visible + Pill">
+        <Tabs defaultValue="all">
+          <TabsList variant="pill" maxVisible={3}>
+            <TabsTrigger value="all">All</TabsTrigger>
+            <TabsTrigger value="active">Active</TabsTrigger>
+            <TabsTrigger value="pending">Pending</TabsTrigger>
+            <TabsTrigger value="stopped">Stopped</TabsTrigger>
+            <TabsTrigger value="errored">Errored</TabsTrigger>
+            <TabsTrigger value="archived">Archived</TabsTrigger>
+          </TabsList>
+          <TabsContent value="all">
+            <p className="text-muted-foreground">All resources.</p>
+          </TabsContent>
+          <TabsContent value="active">
+            <p className="text-muted-foreground">Active resources.</p>
+          </TabsContent>
+          <TabsContent value="pending">
+            <p className="text-muted-foreground">Pending resources.</p>
+          </TabsContent>
+          <TabsContent value="stopped">
+            <p className="text-muted-foreground">Stopped resources.</p>
+          </TabsContent>
+          <TabsContent value="errored">
+            <p className="text-muted-foreground">Errored resources.</p>
+          </TabsContent>
+          <TabsContent value="archived">
+            <p className="text-muted-foreground">Archived resources.</p>
+          </TabsContent>
+        </Tabs>
+      </DemoSection>
+
       <DemoSection title="Overflow Collapse (Pill)">
         <div className="max-w-sm">
           <Tabs defaultValue="all">

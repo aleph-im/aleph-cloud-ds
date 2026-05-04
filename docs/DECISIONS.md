@@ -18,6 +18,15 @@ Each entry includes:
 
 ---
 
+## Decision #76 — 2026-05-04
+
+**Context:** The scheduler-dashboard wanted its VMs page to show only 3 status tabs (All / Dispatched / Scheduled) with the remaining 7 statuses in the overflow dropdown. Tabs already supports `overflow="collapse"`, but width-based collapse can't guarantee a count cap when there's plenty of horizontal room — the result depends on viewport width and label length. The dashboard needed a deterministic limit.
+**Decision:** Add `maxVisible?: number` to `TabsList` as a complement to (not a replacement for) `overflow="collapse"`. Either prop alone activates the same overflow code path; passing both is supported. When both are set, the stricter limit wins: visible = `min(widthBreakIndex, maxVisible)`. The hook `useOverflow` was extended to accept `maxVisible` and combine it with the existing width-based break index. Layout class changes (`inline-flex` on pill containers) remain tied to `overflow="collapse"` only — `maxVisible` doesn't need full-width measurement, so it doesn't perturb pill layout when used alone.
+**Rationale:** Width-based collapse and count-based collapse address different needs and the codebase has consumers for both. Adding `maxVisible` as a separate prop (rather than overloading `overflow` with a numeric variant) keeps the existing API stable, makes the count cap explicit at the call site, and lets consumers combine them when they want both a hard cap and adaptive behavior. The "stricter wins" rule is the only sensible composition — it never violates either constraint. No dev-only warning for `maxVisible >= tabs.length`: silent no-op matches the project's no-speculative-defenses preference and the prop is harmless when oversized.
+**Alternatives considered:** Numeric variant of `overflow` (e.g., `overflow={3}` or `overflow="collapse-3"` — rejected, conflates two concerns and breaks the existing string union). Replace width-based collapse with count-based (rejected — width-based is still the right behavior when label lengths vary, and existing consumers depend on it). Auto-derive from a CSS variable (rejected — too magical, harder to test).
+
+---
+
 ## Decision #75 — 2026-05-02
 
 **Context:** Scheduler dashboard users reported that clicking "VMs"/"Memory"/"vCPU" descending in the Nodes and VMs tables didn't show the highest-stat rows first. Root cause: the dashboard paginates externally and passes only the current page (`pageItems`) to `Table`, but `Table` sorted the array internally. Sorting only operated on the visible 25 rows, so high-stat rows on later pages never bubbled up.
