@@ -720,7 +720,7 @@ Create `packages/ds/src/components/app-shell-sidebar/app-shell-sidebar.test.tsx`
 
 ```tsx
 import { fireEvent, render, screen } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   AccordionSection,
   AppShellSidebar,
@@ -768,8 +768,45 @@ describe("AppShellSidebar", () => {
     );
     // Items still visible (icon-only).
     expect(screen.getByTestId("icon")).toBeInTheDocument();
-    // Section title hidden in rail mode.
-    expect(screen.queryByText("Resources")).toBeNull();
+    // Section title is in the DOM (rail-hide pattern keeps a single tree)
+    // but hidden via `display: none`. Use toBeVisible(), not queryByText().
+    expect(screen.getByText("Resources")).not.toBeVisible();
+  });
+
+  it("renders a built-in collapse toggle that fires onToggle when clicked", () => {
+    const onToggle = vi.fn();
+    render(
+      <AppShellSidebar
+        appMark={<Mark />}
+        collapsed={false}
+        onToggle={onToggle}
+      >
+        <div>content</div>
+      </AppShellSidebar>,
+    );
+    fireEvent.click(
+      screen.getByRole("button", { name: /collapse sidebar/i }),
+    );
+    expect(onToggle).toHaveBeenCalledTimes(1);
+  });
+
+  it("collapse-toggle aria-label flips with collapsed state", () => {
+    const { rerender } = render(
+      <AppShellSidebar appMark={<Mark />} collapsed={false} onToggle={() => {}}>
+        <div>content</div>
+      </AppShellSidebar>,
+    );
+    expect(
+      screen.getByRole("button", { name: /collapse sidebar/i }),
+    ).toBeInTheDocument();
+    rerender(
+      <AppShellSidebar appMark={<Mark />} collapsed={true} onToggle={() => {}}>
+        <div>content</div>
+      </AppShellSidebar>,
+    );
+    expect(
+      screen.getByRole("button", { name: /expand sidebar/i }),
+    ).toBeInTheDocument();
   });
 
   it("clicking section title toggles open/closed", () => {
@@ -819,10 +856,20 @@ Create `packages/ds/src/components/app-shell-sidebar/app-shell-sidebar.tsx`:
 ```tsx
 "use client";
 
-import { CaretDown, CaretRight } from "@phosphor-icons/react/dist/ssr";
-import { type ReactNode } from "react";
+import {
+  CaretDown,
+  CaretLeft,
+  CaretRight,
+} from "@phosphor-icons/react/dist/ssr";
+import { createContext, type ReactNode } from "react";
 import { cn } from "@ac/lib/cn";
 import { useAccordionState } from "./use-accordion-state";
+
+/* ── Section context (scaffolding for future use) ─ */
+
+const SectionContext = createContext<{ isOpen: boolean; title: string } | null>(
+  null,
+);
 
 /* ── AppShellSidebar ─────────────────────────── */
 
@@ -837,6 +884,7 @@ export type AppShellSidebarProps = {
 export function AppShellSidebar({
   appMark,
   collapsed,
+  onToggle,
   children,
   className,
 }: AppShellSidebarProps) {
@@ -851,10 +899,6 @@ export function AppShellSidebar({
         isCollapsed ? "w-13" : "w-58",
         className,
       )}
-      style={{
-        // 52px rail, 232px expanded — slightly narrower than today (256px)
-        // because the new top strip uses vertical space above.
-      }}
     >
       <div
         className={cn(
@@ -866,7 +910,43 @@ export function AppShellSidebar({
         {appMark}
       </div>
       <nav className="flex-1 px-2 py-2">{children}</nav>
+      <CollapseToggle collapsed={isCollapsed} onToggle={onToggle} />
     </aside>
+  );
+}
+
+function CollapseToggle({
+  collapsed,
+  onToggle,
+}: {
+  collapsed: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <div
+      className={cn(
+        "flex shrink-0 border-t border-edge px-2 py-2",
+        collapsed ? "justify-center" : "justify-end",
+      )}
+    >
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+        className={cn(
+          "flex size-7 items-center justify-center rounded-md",
+          "text-muted-foreground hover:text-foreground hover:bg-muted",
+          "transition-colors",
+        )}
+        style={{ transitionDuration: "var(--duration-fast)" }}
+      >
+        {collapsed ? (
+          <CaretRight size={14} weight="bold" />
+        ) : (
+          <CaretLeft size={14} weight="bold" />
+        )}
+      </button>
+    </div>
   );
 }
 
@@ -915,8 +995,8 @@ function SectionTitleRow({
       aria-expanded={isOpen}
       className={cn(
         "group flex w-full items-center justify-between rounded px-2 py-1",
-        "text-[10px] font-semibold uppercase tracking-widest text-muted-foreground/60",
-        "hover:text-muted-foreground hover:bg-foreground/[0.03]",
+        "text-[10px] font-semibold uppercase tracking-widest text-muted-foreground",
+        "hover:text-foreground hover:bg-muted",
         "transition-colors",
         "rail-hide",
       )}
@@ -942,17 +1022,23 @@ export type NavItemProps = {
   onClick?: () => void;
 };
 
-export function NavItem({ href, icon, children, active, onClick }: NavItemProps) {
+export function NavItem({
+  href,
+  icon,
+  children,
+  active,
+  onClick,
+}: NavItemProps) {
   return (
     <li>
       <a
         href={href}
-        onClick={onClick}
+        {...(onClick ? { onClick } : {})}
         aria-current={active ? "page" : undefined}
         className={cn(
-          "flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm transition-colors",
+          "flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm transition-colors",
           active
-            ? "bg-primary-600/10 text-primary-400 font-medium"
+            ? "bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-200 font-medium"
             : "text-muted-foreground hover:text-foreground hover:bg-muted",
         )}
         style={{ transitionDuration: "var(--duration-fast)" }}
@@ -963,12 +1049,14 @@ export function NavItem({ href, icon, children, active, onClick }: NavItemProps)
     </li>
   );
 }
-
-/* ── Internal section context (for future use) ─ */
-
-import { createContext } from "react";
-const SectionContext = createContext<{ isOpen: boolean; title: string } | null>(null);
 ```
+
+> **Convention notes for executors:**
+> - `Logo` is the icon-mark export (not `LogoMark`). Internal imports use the `@ac/*` alias, not `@aleph-front/ds/*`.
+> - Active state matches the preview-sidebar convention: `bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-200` (same as Part A).
+> - Hover background uses `bg-muted` (semantic token), not raw `bg-foreground/[0.03]`.
+> - The built-in `CollapseToggle` row at the bottom of the sidebar consumes the `onToggle` prop. Consumers don't have to render their own button — but they can also call `onToggle` from elsewhere (header, keyboard handler) since they own the `useSidebarCollapse` hook.
+> - `SectionContext` is intentional scaffolding (no current consumer); leave it in place for future use as called out in the plan.
 
 Also add this rule once to the DS global stylesheet (`packages/ds/src/styles/tokens.css` or wherever shared rules live) so `.rail-hide` resolves at runtime:
 
@@ -1038,7 +1126,7 @@ import {
   NavItem,
 } from "@aleph-front/ds/app-shell-sidebar";
 import { useSidebarCollapse } from "@aleph-front/ds/use-sidebar-collapse";
-import { LogoMark } from "@aleph-front/ds/logo";
+import { Logo } from "@aleph-front/ds/logo";
 import {
   GridFour,
   HardDrives,
@@ -1054,7 +1142,7 @@ import { DemoSection } from "@preview/components/demo-section";
 function AppMark({ collapsed }: { collapsed: boolean }) {
   return (
     <div className="flex items-center gap-2">
-      <LogoMark className="h-4 text-foreground shrink-0" />
+      <Logo className="h-4 text-foreground shrink-0" />
       {!collapsed && (
         <span className="font-semibold text-sm">Network</span>
       )}
@@ -1062,12 +1150,18 @@ function AppMark({ collapsed }: { collapsed: boolean }) {
   );
 }
 
-function DemoSidebar({ collapsed }: { collapsed: boolean }) {
+function DemoSidebar({
+  collapsed,
+  onToggle,
+}: {
+  collapsed: boolean;
+  onToggle: () => void;
+}) {
   return (
     <AppShellSidebar
       appMark={<AppMark collapsed={collapsed} />}
       collapsed={collapsed}
-      onToggle={() => {}}
+      onToggle={onToggle}
     >
       <AccordionSection title="Dashboard" sectionId="demo-dashboard">
         <NavItem href="#" icon={<GridFour size={14} />} active>
@@ -1100,16 +1194,9 @@ export default function AppShellSidebarPage() {
         description="Sidebar shell with expanded ↔ icon-rail collapse and accordion sections. Backed by useSidebarCollapse and useAccordionState hooks (localStorage)."
       />
 
-      <DemoSection title="Live (toggle persists in localStorage)">
-        <button
-          type="button"
-          onClick={toggle}
-          className="mb-3 rounded border border-foreground/10 px-3 py-1 text-sm"
-        >
-          {collapsed ? "Expand" : "Collapse"}
-        </button>
-        <div className="flex h-96 overflow-hidden rounded border border-foreground/10">
-          <DemoSidebar collapsed={collapsed === true} />
+      <DemoSection title="Live (built-in toggle, persists in localStorage)">
+        <div className="flex h-96 overflow-hidden rounded-md border border-edge">
+          <DemoSidebar collapsed={collapsed === true} onToggle={toggle} />
           <div className="flex-1 bg-background p-4 text-sm text-muted-foreground">
             page content
           </div>
@@ -1117,8 +1204,8 @@ export default function AppShellSidebarPage() {
       </DemoSection>
 
       <DemoSection title="Static — expanded">
-        <div className="flex h-96 overflow-hidden rounded border border-foreground/10">
-          <DemoSidebar collapsed={false} />
+        <div className="flex h-96 overflow-hidden rounded-md border border-edge">
+          <DemoSidebar collapsed={false} onToggle={() => {}} />
           <div className="flex-1 bg-background p-4 text-sm text-muted-foreground">
             page content
           </div>
@@ -1126,8 +1213,8 @@ export default function AppShellSidebarPage() {
       </DemoSection>
 
       <DemoSection title="Static — icon rail">
-        <div className="flex h-96 overflow-hidden rounded border border-foreground/10">
-          <DemoSidebar collapsed={true} />
+        <div className="flex h-96 overflow-hidden rounded-md border border-edge">
+          <DemoSidebar collapsed={true} onToggle={() => {}} />
           <div className="flex-1 bg-background p-4 text-sm text-muted-foreground">
             page content
           </div>
@@ -1140,10 +1227,16 @@ export default function AppShellSidebarPage() {
 
 - [ ] **Step 2: Add sidebar entry**
 
-In `apps/preview/src/components/sidebar.tsx`, add (alphabetically):
+Part A created the `Application Shell` group in `apps/preview/src/components/sidebar.tsx`. Extend its `items` array:
 
 ```tsx
-{ label: "App Shell Sidebar", href: "/components/app-shell-sidebar" },
+{
+  group: "Application Shell",
+  items: [
+    { label: "Product Strip", href: "/components/product-strip" },
+    { label: "App Shell Sidebar", href: "/components/app-shell-sidebar" },
+  ],
+},
 ```
 
 - [ ] **Step 3: Run dev server and verify**
