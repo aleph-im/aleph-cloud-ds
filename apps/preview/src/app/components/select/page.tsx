@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Select } from "@aleph-front/ds/select";
 import { FormField } from "@aleph-front/ds/form-field";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 const REGIONS = [
@@ -31,7 +31,7 @@ export default function SelectPage() {
 
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="Select"
         description="A dropdown control for choosing from a list of options."
       />

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Checkbox } from "@aleph-front/ds/checkbox";
 import { FormField } from "@aleph-front/ds/form-field";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 export default function CheckboxPage() {
@@ -11,7 +11,7 @@ export default function CheckboxPage() {
 
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="Checkbox"
         description="A control that allows the user to toggle between checked and unchecked."
       />

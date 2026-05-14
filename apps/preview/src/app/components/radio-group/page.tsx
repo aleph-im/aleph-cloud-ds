@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { RadioGroup, RadioGroupItem } from "@aleph-front/ds/radio-group";
 import { FormField } from "@aleph-front/ds/form-field";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 export default function RadioGroupPage() {
@@ -11,7 +11,7 @@ export default function RadioGroupPage() {
 
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="Radio Group"
         description="A set of mutually exclusive options where only one can be selected."
       />

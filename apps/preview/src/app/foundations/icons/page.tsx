@@ -1,6 +1,6 @@
 "use client";
 
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import {
   ArrowRight,
   Bell,
@@ -76,7 +76,7 @@ const ICON_SIZES = [
 export default function IconsPage() {
   return (
     <div>
-      <PageHeader
+      <DocHeader
         title="Icons"
         description="Phosphor Icons — 7,000+ icons in 6 weights. MIT licensed."
       />

@@ -1,7 +1,7 @@
 "use client";
 
 import { StatusDot } from "@aleph-front/ds/status-dot";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 const statuses = ["healthy", "degraded", "error", "offline", "unknown"] as const;
@@ -10,7 +10,7 @@ const sizes = ["sm", "md"] as const;
 export default function StatusDotPage() {
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="StatusDot"
         description="Colored circle indicator for health status. Includes a pulse animation on healthy status."
       />

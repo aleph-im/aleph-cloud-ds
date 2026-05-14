@@ -12,7 +12,7 @@ import {
   StepperLabel,
   StepperList,
 } from "@aleph-front/ds/stepper";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 type StepState = "completed" | "active" | "inactive";
@@ -112,7 +112,7 @@ function InteractiveStepper() {
 export default function StepperPage() {
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="Stepper"
         description="A composable multi-step indicator with horizontal/vertical orientation, state propagation via context, and default styling that works out of the box."
       />

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@aleph-front/ds/button";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 const variants = ["primary", "secondary", "outline", "text", "destructive", "warning"] as const;
@@ -19,7 +19,7 @@ function PlaceholderIcon({ label }: { label: string }) {
 export default function ButtonPage() {
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="Button"
         description="6 variants, 4 sizes, icon slots, loading/disabled states, and asChild polymorphism."
       />

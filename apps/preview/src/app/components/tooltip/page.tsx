@@ -7,13 +7,13 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@aleph-front/ds/tooltip";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 export default function TooltipPage() {
   return (
     <TooltipProvider>
-      <PageHeader
+      <DocHeader
         title="Tooltip"
         description="Radix UI tooltip with DS styling. Composable API: TooltipProvider, Tooltip, TooltipTrigger, TooltipContent."
       />

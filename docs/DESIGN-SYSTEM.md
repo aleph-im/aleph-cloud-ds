@@ -22,6 +22,7 @@ Quick reference for all DS exports. Click component name to jump to its full doc
 | [Input](#input) | Text input with 2 sizes, borderless flat styling | `@aleph-front/ds/input` |
 | [Logo](#logo) | Brand mark (icon + full wordmark variants) | `@aleph-front/ds/logo` |
 | [MultiSelect](#multiselect) | Searchable multi-selection with tags | `@aleph-front/ds/multi-select` |
+| [PageHeader](#pageheader) | Shared header slot filled per route via `usePageHeader` | `@aleph-front/ds/page-header` |
 | [Pagination](#pagination) | Controlled page navigation with fixed-slot layout | `@aleph-front/ds/pagination` |
 | [ProductStrip](#productstrip) | Top bar listing the Aleph product family as tabs | `@aleph-front/ds/product-strip` |
 | [RadioGroup](#radiogroup) | Mutually exclusive option set with 3 sizes | `@aleph-front/ds/radio-group` |
@@ -74,6 +75,7 @@ Quick reference for all DS exports. Click component name to jump to its full doc
 | Switching between content panels | **Tabs** — underline or pill variant, keyboard navigation | Buttons + conditional rendering — Tabs manages state, a11y, and indicators |
 | Paginated data navigation | **Pagination** — fixed-slot layout, no layout shift | Custom prev/next buttons — Pagination handles ellipsis, boundaries, and aria |
 | Multi-step workflow indicator | **Stepper** — composable 7-part compound, horizontal/vertical, unstyled | Breadcrumb — Stepper tracks progress state, Breadcrumb tracks location |
+| Shared app-shell header filled per route | **PageHeader** — context-driven slot, pages register via `usePageHeader` | Per-page chrome duplicated in every layout — PageHeader keeps the header in the shell |
 
 ## Design Methodology
 
@@ -1845,6 +1847,73 @@ const APPS: ProductApp[] = [
 
 The active tab is announced via `aria-current="page"`; the nav element carries `aria-label="Aleph products"`.
 
+### PageHeader
+
+Shared chrome row owned by the app shell, filled per route via a hook. The shell renders one `<PageHeader>` and each page calls `usePageHeader({ title, actions, search, breadcrumb })` to populate it. Last-mount-wins; unmount clears the slot.
+
+```tsx
+"use client";
+
+import {
+  PageHeader,
+  PageHeaderProvider,
+  usePageHeader,
+} from "@aleph-front/ds/page-header";
+import { List } from "@phosphor-icons/react/dist/ssr";
+
+function NodesPage() {
+  usePageHeader({
+    title: "Nodes",
+    actions: <RefreshButton />,
+  });
+  return <NodesTable />;
+}
+
+function Shell({ children }: { children: React.ReactNode }) {
+  return (
+    <PageHeaderProvider>
+      <div className="flex h-screen">
+        <AppShellSidebar /* ... */ />
+        <div className="flex flex-col flex-1">
+          <PageHeader leading={<List size={16} />} fallbackTitle="Aleph Cloud" />
+          <main className="flex-1 overflow-y-auto">{children}</main>
+        </div>
+      </div>
+    </PageHeaderProvider>
+  );
+}
+```
+
+**Parts:**
+
+| Part | Purpose |
+|------|---------|
+| `PageHeader` | The `<header>` renderer the shell mounts once at the top of the main column |
+| `PageHeaderProvider` | Holds the current `PageHeaderConfig` in state; wraps the shell |
+| `usePageHeader(config)` | Per-page hook — commits `{ title, actions?, search?, breadcrumb? }` into the slot |
+
+**`PageHeader` props:**
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `leading` | `ReactNode` | no | Slot rendered flush-left, before the title. Typically a sidebar toggle wired to `useSidebarCollapse`. |
+| `fallbackTitle` | `ReactNode` | no | Shown when no page has registered yet (e.g. the first paint after a route change). |
+| `className` | `string` | no | Extra classes merged onto the `<header>` |
+
+**`PageHeaderConfig` shape** (what you pass to `usePageHeader`):
+
+| Field | Type | Required | Description |
+|------|------|----------|-------------|
+| `title` | `ReactNode` | yes | Page title shown in the slot |
+| `actions` | `ReactNode` | no | Right-aligned actions (refresh, filters, primary CTA) |
+| `search` | `ReactNode` | no | Right-aligned search input, rendered before `actions` |
+| `breadcrumb` | `ReactNode` | no | Optional breadcrumb rendered before the title |
+
+**Semantics:**
+- **Last-mount-wins.** When multiple components call `usePageHeader` simultaneously, the last effect to commit wins. In practice one page per route → no conflict.
+- **Unmount clears.** Route change unmounts the page; the cleanup effect resets the slot to empty.
+- **Pages don't re-render with the header.** The hook subscribes only to the (identity-stable) setter, so the page that registers content does not re-render when the slot updates. This is what makes unstable inline JSX (e.g. fresh `<button>` each render in `actions`) safe to pass.
+
 ---
 
 ## Token File Reference
@@ -1934,6 +2003,7 @@ Run `npm run dev` and visit http://localhost:3000. Sidebar navigation organized 
 | Route | Content |
 |-------|---------|
 | `/components/app-shell-sidebar` | Live (built-in collapse toggle, localStorage-persisted) + static expanded + static rail |
+| `/components/page-header` | Title-only demo, reactive Refresh-button demo |
 | `/components/product-strip` | Active states, right slot, unknown activeId |
 
 Theme switcher in the sticky header toggles light/dark. Responsive layout with mobile drawer navigation (below `lg` breakpoint) and fixed desktop sidebar (`lg+`).

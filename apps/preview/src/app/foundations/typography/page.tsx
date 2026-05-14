@@ -1,4 +1,4 @@
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 
 const HEADINGS = [
   { tag: "header", size: "8rem", label: "Header -- 128px" },
@@ -14,7 +14,7 @@ const HEADINGS = [
 export default function TypographyPage() {
   return (
     <div>
-      <PageHeader
+      <DocHeader
         title="Typography"
         description="Heading scale, body styles, and font families."
       />

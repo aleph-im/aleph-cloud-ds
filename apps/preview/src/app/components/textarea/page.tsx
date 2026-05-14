@@ -1,13 +1,13 @@
 "use client";
 
 import { Textarea } from "@aleph-front/ds/textarea";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 export default function TextareaPage() {
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="Textarea"
         description="Multi-line text input with vertical resize, error and disabled states."
       />

@@ -1,9 +1,9 @@
-type PageHeaderProps = {
+type DocHeaderProps = {
   title: string;
   description: string;
 };
 
-export function PageHeader({ title, description }: PageHeaderProps) {
+export function DocHeader({ title, description }: DocHeaderProps) {
   return (
     <div className="mb-10">
       <h2 className="text-3xl font-heading font-extrabold italic mb-2">

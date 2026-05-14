@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Alert } from "@aleph-front/ds/alert";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 const variants = ["warning", "error", "info", "success"] as const;
@@ -13,7 +13,7 @@ export default function AlertPage() {
 
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="Alert"
         description="Dismissible status banners with 4 semantic variants. Supports optional title, auto-dismiss timer with progress bar, and exit animation."
       />
