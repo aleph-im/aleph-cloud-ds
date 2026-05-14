@@ -9,6 +9,7 @@ Quick reference for all DS exports. Click component name to jump to its full doc
 | Component | Purpose | Import |
 |-----------|---------|--------|
 | [Alert](#alert) | Dismissible status banner with auto-dismiss timer | `@aleph-front/ds/alert` |
+| [AppShellSidebar](#appshellsidebar) | Sidebar shell with expanded ↔ icon-rail collapse, accordion sections, hooks | `@aleph-front/ds/app-shell-sidebar` |
 | [Badge](#badge) | Semantic label for status, counts, categories | `@aleph-front/ds/badge` |
 | [Breadcrumb](#breadcrumb) | Navigation trail with composable 6-part API | `@aleph-front/ds/breadcrumb` |
 | [Button](#button) | Action trigger with 6 variants, 4 sizes, gradient fills | `@aleph-front/ds/button` |
@@ -1709,6 +1710,112 @@ import { Spinner } from "@aleph-front/ds/ui/spinner";
 <Spinner className="size-5 text-primary-600" />
 ```
 
+### AppShellSidebar
+
+Sidebar shell with expanded ↔ icon-rail collapse, accordion sections that persist their open/closed state, and a built-in collapse toggle at the bottom of the sidebar. Backed by two hooks for state.
+
+```tsx
+"use client";
+
+import {
+  AccordionSection,
+  AppShellSidebar,
+  NavItem,
+} from "@aleph-front/ds/app-shell-sidebar";
+import { useSidebarCollapse } from "@aleph-front/ds/use-sidebar-collapse";
+import { Logo } from "@aleph-front/ds/logo";
+import { Cpu, GridFour, HardDrives } from "@phosphor-icons/react/dist/ssr";
+
+function Shell() {
+  const { collapsed, toggle } = useSidebarCollapse();
+  const isCollapsed = collapsed === true;
+
+  return (
+    <AppShellSidebar
+      collapsed={collapsed}
+      onToggle={toggle}
+      appMark={
+        <div className="flex items-center gap-2">
+          <Logo className="h-4 text-foreground shrink-0" />
+          {!isCollapsed && <span className="font-semibold text-sm">Network</span>}
+        </div>
+      }
+    >
+      <AccordionSection title="Dashboard" sectionId="dashboard">
+        <NavItem href="/" icon={<GridFour size={14} />} active>Overview</NavItem>
+      </AccordionSection>
+      <AccordionSection title="Resources" sectionId="resources">
+        <NavItem href="/nodes" icon={<HardDrives size={14} />}>Nodes</NavItem>
+        <NavItem href="/vms" icon={<Cpu size={14} />}>VMs</NavItem>
+      </AccordionSection>
+    </AppShellSidebar>
+  );
+}
+```
+
+**Parts:**
+
+| Part | Purpose |
+|------|---------|
+| `AppShellSidebar` | Root `<aside>` with collapse-aware width and a built-in CollapseToggle at the bottom |
+| `AccordionSection` | Section with a clickable title row; persists open/closed under `sidebar.section.<sectionId>` |
+| `NavItem` | Single nav row; icon + label, optional `active` (announces `aria-current="page"`) |
+
+**`AppShellSidebar` props:**
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `appMark` | `ReactNode` | yes | Slot for the logomark / app-name area at the top |
+| `collapsed` | `boolean \| null` | yes | `true` = rail mode, `false` = expanded, `null` = hydrating (treated as expanded) |
+| `onToggle` | `() => void` | yes | Called when the built-in collapse toggle is clicked |
+| `children` | `ReactNode` | yes | `AccordionSection`s (and/or bare `NavItem`s) |
+| `className` | `string` | no | Extra classes merged onto the `<aside>` |
+
+**`AccordionSection` props:**
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `title` | `string` | yes | Title shown above the items |
+| `sectionId` | `string` | yes | Storage key suffix — `sidebar.section.<sectionId>` |
+| `defaultOpen` | `boolean` | no (default `true`) | Initial state when no value is in localStorage |
+| `children` | `ReactNode` | yes | `NavItem`s |
+
+**`NavItem` props:**
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `href` | `string` | yes | Anchor target |
+| `icon` | `ReactNode` | yes | Leading icon (visible in both expanded and rail mode) |
+| `children` | `ReactNode` | yes | Label (hidden in rail mode via `rail-hide`) |
+| `active` | `boolean` | no | Marks the current route; sets `aria-current="page"` and applies active styling |
+| `onClick` | `() => void` | no | Optional handler (useful for closing mobile drawers) |
+
+**Rail-hide pattern:** Section titles and item labels carry a `rail-hide` class; a single global CSS rule `[data-collapsed="true"] .rail-hide { display: none }` hides them when the root has `data-collapsed="true"`. Consumers configure one tree; the CSS rule handles the visual swap. See `docs/ARCHITECTURE.md` for the full pattern.
+
+#### useSidebarCollapse()
+
+```tsx
+const { collapsed, setCollapsed, toggle } = useSidebarCollapse();
+```
+
+| Return field | Type | Description |
+|------|------|-------------|
+| `collapsed` | `boolean \| null` | `null` while hydrating (SSR-safe), then `true`/`false` |
+| `setCollapsed` | `(next: boolean) => void` | Set explicitly |
+| `toggle` | `() => void` | Flip the value |
+
+State is persisted in `localStorage` under the key `sidebar.collapsed`. First render returns `null` so SSR / static-export output and client-hydrated render match.
+
+#### useAccordionState(sectionId, defaultOpen?)
+
+```tsx
+const { open, setOpen, toggle } = useAccordionState("resources", true);
+```
+
+Same shape and SSR-safety as `useSidebarCollapse`. Storage key is `sidebar.section.<sectionId>`, so each section's open/closed state is keyed independently. `defaultOpen` (default `true`) is the value used when nothing is in localStorage yet.
+
+`AccordionSection` already calls this hook internally; consumers only call it directly when they need to wire custom section UI outside the bundled `AccordionSection`.
+
 ### ProductStrip
 
 Top bar listing the Aleph product family as tabs. Apps live on separate subdomains, so navigation is via full-page `<a>` (no SPA router). Declarative: consumers pass the current app via `activeId`.
@@ -1826,6 +1933,7 @@ Run `npm run dev` and visit http://localhost:3000. Sidebar navigation organized 
 
 | Route | Content |
 |-------|---------|
+| `/components/app-shell-sidebar` | Live (built-in collapse toggle, localStorage-persisted) + static expanded + static rail |
 | `/components/product-strip` | Active states, right slot, unknown activeId |
 
 Theme switcher in the sticky header toggles light/dark. Responsive layout with mobile drawer navigation (below `lg` breakpoint) and fixed desktop sidebar (`lg+`).

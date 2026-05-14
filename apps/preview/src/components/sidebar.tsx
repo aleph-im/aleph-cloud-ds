@@ -85,6 +85,7 @@ const NAV: NavEntry[] = [
       {
         group: "Application Shell",
         items: [
+          { label: "App Shell Sidebar", href: "/components/app-shell-sidebar" },
           { label: "Product Strip", href: "/components/product-strip" },
         ],
       },
