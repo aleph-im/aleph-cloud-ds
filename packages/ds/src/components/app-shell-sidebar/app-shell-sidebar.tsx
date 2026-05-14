@@ -48,7 +48,9 @@ export function AppShellSidebar({
       >
         {appMark}
       </div>
-      <nav className="flex-1 px-2 py-2">{children}</nav>
+      <nav className="min-h-0 flex-1 overflow-y-auto px-2 py-2">
+        {children}
+      </nav>
       <CollapseToggle collapsed={isCollapsed} onToggle={onToggle} />
     </aside>
   );
