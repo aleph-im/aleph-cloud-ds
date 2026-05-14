@@ -82,6 +82,12 @@ const NAV: NavEntry[] = [
           { label: "Textarea", href: "/components/textarea" },
         ],
       },
+      {
+        group: "Application Shell",
+        items: [
+          { label: "Product Strip", href: "/components/product-strip" },
+        ],
+      },
     ],
   },
 ];

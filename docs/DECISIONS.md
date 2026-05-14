@@ -18,6 +18,15 @@ Each entry includes:
 
 ---
 
+## Decision #77 — 2026-05-14
+
+**Context:** Aleph Cloud is becoming a multi-app product family (Cloud / Network / Explorer / Swap), with each app on its own subdomain. Apps need a shared top-of-page strip that always shows which family member the user is currently in and lets them jump between siblings. This is Part A of the shell-primitives plan (`docs/plans/2026-05-14-aleph-cloud-shell-primitives-plan.md`).
+**Decision:** Add a `ProductStrip` DS component — a declarative top bar listing the family as `<a>` tabs, with a logomark anchor and an optional right slot. Active app is announced via `aria-current="page"` and signalled visually with the existing `bg-primary-100 text-primary-700` / dark-mode equivalent pill convention. The component itself owns no state; callers pass `activeId` per app deployment. A new `Application Shell` sidebar group was added in the preview app to host shell primitives (joined later by `AppShellSidebar` and `PageHeader`).
+**Rationale:** Subdomain-separated apps rule out SPA routing across the strip; full-page anchors with `aria-current` give correct semantics and accessibility without any client-side coordination. Passing `activeId` explicitly (instead of subdomain-sniffing the browser URL) keeps the component pure, easy to test, and per-app deployments stay in control of how they identify themselves. Reusing the existing active-link visual treatment from the preview sidebar means the strip feels native instead of introducing a third active-state pattern.
+**Alternatives considered:** Subdomain-detecting auto-active (rejected — fragile across local dev / preview deployments / staging hostnames, and harder to test). A workspace switcher pattern (rejected during the redesign brainstorm — the family is hub-and-spoke, not workspace-scoped). Translucent `bg-primary-600/15` pill (rejected — would introduce a third active-state look). Internal DS components importing each other via the `@aleph-front/ds/*` package name (rejected — the established convention is the `@ac/*` source-path alias; package-name self-references aren't used inside the DS).
+
+---
+
 ## Decision #76 — 2026-05-04
 
 **Context:** The scheduler-dashboard wanted its VMs page to show only 3 status tabs (All / Dispatched / Scheduled) with the remaining 7 statuses in the overflow dropdown. Tabs already supports `overflow="collapse"`, but width-based collapse can't guarantee a count cap when there's plenty of horizontal room — the result depends on viewport width and label length. The dashboard needed a deterministic limit.

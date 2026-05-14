@@ -130,7 +130,7 @@ Create `packages/ds/src/components/product-strip/product-strip.tsx`:
 
 ```tsx
 import { type ReactNode } from "react";
-import { LogoMark } from "@aleph-front/ds/logo";
+import { Logo } from "@ac/components/logo/logo";
 import { cn } from "@ac/lib/cn";
 
 export type ProductApp = {
@@ -157,7 +157,7 @@ export function ProductStrip({
   return (
     <div
       className={cn(
-        "flex h-9 w-full items-center gap-3 border-b border-foreground/[0.06]",
+        "flex h-9 w-full items-center gap-3 border-b border-edge",
         "bg-muted/40 dark:bg-surface px-3",
         className,
       )}
@@ -167,7 +167,7 @@ export function ProductStrip({
         aria-label="Aleph"
         className="flex shrink-0 items-center"
       >
-        <LogoMark className="h-4 text-foreground" />
+        <Logo className="h-4 text-foreground" />
       </a>
       <nav aria-label="Aleph products" className="flex items-center gap-1">
         {apps.map((app) => {
@@ -179,8 +179,9 @@ export function ProductStrip({
               aria-current={isActive ? "page" : undefined}
               className={cn(
                 "rounded-md px-2 py-1 text-sm transition-colors",
-                "text-muted-foreground hover:text-foreground hover:bg-foreground/5",
-                isActive && "bg-primary-600/15 text-primary-400",
+                "text-muted-foreground hover:text-foreground hover:bg-muted",
+                isActive &&
+                  "bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-200 font-medium",
               )}
               style={{ transitionDuration: "var(--duration-fast)" }}
             >
@@ -196,6 +197,12 @@ export function ProductStrip({
   );
 }
 ```
+
+> **Convention notes for executors:**
+> - DS components import each other via the `@ac/*` alias (resolves to `packages/ds/src/*`), not the package's own `@aleph-front/ds/*` subpath exports. Self-references via the package name aren't used internally.
+> - The icon-mark export is named `Logo` (matched by `LogoFull` for the wordmark variant); there is no `LogoMark`.
+> - The hairline border token is `border-edge`. Avoid `border-foreground/[0.06]`.
+> - The active-link treatment matches the existing preview sidebar convention: `bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-200`.
 
 - [ ] **Step 4: Run tests to verify they pass**
 
@@ -216,7 +223,7 @@ git commit -m "feat(product-strip): add ProductStrip component with tests"
 
 - [ ] **Step 1: Add the export**
 
-In `packages/ds/package.json`, add this line to `"exports"`, alphabetically (between `./progress-bar` and `./radio-group`):
+The `"exports"` map in `packages/ds/package.json` is in rough addition order with `./lib/cn` and `./styles/tokens.css` at the bottom — it is not alphabetical. Append the new component export just before `./lib/cn` (and after the most recent component entry — `./stepper`):
 
 ```json
 "./product-strip": "./src/components/product-strip/product-strip.tsx",
@@ -293,10 +300,17 @@ export default function ProductStripPage() {
 
 - [ ] **Step 2: Add sidebar entry**
 
-In `apps/preview/src/components/sidebar.tsx`, locate the list of component nav entries (alphabetical) and add `Product Strip` between `Pagination` and `Progress Bar`:
+The preview sidebar (`apps/preview/src/components/sidebar.tsx`) is **not** a flat list — components are grouped (`Actions`, `Data Display`, `Feedback`, `Navigation`, `Forms`). Shell primitives don't belong in any existing group.
+
+Add a new `Application Shell` group at the end of the `Components` section's `items` array. This group will later be joined by `AppShellSidebar` (Part B) and `PageHeader` (Part C):
 
 ```tsx
-{ label: "Product Strip", href: "/components/product-strip" },
+{
+  group: "Application Shell",
+  items: [
+    { label: "Product Strip", href: "/components/product-strip" },
+  ],
+},
 ```
 
 - [ ] **Step 3: Run dev server and verify visually**
