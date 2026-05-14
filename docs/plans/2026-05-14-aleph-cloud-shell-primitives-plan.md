@@ -1436,7 +1436,6 @@ Create `packages/ds/src/components/page-header/page-header.test.tsx`:
 
 ```tsx
 import { render, screen } from "@testing-library/react";
-import { useEffect } from "react";
 import { describe, expect, it } from "vitest";
 import {
   PageHeader,
@@ -1546,7 +1545,6 @@ Create `packages/ds/src/components/page-header/page-header.tsx`:
 
 import {
   createContext,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -1581,22 +1579,14 @@ export function PageHeaderProvider({ children }: { children: ReactNode }) {
 
 export function usePageHeader(config: PageHeaderConfig): void {
   const ctx = useContext(PageHeaderContext);
-  // Stringify or compare via deep-equality? Keep it simple: serialize stable identity by stringifying scalar fields.
-  // For ReactNode fields, identity comparison via setConfig invalidating each render is acceptable —
-  // setState in React 18+ bails out on Object.is equality, but the config object is fresh each render.
-  // To avoid render loops, we use useEffect to commit the config once per render commit.
+  const { title, actions, search, breadcrumb } = config;
+  // Commit via useEffect to avoid setState-during-render. Destructured deps
+  // give per-field stability — re-runs only when an individual slot changes.
   useEffect(() => {
     if (!ctx) return;
-    ctx.setConfig(config);
+    ctx.setConfig({ title, actions, search, breadcrumb });
     return () => ctx.setConfig(null);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    ctx,
-    config.title,
-    config.actions,
-    config.search,
-    config.breadcrumb,
-  ]);
+  }, [ctx, title, actions, search, breadcrumb]);
 }
 
 export type PageHeaderProps = {
@@ -1618,7 +1608,7 @@ export function PageHeader({ leading, fallbackTitle, className }: PageHeaderProp
   return (
     <header
       className={cn(
-        "sticky top-0 z-30 flex h-12 shrink-0 items-center gap-3 border-b border-foreground/[0.06] bg-background/95 backdrop-blur px-4 md:px-6",
+        "sticky top-0 z-30 flex h-12 shrink-0 items-center gap-3 border-b border-edge bg-background/95 backdrop-blur px-4 md:px-6",
         className,
       )}
     >
@@ -1663,7 +1653,7 @@ git commit -m "feat(page-header): add PageHeader + PageHeaderProvider + usePageH
 
 - [ ] **Step 1: Add export**
 
-In `packages/ds/package.json`, add (alphabetically):
+In `packages/ds/package.json`, add the entry in feature-addition order (immediately before `./lib/cn`, matching how Parts A and B placed `./product-strip`, `./app-shell-sidebar`, etc.):
 
 ```json
 "./page-header": "./src/components/page-header/page-header.tsx",
@@ -1713,7 +1703,7 @@ function FakePage({ title, withActions }: { title: string; withActions?: boolean
         type="button"
         onClick={() => setFetching((v) => !v)}
         disabled={fetching}
-        className="rounded border border-foreground/10 px-2 py-1 text-xs"
+        className="rounded border border-edge px-2 py-1 text-xs"
       >
         <ArrowClockwise size={12} className="inline mr-1" />
         {fetching ? "Refreshing…" : "Refresh"}
@@ -1738,7 +1728,7 @@ export default function PageHeaderPage() {
       />
 
       <DemoSection title="Title only">
-        <div className="rounded border border-foreground/10 overflow-hidden">
+        <div className="rounded border border-edge overflow-hidden">
           <PageHeaderProvider>
             <PageHeader leading={<List size={16} />} />
             <FakePage title="Overview" />
@@ -1747,7 +1737,7 @@ export default function PageHeaderPage() {
       </DemoSection>
 
       <DemoSection title="With reactive actions">
-        <div className="rounded border border-foreground/10 overflow-hidden">
+        <div className="rounded border border-edge overflow-hidden">
           <PageHeaderProvider>
             <PageHeader leading={<List size={16} />} />
             <FakePage title="Nodes · 542 total" withActions />
@@ -1761,10 +1751,17 @@ export default function PageHeaderPage() {
 
 - [ ] **Step 2: Add sidebar entry**
 
-In `apps/preview/src/components/sidebar.tsx`, add (alphabetically):
+The preview sidebar is grouped, not flat. Parts A and B created an `Application Shell` group inside the `Components` section — extend that group. Add the new entry alphabetically, which puts it between `App Shell Sidebar` and `Product Strip`:
 
 ```tsx
-{ label: "Page Header", href: "/components/page-header" },
+{
+  group: "Application Shell",
+  items: [
+    { label: "App Shell Sidebar", href: "/components/app-shell-sidebar" },
+    { label: "Page Header", href: "/components/page-header" },
+    { label: "Product Strip", href: "/components/product-strip" },
+  ],
+},
 ```
 
 - [ ] **Step 3: Run dev server and verify**
