@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Badge } from "@aleph-front/ds/badge";
 import { StatusDot } from "@aleph-front/ds/status-dot";
 import { Table, type Column } from "@aleph-front/ds/table";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 type Node = {
@@ -94,7 +94,7 @@ export default function TablePage() {
 
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="Table"
         description="Generic typed table with sortable columns, alternating rows, hover, and row click."
       />

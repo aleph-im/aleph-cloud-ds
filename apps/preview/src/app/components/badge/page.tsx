@@ -7,7 +7,7 @@ import {
   XCircle,
   Info,
 } from "@phosphor-icons/react";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 const variants = ["default", "success", "warning", "error", "info"] as const;
@@ -15,7 +15,7 @@ const variants = ["default", "success", "warning", "error", "info"] as const;
 export default function BadgePage() {
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="Badge"
         description="Semantic labels with gradient fill or outline modes, optional icons, and 2 sizes."
       />

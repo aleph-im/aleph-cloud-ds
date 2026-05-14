@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { MultiSelect } from "@aleph-front/ds/multi-select";
 import { FormField } from "@aleph-front/ds/form-field";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 const TOKENS = [
@@ -29,7 +29,7 @@ export default function MultiSelectPage() {
 
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="MultiSelect"
         description="A searchable dropdown for choosing multiple items from a list."
       />

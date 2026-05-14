@@ -12,7 +12,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@aleph-front/ds/dialog";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 export default function DialogPage() {
@@ -21,7 +21,7 @@ export default function DialogPage() {
 
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="Dialog"
         description="Modal dialog with focus trap, frosted overlay, and configurable dismiss behavior. Composable API: Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose, DialogHeader, DialogFooter."
       />

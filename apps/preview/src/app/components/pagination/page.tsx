@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Pagination } from "@aleph-front/ds/pagination";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 export default function PaginationPage() {
@@ -13,7 +13,7 @@ export default function PaginationPage() {
 
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="Pagination"
         description="Controlled pagination with configurable sibling count and first/last jump buttons."
       />

@@ -1,4 +1,4 @@
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 
 const SPACING_SCALE = [
   { name: "0.5", px: "2px" },
@@ -27,7 +27,7 @@ const BREAKPOINTS = [
 export default function SpacingPage() {
   return (
     <div>
-      <PageHeader
+      <DocHeader
         title="Spacing"
         description="Spacing scale, breakpoints, and border radius tokens."
       />

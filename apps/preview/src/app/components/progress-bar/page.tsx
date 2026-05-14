@@ -5,7 +5,7 @@ import {
   ProgressBar,
   ProgressBarDescription,
 } from "@aleph-front/ds/progress-bar";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 function AnimatedProgress() {
@@ -29,7 +29,7 @@ function AnimatedProgress() {
 export default function ProgressBarPage() {
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="ProgressBar"
         description="A visual indicator of completion progress with determinate and indeterminate modes, 3 sizes, and optional description."
       />

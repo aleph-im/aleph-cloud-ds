@@ -3,13 +3,13 @@
 import { FormField } from "@aleph-front/ds/form-field";
 import { Input } from "@aleph-front/ds/input";
 import { Textarea } from "@aleph-front/ds/textarea";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 export default function FormFieldPage() {
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="FormField"
         description="Label + input wrapper with required asterisk, helper text, error message, and auto-wired accessibility."
       />

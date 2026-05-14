@@ -1,13 +1,13 @@
 "use client";
 
 import { Skeleton } from "@aleph-front/ds/ui/skeleton";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 export default function SkeletonPage() {
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="Skeleton"
         description="Animated loading placeholder. Sizing via consumer className — no width/height props."
       />

@@ -1,7 +1,7 @@
 "use client";
 
 import { ProductStrip, type ProductApp } from "@aleph-front/ds/product-strip";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 const APPS: ProductApp[] = [
@@ -14,7 +14,7 @@ const APPS: ProductApp[] = [
 export default function ProductStripPage() {
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="ProductStrip"
         description="Top bar listing the Aleph product family as tabs. Each app links to its subdomain. Declarative — consumers pass the current app via activeId."
       />

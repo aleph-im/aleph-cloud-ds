@@ -1,6 +1,6 @@
 "use client";
 
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { Logo, LogoFull } from "@aleph-front/ds/logo";
 
 const SIZES = [
@@ -21,7 +21,7 @@ const FULL_SIZES = [
 export default function LogoPage() {
   return (
     <div>
-      <PageHeader
+      <DocHeader
         title="Logo"
         description="Aleph Cloud brand mark and full logo. Uses currentColor — adapts to any text color or theme."
       />

@@ -1,13 +1,13 @@
 "use client";
 
 import { Input } from "@aleph-front/ds/input";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 export default function InputPage() {
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="Input"
         description="Text input with 2 sizes, error and disabled states."
       />

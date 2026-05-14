@@ -1,7 +1,7 @@
 "use client";
 
 import { CopyableText } from "@aleph-front/ds/copyable-text";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 const HASH = "0x1234567890abcdef1234567890abcdef12345678";
@@ -11,7 +11,7 @@ const API_KEY = "sk-proj-abc123def456ghi789jkl012mno345pqr678stu901vwx";
 export default function CopyableTextPage() {
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="CopyableText"
         description="Truncated text with copy-to-clipboard and optional external link. Click copy to see the stroke-draw micro-animation."
       />

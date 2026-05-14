@@ -1,4 +1,4 @@
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 
 function Swatch({
   label,
@@ -107,7 +107,7 @@ function ScaleRow({
 export default function ColorsPage() {
   return (
     <div>
-      <PageHeader
+      <DocHeader
         title="Colors"
         description="OKLCH color scales (50-950) and semantic theme-aware tokens."
       />

@@ -1,7 +1,7 @@
 "use client";
 
 import { Card } from "@aleph-front/ds/card";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 const paddings = ["sm", "md", "lg"] as const;
@@ -9,7 +9,7 @@ const paddings = ["sm", "md", "lg"] as const;
 export default function CardPage() {
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="Card"
         description="Content container with 3 variants, 3 padding sizes, and an optional title."
       />

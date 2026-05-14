@@ -6,13 +6,13 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@aleph-front/ds/breadcrumb";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 export default function BreadcrumbPreviewPage() {
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="Breadcrumb"
         description="Navigational breadcrumb trail with composable parts, asChild support for framework routing, and accessible markup."
       />

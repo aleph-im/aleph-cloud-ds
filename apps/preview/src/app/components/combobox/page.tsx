@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Combobox } from "@aleph-front/ds/combobox";
 import { FormField } from "@aleph-front/ds/form-field";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 const TOKENS = [
@@ -28,7 +28,7 @@ export default function ComboboxPage() {
 
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="Combobox"
         description="A searchable dropdown for choosing from a list of options."
       />

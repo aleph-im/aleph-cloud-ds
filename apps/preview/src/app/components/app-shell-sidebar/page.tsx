@@ -16,7 +16,7 @@ import {
   Warning,
   WaveSawtooth,
 } from "@phosphor-icons/react/dist/ssr";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 function AppMark({ collapsed }: { collapsed: boolean }) {
@@ -69,7 +69,7 @@ export default function AppShellSidebarPage() {
 
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="AppShellSidebar"
         description="Sidebar shell with expanded ↔ icon-rail collapse and accordion sections. Backed by useSidebarCollapse and useAccordionState hooks (localStorage). Built-in collapse toggle at the bottom of the sidebar."
       />

@@ -1,4 +1,4 @@
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 
 const SHADOWS = [
   { name: "brand-sm", class: "shadow-brand-sm" },
@@ -31,7 +31,7 @@ const TRANSITIONS = [
 export default function EffectsPage() {
   return (
     <div>
-      <PageHeader
+      <DocHeader
         title="Effects"
         description="Shadows, gradients, grain textures, and transition tokens."
       />

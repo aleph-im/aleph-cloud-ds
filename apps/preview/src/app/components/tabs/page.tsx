@@ -7,13 +7,13 @@ import {
   TabsTrigger,
 } from "@aleph-front/ds/tabs";
 import { Badge } from "@aleph-front/ds/badge";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 export default function TabsPage() {
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="Tabs"
         description="Radix UI Tabs with DS styling, sliding active indicator, and text nudge animation. Composable API: Tabs, TabsList, TabsTrigger, TabsContent."
       />

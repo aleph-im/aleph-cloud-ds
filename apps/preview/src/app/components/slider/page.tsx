@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Slider } from "@aleph-front/ds/slider";
 import { FormField } from "@aleph-front/ds/form-field";
-import { PageHeader } from "@preview/components/page-header";
+import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 export default function SliderPage() {
@@ -13,7 +13,7 @@ export default function SliderPage() {
 
   return (
     <>
-      <PageHeader
+      <DocHeader
         title="Slider"
         description="A range input for selecting a numeric value by dragging a thumb along a track."
       />
