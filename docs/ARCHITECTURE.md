@@ -567,6 +567,34 @@ Copy button uses a two-layer stack:
 
 Hover state uses `bg-foreground/10` for visibility in both light and dark themes.
 
+### Rail-Hide Pattern (AppShellSidebar)
+
+**Context:** `AppShellSidebar` has two modes — expanded (full width with labels and section titles) and collapsed (icon-only rail). The naive approach is to render two different trees of JSX or to conditionally render labels. Both create coordination problems: consumers configure their nav once but the same data has to flow through two branches, and accidental drift between the two branches is easy to introduce.
+
+**Approach:** Single render tree. The root `<aside>` carries `data-collapsed="true" | "false"`. Elements that should disappear in rail mode (section title rows, NavItem text labels) carry a `rail-hide` class. A single CSS rule in `tokens.css` does the work:
+
+```css
+[data-collapsed="true"] .rail-hide {
+  display: none;
+}
+```
+
+Consumers configure once; the CSS rule swaps visibility on toggle. No state lives in the JSX; only the boolean `data-collapsed` attribute matters.
+
+**Key files:** `packages/ds/src/components/app-shell-sidebar/app-shell-sidebar.tsx`, `packages/ds/src/styles/tokens.css` (rule near the bottom).
+
+**Testing note:** jsdom doesn't load Tailwind/the DS stylesheet, so `expect(el).not.toBeVisible()` can't observe the rule at runtime. Tests assert the structural contract instead (`data-collapsed` attribute on the aside + `rail-hide` class on hidden elements). The visual outcome is verified in the preview app.
+
+### SSR-Safe localStorage Hydration (null → boolean)
+
+**Context:** `useSidebarCollapse` and `useAccordionState` both back persistent UI state with `localStorage`. The naive `useState(localStorage.getItem(...) === "true")` initializer crashes during SSR (no `window`) and, when used in a static export, makes the first client render disagree with the static HTML — React warns about a hydration mismatch.
+
+**Approach:** Initial state is `null`. A `useEffect` reads `localStorage` on mount and replaces `null` with the actual boolean. Consumers treat `null` as "still hydrating" and pick a sensible default at render time (e.g. `collapsed === true` → false during hydration means the expanded layout shows during the first paint, matching the SSR output).
+
+This pattern is portable: any hook that reads browser-only state at mount should return `T | null` rather than guess.
+
+**Key files:** `packages/ds/src/components/app-shell-sidebar/use-sidebar-collapse.ts`, `packages/ds/src/components/app-shell-sidebar/use-accordion-state.ts`.
+
 ---
 
 ## Testing Philosophy

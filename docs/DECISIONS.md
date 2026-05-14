@@ -18,6 +18,15 @@ Each entry includes:
 
 ---
 
+## Decision #78 — 2026-05-15
+
+**Context:** The Aleph dashboard sidebar needs a collapse mode (icon rail) plus per-section accordion behavior. Without primitives in the DS, every consumer reinvents persistence + SSR-safe hydration. This is Part B of the shell-primitives plan.
+**Decision:** Ship `AppShellSidebar` + `AccordionSection` + `NavItem` together with `useSidebarCollapse` + `useAccordionState` hooks. Hooks return `boolean | null` (null = hydrating), backed by localStorage with deterministic keys (`sidebar.collapsed`, `sidebar.section.<sectionId>`). Rail mode is a single-tree CSS pattern: elements that should disappear in rail mode carry a `rail-hide` class, and a global `[data-collapsed="true"] .rail-hide { display: none }` rule swaps them. `AppShellSidebar` renders a built-in collapse toggle at the bottom of the sidebar (using `onToggle`); consumers don't have to wire their own chrome but can still call `toggle()` from elsewhere (header button, keyboard shortcut) since they own the hook.
+**Rationale:** Bundling reduces N×3 decisions across consumer apps. `null`-on-hydrate avoids SSR / static-export hydration warnings without forcing consumers to write the same `useEffect` over and over. Single-tree rail-hide lets the same children render in both modes — consumers don't pass two configs. A built-in toggle button matches the VSCode / Linear / Notion UX where the toggle is always reachable (especially important in rail mode where the rest of the chrome shrinks); consumers retain control because they own the hook. Storage keys live in DS so multiple apps on the same origin can share state if desired (acceptable side-effect — apps are on different subdomains in practice).
+**Alternatives considered:** Render two trees (expanded vs rail) (rejected — duplicates consumer config and invites drift). Cookie-based state (rejected — localStorage is simpler and these are personal-preference UI states, not auth/session). Defer hooks to consumers (rejected — every consumer would solve SSR-safe hydration the same way). Drop `onToggle` and let consumers render their own toggle wherever (rejected — moves a non-trivial UX choice onto every consumer; the built-in button is the right default and consumers can call `toggle()` from anywhere they want anyway). Use `toBeVisible()` to assert rail-hide in tests (rejected — jsdom doesn't load Tailwind; the structural contract `data-collapsed` + `rail-hide` is what we actually want to test, and visual verification belongs in the preview).
+
+---
+
 ## Decision #77 — 2026-05-14
 
 **Context:** Aleph Cloud is becoming a multi-app product family (Cloud / Network / Explorer / Swap), with each app on its own subdomain. Apps need a shared top-of-page strip that always shows which family member the user is currently in and lets them jump between siblings. This is Part A of the shell-primitives plan (`docs/plans/2026-05-14-aleph-cloud-shell-primitives-plan.md`).
