@@ -22,6 +22,7 @@ Quick reference for all DS exports. Click component name to jump to its full doc
 | [Logo](#logo) | Brand mark (icon + full wordmark variants) | `@aleph-front/ds/logo` |
 | [MultiSelect](#multiselect) | Searchable multi-selection with tags | `@aleph-front/ds/multi-select` |
 | [Pagination](#pagination) | Controlled page navigation with fixed-slot layout | `@aleph-front/ds/pagination` |
+| [ProductStrip](#productstrip) | Top bar listing the Aleph product family as tabs | `@aleph-front/ds/product-strip` |
 | [RadioGroup](#radiogroup) | Mutually exclusive option set with 3 sizes | `@aleph-front/ds/radio-group` |
 | [Select](#select) | Dropdown selector with flat options prop | `@aleph-front/ds/select` |
 | [Skeleton](#skeleton) | Animated loading placeholder | `@aleph-front/ds/ui/skeleton` |
@@ -1708,6 +1709,35 @@ import { Spinner } from "@aleph-front/ds/ui/spinner";
 <Spinner className="size-5 text-primary-600" />
 ```
 
+### ProductStrip
+
+Top bar listing the Aleph product family as tabs. Apps live on separate subdomains, so navigation is via full-page `<a>` (no SPA router). Declarative: consumers pass the current app via `activeId`.
+
+```tsx
+import { ProductStrip, type ProductApp } from "@aleph-front/ds/product-strip";
+
+const APPS: ProductApp[] = [
+  { id: "cloud",    label: "Cloud",    href: "https://app.aleph.cloud" },
+  { id: "network",  label: "Network",  href: "https://network.aleph.cloud" },
+  { id: "explorer", label: "Explorer", href: "https://explorer.aleph.cloud" },
+  { id: "swap",     label: "Swap",     href: "https://swap.aleph.cloud" },
+];
+
+<ProductStrip apps={APPS} activeId="network" logoHref="https://aleph.cloud" />
+```
+
+**Props:**
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `apps` | `ProductApp[]` | yes | App definitions: `{ id, label, href }` |
+| `activeId` | `string` | yes | `id` of the currently active app. Pass anything that does not match an entry (e.g. `""`) to render no active tab. |
+| `logoHref` | `string` | yes | Anchor target for the logomark |
+| `right` | `ReactNode` | no | Slot rendered flush-right (theme toggle, profile, etc.) |
+| `className` | `string` | no | Extra classes merged onto the root container |
+
+The active tab is announced via `aria-current="page"`; the nav element carries `aria-label="Aleph products"`.
+
 ---
 
 ## Token File Reference
@@ -1791,6 +1821,12 @@ Run `npm run dev` and visit http://localhost:3000. Sidebar navigation organized 
 | `/components/slider` | Sizes, tooltip, range, custom step, states, FormField |
 | `/components/switch` | Sizes, disabled, controlled, FormField |
 | `/components/textarea` | Default, error, disabled |
+
+**Application Shell**
+
+| Route | Content |
+|-------|---------|
+| `/components/product-strip` | Active states, right slot, unknown activeId |
 
 Theme switcher in the sticky header toggles light/dark. Responsive layout with mobile drawer navigation (below `lg` breakpoint) and fixed desktop sidebar (`lg+`).
 
