@@ -756,7 +756,7 @@ describe("AppShellSidebar", () => {
     expect(screen.getByText("Nodes")).toBeInTheDocument();
   });
 
-  it("hides section title and chevron in collapsed (rail) mode", () => {
+  it("applies rail-hide pattern to section title and item label in collapsed mode", () => {
     render(
       <AppShellSidebar appMark={<Mark />} collapsed={true} onToggle={() => {}}>
         <AccordionSection title="Resources" sectionId="resources">
@@ -766,11 +766,16 @@ describe("AppShellSidebar", () => {
         </AccordionSection>
       </AppShellSidebar>,
     );
-    // Items still visible (icon-only).
+    // jsdom doesn't load Tailwind, so `toBeVisible()` can't observe
+    // the `[data-collapsed=true] .rail-hide { display: none }` rule.
+    // Verify the structural contract instead.
+    const aside = screen.getByRole("complementary");
+    expect(aside).toHaveAttribute("data-collapsed", "true");
     expect(screen.getByTestId("icon")).toBeInTheDocument();
-    // Section title is in the DOM (rail-hide pattern keeps a single tree)
-    // but hidden via `display: none`. Use toBeVisible(), not queryByText().
-    expect(screen.getByText("Resources")).not.toBeVisible();
+    expect(
+      screen.getByRole("button", { name: /resources/i }),
+    ).toHaveClass("rail-hide");
+    expect(screen.getByText("Nodes")).toHaveClass("rail-hide");
   });
 
   it("renders a built-in collapse toggle that fires onToggle when clicked", () => {

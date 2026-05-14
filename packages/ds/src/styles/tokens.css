@@ -457,3 +457,9 @@
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.15); }
 }
+
+/* ── AppShellSidebar rail-hide ─────────────────── */
+
+[data-collapsed="true"] .rail-hide {
+  display: none;
+}
