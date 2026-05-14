@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #79 — 2026-05-15
+
+**Context:** Per-page header content (title, actions, search, breadcrumb) needs a shared chrome row owned by the app shell, but the content must come from each page reactively. This is Part C of the shell-primitives plan.
+**Decision:** Ship `PageHeader` + `PageHeaderProvider` + `usePageHeader(config)`. The provider holds a single config in state. `usePageHeader` commits its config via `useEffect` and clears on unmount. The renderer reads from a read-only context and renders nothing when neither a registered config nor a `fallbackTitle` is supplied. Split the read and write contexts so pages that register content only subscribe to the (identity-stable) setter, not the config — registering pages don't re-render when header state changes.
+**Rationale:** Context-driven slot keeps the consumer API declarative (one hook call per page). `useEffect` commit avoids the setState-during-render warning. Last-mount-wins is simpler than merging multiple sources and matches the one-page-per-route reality of single-page apps. The split-context architecture is the load-bearing decision — a single context infinite-loops the moment a page passes inline JSX in `actions` (a `<button>` created in JSX is a new React element every render, which differs from the previous render under ref equality). Splitting the contexts decouples slot updates from page re-renders so unstable JSX is safe to pass.
+**Alternatives considered:** Render `PageHeader` as a child of each page (rejected — duplicates chrome, breaks sticky behavior and the shared collapse toggle origin). React portal from each page into a header DOM node (rejected — requires DOM ref plumbing, breaks the React tree's data flow, and doesn't compose with SSR). Next.js parallel routes (rejected during brainstorm — doesn't support reactive action state cleanly). Single context + manual structural diffing in the setter (rejected — can't structurally compare ReactNodes, and the diffing has the same edge cases as render-loop prevention).
+
 ## Decision #78 — 2026-05-15
 
 **Context:** The Aleph dashboard sidebar needs a collapse mode (icon rail) plus per-section accordion behavior. Without primitives in the DS, every consumer reinvents persistence + SSR-safe hydration. This is Part B of the shell-primitives plan.

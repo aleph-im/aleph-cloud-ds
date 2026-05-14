@@ -134,5 +134,8 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-05-01 — Table sort-icon alignment fix on right-aligned headers (inline-flex + flex-row-reverse, no width shift on toggle)
 - [x] 2026-05-02 — Table controlled-sort props (`sortColumn`/`sortDirection`/`onSortChange`) so externally paginated tables can sort the full dataset rather than only the current page
 - [x] 2026-05-04 — Tabs `maxVisible` prop (count-based cap on visible tab count, stricter-wins composition with `overflow="collapse"`)
+- [x] 2026-05-13 — ProductStrip primitive (Aleph cloud shell Part A — cross-app navigation strip with active tab convention)
+- [x] 2026-05-14 — AppShellSidebar + AccordionSection + NavItem + useSidebarCollapse + useAccordionState (Aleph cloud shell Part B — sidebar shell, rail-hide pattern, SSR-safe hydration)
+- [x] 2026-05-15 — PageHeader + PageHeaderProvider + usePageHeader (Aleph cloud shell Part C — context-driven slot, split read/write contexts to break the inline-JSX render-loop trap)
 
 </details>

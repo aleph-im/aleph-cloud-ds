@@ -595,6 +595,50 @@ This pattern is portable: any hook that reads browser-only state at mount should
 
 **Key files:** `packages/ds/src/components/app-shell-sidebar/use-sidebar-collapse.ts`, `packages/ds/src/components/app-shell-sidebar/use-accordion-state.ts`.
 
+### Slot-Via-Context (PageHeader)
+
+**Context:** The app shell renders a single header row at the top of the main column, but the contents of that row (title, actions, search, breadcrumb) belong to the current page. We need a way for each page to declaratively contribute its own slot content without each layout duplicating the header chrome.
+
+**Approach:** A small context holds the current `PageHeaderConfig`; pages register their config via a hook; the shell mounts one `<PageHeader>` that reads from context and renders.
+
+```tsx
+const PageHeaderReadContext = createContext<PageHeaderConfig | null>(null);
+const PageHeaderWriteContext = createContext<SetConfigFn | null>(null);
+
+export function PageHeaderProvider({ children }) {
+  const [config, setConfig] = useState<PageHeaderConfig | null>(null);
+  return (
+    <PageHeaderWriteContext.Provider value={setConfig}>
+      <PageHeaderReadContext.Provider value={config}>
+        {children}
+      </PageHeaderReadContext.Provider>
+    </PageHeaderWriteContext.Provider>
+  );
+}
+
+export function usePageHeader(config: PageHeaderConfig) {
+  const setConfig = useContext(PageHeaderWriteContext);
+  const { title, actions, search, breadcrumb } = config;
+  useEffect(() => {
+    if (!setConfig) return;
+    setConfig({ title, actions, search, breadcrumb });
+    return () => setConfig(null);
+  }, [setConfig, title, actions, search, breadcrumb]);
+}
+```
+
+**Three design decisions worth calling out:**
+
+1. **Split read/write contexts.** Pages that call `usePageHeader` subscribe only to `PageHeaderWriteContext`, whose value (`setConfig`) is identity-stable across renders. They do **not** subscribe to the read context, so when the header content changes the registering page does not re-render. This is what makes unstable inline JSX safe — e.g. `actions: <button onClick={...}>...</button>` creates a new React element every render, but only `<PageHeader>` re-renders to display the new element, not the page that registered it. A naive single-context implementation infinite-loops the moment a page passes inline JSX in `actions`.
+
+2. **`useEffect` to commit, not setState during render.** Calling `setConfig` directly during render would warn (and in some cases crash). The `useEffect` defers the commit to after the render phase. Destructured deps (`title, actions, search, breadcrumb`) give per-field reactivity instead of object-identity reactivity.
+
+3. **Last-mount-wins with unmount cleanup.** When only one page is mounted at a time (the common case for single-route apps), the cleanup return on the effect ensures the slot resets to empty between routes. Multiple simultaneous mounts give last-write-wins semantics — not because we explicitly resolve conflicts, but because each `setConfig` call replaces the previous value. This was a deliberate simplification — multi-source merging adds complexity for a case that doesn't exist in single-page-per-route apps.
+
+**Key files:** `packages/ds/src/components/page-header/page-header.tsx`.
+
+**Testing note:** Tests assert structural contract (rendered title text, presence of action buttons, slot clearing on unmount) — not implementation details like context value shape. The infinite-loop trap from unstable JSX in `actions` is verifiable in the preview app at `/components/page-header` (the "With reactive actions" demo), where the Refresh button updates header state without the page re-rendering.
+
 ---
 
 ## Testing Philosophy
