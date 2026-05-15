@@ -48,9 +48,18 @@ export function ProductStrip({
               aria-current={isActive ? "page" : undefined}
               className={cn(
                 "rounded-md px-2 py-1 text-sm transition-colors",
-                "text-muted-foreground hover:text-foreground hover:bg-muted",
-                isActive &&
-                  "bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-200 font-medium",
+                "focus-visible:outline-2 focus-visible:outline-primary-500 focus-visible:outline-offset-2",
+                "dark:focus-visible:outline-primary-300",
+                isActive
+                  ? [
+                      "bg-primary-100 text-primary-700 font-medium",
+                      "dark:bg-primary-500/18 dark:text-primary-200",
+                    ]
+                  : [
+                      "text-muted-foreground",
+                      "hover:bg-primary-100/50 hover:text-primary-700",
+                      "dark:hover:bg-primary-500/8 dark:hover:text-primary-200",
+                    ],
               )}
               style={{ transitionDuration: "var(--duration-fast)" }}
             >
