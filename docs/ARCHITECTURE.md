@@ -577,7 +577,7 @@ Hover state uses `bg-foreground/10` for visibility in both light and dark themes
 [data-slot="nav-band"] {
   width: calc(100% + 1.625rem); /* mask + (icon + gap) */
   transform: translateX(0);
-  transition: transform var(--duration-fast) ease-out;
+  transition: transform var(--duration-fast) var(--timing);
 }
 [data-slot="nav-item"]:hover [data-slot="nav-band"],
 [data-slot="nav-item"][data-active="true"] [data-slot="nav-band"] {
@@ -585,7 +585,7 @@ Hover state uses `bg-foreground/10` for visibility in both light and dark themes
 }
 ```
 
-In collapsed mode the same mechanic runs at icon-bounding-box scale. A scoped override (under `[data-collapsed="true"]`) shrinks the mask to `1rem × 1rem` and the band to `2rem` with `gap: 0`, and the hover/active rule translates by `-1rem`. Because the override selectors carry an extra attribute selector, they win the specificity contest cleanly. Reduced-motion users get the state change with no transition.
+In collapsed mode the same mechanic runs at icon-bounding-box scale. A scoped override (under `[data-collapsed="true"]`) shrinks the mask to `1rem × 1rem` and the band to `2rem` with `gap: 0`, and the hover/active rule translates by `-1rem`. The same override bumps the band's `transition-duration` to `260ms` so the shorter motion path doesn't blip past the eye. Because the override selectors carry an extra attribute selector, they win the specificity contest cleanly. Reduced-motion users get the state change with no transition.
 
 **Key files:** `packages/ds/src/components/app-shell-sidebar/app-shell-sidebar.tsx` (DOM structure, two icon copies, `data-slot` / `data-active` attributes), `packages/ds/src/styles/tokens.css` (band + mask CSS, hover/active selector, collapsed-mode override, reduced-motion media query).
 
