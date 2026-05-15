@@ -137,5 +137,6 @@ Ideas and scope creep captured for later consideration.
 - [x] 2026-05-13 — ProductStrip primitive (Aleph cloud shell Part A — cross-app navigation strip with active tab convention)
 - [x] 2026-05-14 — AppShellSidebar + AccordionSection + NavItem + useSidebarCollapse + useAccordionState (Aleph cloud shell Part B — sidebar shell, rail-hide pattern, SSR-safe hydration)
 - [x] 2026-05-15 — PageHeader + PageHeaderProvider + usePageHeader (Aleph cloud shell Part C — context-driven slot, split read/write contexts to break the inline-JSX render-loop trap)
+- [x] 2026-05-15 — NavItem `asChild` + AnchorHTMLAttributes passthrough (lets consumers plug in Next.js `Link` / React Router `Link` and attach `onMouseEnter`/`onFocus` for hover-prefetch — surfaced by the scheduler dashboard integration, see Decision #80)
 
 </details>

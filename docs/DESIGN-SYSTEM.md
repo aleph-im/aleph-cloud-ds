@@ -1786,11 +1786,29 @@ function Shell() {
 
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
-| `href` | `string` | yes | Anchor target |
+| `href` | `string` | no when `asChild` | Anchor target for the default `<a>` rendering |
 | `icon` | `ReactNode` | yes | Leading icon (visible in both expanded and rail mode) |
-| `children` | `ReactNode` | yes | Label (hidden in rail mode via `rail-hide`) |
+| `children` | `ReactNode` | yes | Label, or — when `asChild` — a single anchor-like element whose own children become the label |
 | `active` | `boolean` | no | Marks the current route; sets `aria-current="page"` and applies active styling |
-| `onClick` | `() => void` | no | Optional handler (useful for closing mobile drawers) |
+| `asChild` | `boolean` | no (default `false`) | When `true`, clones the single child element instead of rendering a bare `<a>`. Lets consumers plug in routing-aware links (Next.js `Link`, React Router `Link`, etc.) or attach hover-prefetch handlers |
+| `…AnchorHTMLAttributes` | — | no | All standard anchor attributes pass through (`onClick`, `onMouseEnter`, `onFocus`, `target`, etc.). In `asChild` mode they're forwarded to the cloned child |
+
+**`asChild` example (Next.js Link with hover prefetch):**
+
+```tsx
+import Link from "next/link";
+
+<NavItem
+  asChild
+  active={pathname === "/nodes"}
+  icon={<HardDrives size={14} />}
+  onMouseEnter={() => prefetchNodes()}
+>
+  <Link href="/nodes">Nodes</Link>
+</NavItem>
+```
+
+`NavItem` clones the `<Link>`, applies its classes / `aria-current` / style, and replaces the child's children with `<icon-span /><label-span>Nodes</label-span>` so the rail-hide pattern still works.
 
 **Rail-hide pattern:** Section titles and item labels carry a `rail-hide` class; a single global CSS rule `[data-collapsed="true"] .rail-hide { display: none }` hides them when the root has `data-collapsed="true"`. Consumers configure one tree; the CSS rule handles the visual swap. See `docs/ARCHITECTURE.md` for the full pattern.
 
