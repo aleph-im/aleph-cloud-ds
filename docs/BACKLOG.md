@@ -112,6 +112,7 @@ Ideas and scope creep captured for later consideration.
 <details>
 <summary>Archived items</summary>
 
+- [x] 2026-05-15 — Nav item state refresh (ProductStrip + NavItem) — primary-tinted hover/active spectrum, dark-mode active fix, focus-visible outline
 - [x] 2026-02-26 — Typekit font integration (kit ID: `acb7qvn`)
 - [x] 2026-02-26 — Global CLAUDE.md: bundler moduleResolution for Next.js
 - [x] 2026-02-26 — Button component (CVA variants, OKLCH color scales, TDD)

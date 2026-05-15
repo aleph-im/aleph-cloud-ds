@@ -1812,6 +1812,17 @@ import Link from "next/link";
 
 `NavItem` clones the `<Link>`, applies its classes / `aria-current` / style, and replaces the child's children with `<icon-span /><label-span>Nodes</label-span>` so the rail-hide pattern still works.
 
+**State vocabulary:**
+
+| State | Light | Dark |
+|---|---|---|
+| Rest | `text-muted-foreground` | (same) |
+| Hover | `bg-primary-100/50` + `text-primary-700` | `bg-primary-500/8` + `text-primary-200` |
+| Focus-visible | `outline-2 outline-primary-500 outline-offset-2` | `outline-primary-300` |
+| Active | `bg-primary-100` + `text-primary-700` + `font-medium` | `bg-primary-500/18` + `text-primary-200` + `font-medium` |
+
+Hover and active sit on a single primary-tinted spectrum — hover is roughly one-third the intensity of active, both share the same text color. Focus-visible is an additive outline (it stacks with hover/active rather than replacing them). Hover and active are mutually exclusive in the class list, so an active item never picks up the lighter hover background.
+
 **Rail-hide pattern:** Section titles and item labels carry a `rail-hide` class; a single global CSS rule `[data-collapsed="true"] .rail-hide { display: none }` hides them when the root has `data-collapsed="true"`. Consumers configure one tree; the CSS rule handles the visual swap. See `docs/ARCHITECTURE.md` for the full pattern.
 
 #### useSidebarCollapse()
@@ -1866,6 +1877,15 @@ const APPS: ProductApp[] = [
 | `className` | `string` | no | Extra classes merged onto the root container |
 
 The active tab is announced via `aria-current="page"`; the nav element carries `aria-label="Aleph products"`.
+
+**State vocabulary** (shared with `AppShellSidebar` `NavItem` — see that section for the full rationale):
+
+| State | Light | Dark |
+|---|---|---|
+| Rest | `text-muted-foreground` | (same) |
+| Hover | `bg-primary-100/50` + `text-primary-700` | `bg-primary-500/8` + `text-primary-200` |
+| Focus-visible | `outline-2 outline-primary-500 outline-offset-2` | `outline-primary-300` |
+| Active | `bg-primary-100` + `text-primary-700` + `font-medium` | `bg-primary-500/18` + `text-primary-200` + `font-medium` |
 
 ### PageHeader
 
