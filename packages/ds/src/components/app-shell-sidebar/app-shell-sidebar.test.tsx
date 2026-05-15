@@ -47,8 +47,9 @@ describe("AppShellSidebar", () => {
     );
     const aside = screen.getByRole("complementary");
     expect(aside).toHaveAttribute("data-collapsed", "true");
-    // Icons stay rendered (no rail-hide class).
-    expect(screen.getByTestId("icon")).toBeInTheDocument();
+    // Icons stay rendered (no rail-hide class). The NavItem renders the
+    // icon twice (band positions A and B), so both copies are present.
+    expect(screen.getAllByTestId("icon")).toHaveLength(2);
     // Section title and nav-item label carry rail-hide; the global
     // `[data-collapsed="true"] .rail-hide { display: none }` rule
     // hides them at runtime (verified visually in the preview).
@@ -56,6 +57,53 @@ describe("AppShellSidebar", () => {
       screen.getByRole("button", { name: /resources/i }),
     ).toHaveClass("rail-hide");
     expect(screen.getByText("Nodes")).toHaveClass("rail-hide");
+  });
+
+  it("NavItem renders the icon in both band slots, each aria-hidden", () => {
+    render(
+      <AppShellSidebar appMark={<Mark />} collapsed={false} onToggle={() => {}}>
+        <AccordionSection title="Resources" sectionId="resources">
+          <NavItem href="/nodes" icon={<span data-testid="icon" />}>
+            Nodes
+          </NavItem>
+        </AccordionSection>
+      </AppShellSidebar>,
+    );
+    const icons = screen.getAllByTestId("icon");
+    expect(icons).toHaveLength(2);
+    for (const icon of icons) {
+      const wrapper = icon.parentElement;
+      expect(wrapper).toHaveAttribute("aria-hidden", "true");
+    }
+  });
+
+  it("NavItem sets data-active on the link to drive the band transform", () => {
+    const { rerender } = render(
+      <AppShellSidebar appMark={<Mark />} collapsed={false} onToggle={() => {}}>
+        <AccordionSection title="Resources" sectionId="resources">
+          <NavItem href="/nodes" icon={<span data-testid="icon" />}>
+            Nodes
+          </NavItem>
+        </AccordionSection>
+      </AppShellSidebar>,
+    );
+    expect(screen.getByRole("link", { name: "Nodes" })).toHaveAttribute(
+      "data-active",
+      "false",
+    );
+    rerender(
+      <AppShellSidebar appMark={<Mark />} collapsed={false} onToggle={() => {}}>
+        <AccordionSection title="Resources" sectionId="resources">
+          <NavItem href="/nodes" icon={<span data-testid="icon" />} active>
+            Nodes
+          </NavItem>
+        </AccordionSection>
+      </AppShellSidebar>,
+    );
+    expect(screen.getByRole("link", { name: "Nodes" })).toHaveAttribute(
+      "data-active",
+      "true",
+    );
   });
 
   it("clicking section title toggles open/closed", () => {
@@ -117,8 +165,8 @@ describe("AppShellSidebar", () => {
       const link = screen.getByTestId("custom-link");
       expect(link.tagName).toBe("A");
       expect(link.getAttribute("href")).toBe("/nodes");
-      // Icon and label render inside the cloned child.
-      expect(screen.getByTestId("icon")).toBeInTheDocument();
+      // Icon (twice, A + B slots) and label render inside the cloned child.
+      expect(screen.getAllByTestId("icon")).toHaveLength(2);
       expect(screen.getByText("Nodes")).toBeInTheDocument();
     });
 

@@ -1823,6 +1823,8 @@ import Link from "next/link";
 
 Hover and active sit on a single primary-tinted spectrum — hover is roughly one-third the intensity of active, both share the same text color. Focus-visible is an additive outline (it stacks with hover/active rather than replacing them). Hover and active are mutually exclusive in the class list, so an active item never picks up the lighter hover background.
 
+**Icon-swap animation:** On hover or active, the leading icon visually translates from the left of the label to the right. The mechanic is a single `translateX` on a wider content band sitting behind an `overflow: hidden` mask — no animated widths or margins. The same band carries two copies of the icon (positions A and B); rest shows A on the left with B clipped offscreen-right, hover/active shows B on the right with A clipped offscreen-left. In collapsed (icon-rail) mode the mask shrinks to the icon bounding box and the band reduces to the two stacked icons, so the swap reads as the icon "refreshing in place." Timing is `var(--duration-fast)` ease-out; `prefers-reduced-motion: reduce` makes the swap instant. See `docs/ARCHITECTURE.md` (Band-Behind-Mask Pattern) for the full mechanic.
+
 **Rail-hide pattern:** Section titles and item labels carry a `rail-hide` class; a single global CSS rule `[data-collapsed="true"] .rail-hide { display: none }` hides them when the root has `data-collapsed="true"`. Consumers configure one tree; the CSS rule handles the visual swap. See `docs/ARCHITECTURE.md` for the full pattern.
 
 #### useSidebarCollapse()
