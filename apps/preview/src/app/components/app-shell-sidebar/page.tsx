@@ -100,6 +100,46 @@ export default function AppShellSidebarPage() {
           </div>
         </div>
       </DemoSection>
+
+      <DemoSection title="NavItem asChild — plug in a routing-aware link">
+        <p className="mb-4 text-sm text-muted-foreground">
+          When the consuming app needs SPA routing (e.g. Next.js Link) or
+          hover-prefetch handlers, pass <code>asChild</code> and provide your
+          own anchor-like element. NavItem clones it, applies its classes /
+          aria-current / style, and injects the icon + label as the child&apos;s
+          children.
+        </p>
+        <div className="flex h-72 overflow-hidden rounded-md border border-edge">
+          <AppShellSidebar
+            appMark={<AppMark collapsed={false} />}
+            collapsed={false}
+            onToggle={() => {}}
+          >
+            <AccordionSection title="Resources" sectionId="aschild-resources">
+              <NavItem asChild active icon={<HardDrives size={14} />}>
+                <a
+                  href="/nodes"
+                  onMouseEnter={() => {
+                    /* prefetch logic lives in the consuming app */
+                  }}
+                >
+                  Nodes
+                </a>
+              </NavItem>
+              <NavItem asChild icon={<Cpu size={14} />}>
+                <a href="/vms">VMs</a>
+              </NavItem>
+              <NavItem asChild icon={<Coins size={14} />}>
+                <a href="/credits">Credits</a>
+              </NavItem>
+            </AccordionSection>
+          </AppShellSidebar>
+          <div className="flex-1 bg-background p-4 text-sm text-muted-foreground">
+            The active row is rendered through the consumer-supplied anchor —
+            try inspecting it.
+          </div>
+        </div>
+      </DemoSection>
     </>
   );
 }

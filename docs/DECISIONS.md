@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #80 — 2026-05-15
+
+**Context:** Consuming the new `AppShellSidebar` from the scheduler dashboard surfaced two regressions vs the previous bespoke sidebar: clicks turned into full-page reloads (DS `NavItem` renders a bare `<a>`, no integration with Next.js `Link`), and `/credits` hover-prefetch — which warmed a ~20s api2 query — was gone because `NavItem` accepted no event handlers beyond `onClick`. The original spec hadn't called this out.
+**Decision:** Extend `NavItem` with an `asChild` prop (cloneElement pattern, mirroring `Button.asChild`) and widen its prop type to accept the full `AnchorHTMLAttributes` shape. In `asChild` mode, the consumer passes a single anchor-like element (e.g. Next.js `Link`); NavItem clones it with the active styling / `aria-current` / transition style, and injects icon + label as the child's children so the rail-hide pattern still works. In bare-`<a>` mode (default), the new prop spread carries `onMouseEnter`, `onFocus`, etc. through to the rendered anchor for prefetch wiring.
+**Rationale:** `asChild` is already an established pattern in this DS (`Button` uses the same cloneElement approach) so consumers don't pay a new mental cost. Widening to `AnchorHTMLAttributes` is the smallest change that unblocks routing-agnostic SPA navigation across all consumer apps without DS pulling Next.js or React Router into its dependency tree. Keeps NavItem framework-agnostic — the consumer chooses the routing primitive.
+**Alternatives considered:** A `renderLink` callback prop (rejected — verbose at every call site and worse type ergonomics than cloneElement). Adding only `onMouseEnter` / `onFocus` to the bare-`<a>` path (rejected — patches the prefetch regression but leaves the full-reload regression unsolved; routing-aware nav is the load-bearing fix). Importing Next.js `Link` into DS conditionally (rejected — DS must stay framework-agnostic; not all consumers use Next.js). Forking `NavItem` per consumer (rejected — defeats the point of promoting the sidebar to DS in Decision #78).
+
 ## Decision #79 — 2026-05-15
 
 **Context:** Per-page header content (title, actions, search, breadcrumb) needs a shared chrome row owned by the app shell, but the content must come from each page reactively. This is Part C of the shell-primitives plan.

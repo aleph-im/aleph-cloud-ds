@@ -5,7 +5,15 @@ import {
   CaretLeft,
   CaretRight,
 } from "@phosphor-icons/react/dist/ssr";
-import { createContext, type ReactNode } from "react";
+import {
+  cloneElement,
+  createContext,
+  isValidElement,
+  type AnchorHTMLAttributes,
+  type CSSProperties,
+  type ReactElement,
+  type ReactNode,
+} from "react";
 import { cn } from "@ac/lib/cn";
 import { useAccordionState } from "./use-accordion-state";
 
@@ -150,34 +158,73 @@ function SectionTitleRow({
   );
 }
 
-export type NavItemProps = {
-  href: string;
+export type NavItemProps = Omit<
+  AnchorHTMLAttributes<HTMLAnchorElement>,
+  "href" | "children"
+> & {
+  href?: string;
   icon: ReactNode;
   children: ReactNode;
   active?: boolean;
-  onClick?: () => void;
+  asChild?: boolean;
 };
 
 export function NavItem({
+  asChild = false,
   href,
   icon,
   children,
   active,
-  onClick,
+  className,
+  style,
+  ...rest
 }: NavItemProps) {
+  const classes = cn(
+    "flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm transition-colors",
+    active
+      ? "bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-200 font-medium"
+      : "text-muted-foreground hover:text-foreground hover:bg-muted",
+    className,
+  );
+  const mergedStyle: CSSProperties = {
+    transitionDuration: "var(--duration-fast)",
+    ...style,
+  };
+  const ariaCurrent = active ? "page" : undefined;
+
+  if (asChild && isValidElement(children)) {
+    const child = children as ReactElement<{
+      className?: string;
+      style?: CSSProperties;
+      children?: ReactNode;
+    }>;
+    return (
+      <li>
+        {cloneElement(
+          child,
+          {
+            className: classes,
+            style: mergedStyle,
+            "aria-current": ariaCurrent,
+            ...rest,
+          },
+          <>
+            <span className="shrink-0">{icon}</span>
+            <span className="rail-hide">{child.props.children}</span>
+          </>,
+        )}
+      </li>
+    );
+  }
+
   return (
     <li>
       <a
         href={href}
-        {...(onClick ? { onClick } : {})}
-        aria-current={active ? "page" : undefined}
-        className={cn(
-          "flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm transition-colors",
-          active
-            ? "bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-200 font-medium"
-            : "text-muted-foreground hover:text-foreground hover:bg-muted",
-        )}
-        style={{ transitionDuration: "var(--duration-fast)" }}
+        aria-current={ariaCurrent}
+        className={classes}
+        style={mergedStyle}
+        {...rest}
       >
         <span className="shrink-0">{icon}</span>
         <span className="rail-hide">{children}</span>

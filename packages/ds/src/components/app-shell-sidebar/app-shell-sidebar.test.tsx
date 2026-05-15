@@ -73,6 +73,98 @@ describe("AppShellSidebar", () => {
     expect(screen.queryByText("Nodes")).toBeNull();
   });
 
+  it("NavItem forwards onMouseEnter and onFocus events", () => {
+    const onMouseEnter = vi.fn();
+    const onFocus = vi.fn();
+    render(
+      <AppShellSidebar appMark={<Mark />} collapsed={false} onToggle={() => {}}>
+        <AccordionSection title="Resources" sectionId="resources">
+          <NavItem
+            href="/nodes"
+            icon={<span data-testid="icon" />}
+            onMouseEnter={onMouseEnter}
+            onFocus={onFocus}
+          >
+            Nodes
+          </NavItem>
+        </AccordionSection>
+      </AppShellSidebar>,
+    );
+    const link = screen.getByRole("link", { name: "Nodes" });
+    fireEvent.mouseEnter(link);
+    fireEvent.focus(link);
+    expect(onMouseEnter).toHaveBeenCalledTimes(1);
+    expect(onFocus).toHaveBeenCalledTimes(1);
+  });
+
+  describe("NavItem asChild", () => {
+    it("clones the child element instead of rendering an <a>", () => {
+      render(
+        <AppShellSidebar
+          appMark={<Mark />}
+          collapsed={false}
+          onToggle={() => {}}
+        >
+          <AccordionSection title="Resources" sectionId="resources">
+            <NavItem asChild icon={<span data-testid="icon" />}>
+              <a href="/nodes" data-testid="custom-link">
+                Nodes
+              </a>
+            </NavItem>
+          </AccordionSection>
+        </AppShellSidebar>,
+      );
+      const link = screen.getByTestId("custom-link");
+      expect(link.tagName).toBe("A");
+      expect(link.getAttribute("href")).toBe("/nodes");
+      // Icon and label render inside the cloned child.
+      expect(screen.getByTestId("icon")).toBeInTheDocument();
+      expect(screen.getByText("Nodes")).toBeInTheDocument();
+    });
+
+    it("applies active styling and aria-current to the cloned child", () => {
+      render(
+        <AppShellSidebar
+          appMark={<Mark />}
+          collapsed={false}
+          onToggle={() => {}}
+        >
+          <AccordionSection title="Resources" sectionId="resources">
+            <NavItem asChild active icon={<span data-testid="icon" />}>
+              <a href="/nodes">Nodes</a>
+            </NavItem>
+          </AccordionSection>
+        </AppShellSidebar>,
+      );
+      const link = screen.getByRole("link", { name: "Nodes" });
+      expect(link).toHaveAttribute("aria-current", "page");
+      expect(link.className).toContain("bg-primary-100");
+    });
+
+    it("forwards event handlers to the cloned child", () => {
+      const onMouseEnter = vi.fn();
+      render(
+        <AppShellSidebar
+          appMark={<Mark />}
+          collapsed={false}
+          onToggle={() => {}}
+        >
+          <AccordionSection title="Resources" sectionId="resources">
+            <NavItem
+              asChild
+              icon={<span data-testid="icon" />}
+              onMouseEnter={onMouseEnter}
+            >
+              <a href="/nodes">Nodes</a>
+            </NavItem>
+          </AccordionSection>
+        </AppShellSidebar>,
+      );
+      fireEvent.mouseEnter(screen.getByRole("link", { name: "Nodes" }));
+      expect(onMouseEnter).toHaveBeenCalledTimes(1);
+    });
+  });
+
   it("NavItem marks the active route with aria-current=page", () => {
     render(
       <AppShellSidebar appMark={<Mark />} collapsed={false} onToggle={() => {}}>
