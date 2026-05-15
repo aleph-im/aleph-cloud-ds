@@ -26,7 +26,7 @@ export function ProductStrip({
   return (
     <div
       className={cn(
-        "flex h-9 w-full items-center gap-3 border-b border-edge",
+        "flex h-[54px] w-full items-center gap-3 border-b border-edge",
         "bg-muted/40 dark:bg-surface px-3",
         className,
       )}
