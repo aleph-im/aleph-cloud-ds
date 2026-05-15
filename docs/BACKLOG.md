@@ -15,6 +15,18 @@ Ideas and scope creep captured for later consideration.
 
 ## Open Items
 
+### 2026-05-15 — scheduler-dashboard: shell composition follow-ups
+
+**Source:** Shell-primitives feedback while reviewing the scheduler app's first integration
+**Description:** Five scheduler-side fixes that don't require any further DS changes. Each one is a small composition tweak.
+- **Drop the duplicate Aleph logo.** ProductStrip already renders the Aleph mark at the top-left as the global cross-product anchor. The sidebar's `appMark` slot currently renders the same mark again next to "Network". Drop the mark from `appMark`; render only the sub-app name (or a sub-product logo if one exists).
+- **Refresh button → `<Button variant="text" size="xs">`.** Currently using a primary-style button which is too loud for header chrome. The DS already supports `variant="text"` and `size="xs"`.
+- **Move the rounded-corner mask above the PageHeader.** Today the rounded surface starts below the PageHeader, which makes the chrome row read as a separate strip. It should start just below the ProductStrip so the PageHeader sits inside the rounded surface.
+- **Wire the version number into `AppShellSidebar`'s new `footer` prop.** DS shipped the slot — pass `footer={<span className="font-mono">v…</span>}`.
+- **Pass `defaultOpen={false}` on the Operations `AccordionSection`.** DS default stays `true`; close just this one section.
+
+**Priority:** Medium (blocks the dashboard's shell feeling polished, but no DS work is required)
+
 ### 2026-03-01 — Theme persistence across page reloads
 
 **Source:** Identified during accessibility audit

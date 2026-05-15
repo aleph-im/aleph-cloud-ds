@@ -77,7 +77,7 @@ export function PageHeader({
           </div>
         )}
         {title && (
-          <div className="truncate text-base font-semibold text-foreground">
+          <div className="truncate text-sm font-medium text-foreground">
             {title}
           </div>
         )}
