@@ -201,7 +201,7 @@ export function NavItem({
   ...rest
 }: NavItemProps) {
   const classes = cn(
-    "flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm transition-colors",
+    "flex items-center rounded-md px-2.5 py-2 text-sm transition-colors",
     "focus-visible:outline-2 focus-visible:outline-primary-500 focus-visible:outline-offset-2",
     "dark:focus-visible:outline-primary-300",
     active
@@ -221,13 +221,33 @@ export function NavItem({
     ...style,
   };
   const ariaCurrent = active ? "page" : undefined;
+  const dataActive = active ? "true" : "false";
+
+  const renderContent = (label: ReactNode) => (
+    <span data-slot="nav-mask" className="flex-1 min-w-0 overflow-hidden">
+      <span data-slot="nav-band" className="flex items-center gap-2.5">
+        <span
+          aria-hidden="true"
+          className="inline-flex h-4 w-4 shrink-0 items-center justify-center"
+        >
+          {icon}
+        </span>
+        <span className="flex-1 min-w-0 truncate rail-hide">{label}</span>
+        <span
+          aria-hidden="true"
+          className="inline-flex h-4 w-4 shrink-0 items-center justify-center"
+        >
+          {icon}
+        </span>
+      </span>
+    </span>
+  );
 
   if (asChild && isValidElement(children)) {
-    const child = children as ReactElement<{
-      className?: string;
-      style?: CSSProperties;
-      children?: ReactNode;
-    }>;
+    const child = children as ReactElement<
+      AnchorHTMLAttributes<HTMLAnchorElement> &
+        Record<`data-${string}`, string>
+    >;
     return (
       <li>
         {cloneElement(
@@ -236,12 +256,11 @@ export function NavItem({
             className: classes,
             style: mergedStyle,
             "aria-current": ariaCurrent,
+            "data-slot": "nav-item",
+            "data-active": dataActive,
             ...rest,
           },
-          <>
-            <span className="shrink-0">{icon}</span>
-            <span className="rail-hide">{child.props.children}</span>
-          </>,
+          renderContent(child.props.children),
         )}
       </li>
     );
@@ -252,12 +271,13 @@ export function NavItem({
       <a
         href={href}
         aria-current={ariaCurrent}
+        data-slot="nav-item"
+        data-active={dataActive}
         className={classes}
         style={mergedStyle}
         {...rest}
       >
-        <span className="shrink-0">{icon}</span>
-        <span className="rail-hide">{children}</span>
+        {renderContent(children)}
       </a>
     </li>
   );

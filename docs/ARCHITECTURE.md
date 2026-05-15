@@ -567,6 +567,30 @@ Copy button uses a two-layer stack:
 
 Hover state uses `bg-foreground/10` for visibility in both light and dark themes.
 
+### Band-Behind-Mask Pattern (NavItem icon-swap)
+
+**Context:** `NavItem` animates its leading icon from left-of-label to right-of-label on hover and active. The naive implementations — animating slot widths/margins, or absolute-positioning two icons that crossfade — either trigger layout recalc on every frame or require mode-specific markup branches. The same animation must work in expanded mode (icon swaps sides relative to the label) and collapsed mode (icon refreshes in place inside the 16×16 rail bounding box).
+
+**Approach:** A wider content band translates inside an `overflow: hidden` mask. One element (`[data-slot="nav-band"]`) sized 26px wider than its parent mask, with structure `[iconA] gap [label] gap [iconB]`. State change drives a single `transform: translateX(…)` on the band — no animated widths or margins, no layout recalc. The mask (`[data-slot="nav-mask"]`) lives inside the link element which carries `data-slot="nav-item"` plus `data-active="true|false"`. The CSS rule wakes on either `:hover` or `[data-active="true"]`:
+
+```css
+[data-slot="nav-band"] {
+  width: calc(100% + 1.625rem); /* mask + (icon + gap) */
+  transform: translateX(0);
+  transition: transform var(--duration-fast) var(--timing);
+}
+[data-slot="nav-item"]:hover [data-slot="nav-band"],
+[data-slot="nav-item"][data-active="true"] [data-slot="nav-band"] {
+  transform: translateX(-1.625rem);
+}
+```
+
+In collapsed mode the same mechanic runs at icon-bounding-box scale. A scoped override (under `[data-collapsed="true"]`) shrinks the mask to `1rem × 1rem` and the band to `2rem` with `gap: 0`, and the hover/active rule translates by `-1rem`. The same override bumps the band's `transition-duration` to `260ms` so the shorter motion path doesn't blip past the eye. Because the override selectors carry an extra attribute selector, they win the specificity contest cleanly. Reduced-motion users get the state change with no transition.
+
+**Key files:** `packages/ds/src/components/app-shell-sidebar/app-shell-sidebar.tsx` (DOM structure, two icon copies, `data-slot` / `data-active` attributes), `packages/ds/src/styles/tokens.css` (band + mask CSS, hover/active selector, collapsed-mode override, reduced-motion media query).
+
+**Notes:** Hover and active share the same end-state — there is no separate active animation. An item that mounts active appears in end-state instantly because CSS transitions don't fire on initial render. Route changes between active items animate naturally as the outgoing item's band slides back to default and the incoming item's slides to end-state.
+
 ### Rail-Hide Pattern (AppShellSidebar)
 
 **Context:** `AppShellSidebar` has two modes — expanded (full width with labels and section titles) and collapsed (icon-only rail). The naive approach is to render two different trees of JSX or to conditionally render labels. Both create coordination problems: consumers configure their nav once but the same data has to flow through two branches, and accidental drift between the two branches is easy to introduce.
