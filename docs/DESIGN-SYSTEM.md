@@ -1742,6 +1742,7 @@ function Shell() {
           {!isCollapsed && <span className="font-semibold text-sm">Network</span>}
         </div>
       }
+      footer={<span className="font-mono">v1.2.3</span>}
     >
       <AccordionSection title="Dashboard" sectionId="dashboard">
         <NavItem href="/" icon={<GridFour size={14} />} active>Overview</NavItem>
@@ -1759,7 +1760,7 @@ function Shell() {
 
 | Part | Purpose |
 |------|---------|
-| `AppShellSidebar` | Root `<aside>` with collapse-aware width and a built-in CollapseToggle at the bottom |
+| `AppShellSidebar` | Root `<aside>` with collapse-aware width, optional bottom-row `footer` slot (e.g. version), and a built-in CollapseToggle |
 | `AccordionSection` | Section with a clickable title row; persists open/closed under `sidebar.section.<sectionId>` |
 | `NavItem` | Single nav row; icon + label, optional `active` (announces `aria-current="page"`) |
 
@@ -1771,6 +1772,7 @@ function Shell() {
 | `collapsed` | `boolean \| null` | yes | `true` = rail mode, `false` = expanded, `null` = hydrating (treated as expanded) |
 | `onToggle` | `() => void` | yes | Called when the built-in collapse toggle is clicked |
 | `children` | `ReactNode` | yes | `AccordionSection`s (and/or bare `NavItem`s) |
+| `footer` | `ReactNode` | no | Rendered in the bottom row to the left of the collapse toggle when expanded. Hidden when collapsed (toggle returns to centered). Typical use: version string. |
 | `className` | `string` | no | Extra classes merged onto the `<aside>` |
 
 **`AccordionSection` props:**
@@ -1922,7 +1924,7 @@ function Shell({ children }: { children: React.ReactNode }) {
 
 | Field | Type | Required | Description |
 |------|------|----------|-------------|
-| `title` | `ReactNode` | yes | Page title shown in the slot |
+| `title` | `ReactNode` | yes | Page title shown in the slot. Default styling is quiet (`text-sm font-medium`) so it reads as chrome alongside the `leading` icon, not as a heading. |
 | `actions` | `ReactNode` | no | Right-aligned actions (refresh, filters, primary CTA) |
 | `search` | `ReactNode` | no | Right-aligned search input, rendered before `actions` |
 | `breadcrumb` | `ReactNode` | no | Optional breadcrumb rendered before the title |

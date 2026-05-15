@@ -26,6 +26,7 @@ export type AppShellSidebarProps = {
   collapsed: boolean | null;
   onToggle: () => void;
   children: ReactNode;
+  footer?: ReactNode;
   className?: string;
 };
 
@@ -34,6 +35,7 @@ export function AppShellSidebar({
   collapsed,
   onToggle,
   children,
+  footer,
   className,
 }: AppShellSidebarProps) {
   const isCollapsed = collapsed === true;
@@ -59,7 +61,11 @@ export function AppShellSidebar({
       <nav className="min-h-0 flex-1 overflow-y-auto px-2 py-2">
         {children}
       </nav>
-      <CollapseToggle collapsed={isCollapsed} onToggle={onToggle} />
+      <CollapseToggle
+        collapsed={isCollapsed}
+        onToggle={onToggle}
+        footer={footer}
+      />
     </aside>
   );
 }
@@ -67,17 +73,32 @@ export function AppShellSidebar({
 function CollapseToggle({
   collapsed,
   onToggle,
+  footer,
 }: {
   collapsed: boolean;
   onToggle: () => void;
+  footer?: ReactNode;
 }) {
+  const showFooter = !collapsed && footer != null;
   return (
     <div
       className={cn(
-        "flex shrink-0 border-t border-edge px-2 py-2",
-        collapsed ? "justify-center" : "justify-end",
+        "flex shrink-0 items-center border-t border-edge px-2 py-2",
+        collapsed
+          ? "justify-center"
+          : showFooter
+            ? "justify-between"
+            : "justify-end",
       )}
     >
+      {showFooter && (
+        <div
+          data-slot="sidebar-footer"
+          className="min-w-0 px-1 text-xs text-muted-foreground"
+        >
+          {footer}
+        </div>
+      )}
       <button
         type="button"
         onClick={onToggle}

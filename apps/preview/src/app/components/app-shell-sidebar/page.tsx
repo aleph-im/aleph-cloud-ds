@@ -42,6 +42,7 @@ function DemoSidebar({
       appMark={<AppMark collapsed={collapsed} />}
       collapsed={collapsed}
       onToggle={onToggle}
+      footer={<span className="font-mono">v0.17.0</span>}
     >
       <AccordionSection title="Dashboard" sectionId="demo-dashboard">
         <NavItem href="#" icon={<GridFour size={14} />} active>

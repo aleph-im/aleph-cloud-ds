@@ -218,4 +218,36 @@ describe("AppShellSidebar", () => {
       screen.getByRole("button", { name: /expand sidebar/i }),
     ).toBeInTheDocument();
   });
+
+  it("renders the footer slot when expanded", () => {
+    render(
+      <AppShellSidebar
+        appMark={<Mark />}
+        collapsed={false}
+        onToggle={() => {}}
+        footer={<span data-testid="version">v1.2.3</span>}
+      >
+        <div>content</div>
+      </AppShellSidebar>,
+    );
+    expect(screen.getByTestId("version")).toBeInTheDocument();
+  });
+
+  it("hides the footer slot when collapsed", () => {
+    render(
+      <AppShellSidebar
+        appMark={<Mark />}
+        collapsed={true}
+        onToggle={() => {}}
+        footer={<span data-testid="version">v1.2.3</span>}
+      >
+        <div>content</div>
+      </AppShellSidebar>,
+    );
+    expect(screen.queryByTestId("version")).toBeNull();
+    // Collapse toggle still reachable.
+    expect(
+      screen.getByRole("button", { name: /expand sidebar/i }),
+    ).toBeInTheDocument();
+  });
 });
