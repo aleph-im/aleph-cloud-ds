@@ -202,9 +202,18 @@ export function NavItem({
 }: NavItemProps) {
   const classes = cn(
     "flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm transition-colors",
+    "focus-visible:outline-2 focus-visible:outline-primary-500 focus-visible:outline-offset-2",
+    "dark:focus-visible:outline-primary-300",
     active
-      ? "bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-200 font-medium"
-      : "text-muted-foreground hover:text-foreground hover:bg-muted",
+      ? [
+          "bg-primary-100 text-primary-700 font-medium",
+          "dark:bg-primary-500/18 dark:text-primary-200",
+        ]
+      : [
+          "text-muted-foreground",
+          "hover:bg-primary-100/50 hover:text-primary-700",
+          "dark:hover:bg-primary-500/8 dark:hover:text-primary-200",
+        ],
     className,
   );
   const mergedStyle: CSSProperties = {
