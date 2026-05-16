@@ -67,7 +67,6 @@ export function ProductStrip({
     ro.observe(nav);
     return () => ro.disconnect();
     // restToActive depends on activeId; apps in deps catches list changes.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeId, apps]);
 
   return (
