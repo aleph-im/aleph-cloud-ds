@@ -442,7 +442,7 @@ const Checkbox = forwardRef<HTMLButtonElement, Props>(
 
 **Context:** Radix Select uses DOM APIs not available in jsdom (PointerEvent, ResizeObserver, DOMRect, scrollIntoView).
 
-**Approach:** Polyfills are added at the top of `select.test.tsx` before any imports. The `vitest.setup.ts` file imports `@testing-library/jest-dom/vitest` for matchers like `toBeChecked()`, `toHaveAttribute()`, `toHaveClass()`.
+**Approach:** Polyfills are added at the top of `select.test.tsx` before any imports. The `vitest.setup.ts` file imports `@testing-library/jest-dom/vitest` for matchers like `toBeChecked()`, `toHaveAttribute()`, `toHaveClass()`, and installs a global `ResizeObserver` class stub (jsdom omits it) so components that observe layout — e.g. `ProductStrip`'s sliding indicator, `Tabs` overflow, and Radix popper — render without crashing.
 
 **Key files:** `packages/ds/vitest.setup.ts`, `packages/ds/src/components/select/select.test.tsx`, `combobox/combobox.test.tsx`, `slider/slider.test.tsx`
 
