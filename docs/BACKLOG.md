@@ -112,6 +112,7 @@ Ideas and scope creep captured for later consideration.
 <details>
 <summary>Archived items</summary>
 
+- [x] 2026-05-16 — ProductStrip indicator width fix — sliding indicator now measures an inner content span so it ends at the end of the label for non-external items (no more overshoot past the word) while still covering the visible arrow on externals
 - [x] 2026-05-16 — ProductStrip polish — distinct top-edge sliding indicator (replaces shared pill vocabulary with sidebar), external arrow with overshoot pop, 48px logo offset, 18px item gap, uniform arrow slot reservation
 - [x] 2026-05-15 — Nav item state refresh (ProductStrip + NavItem) — primary-tinted hover/active spectrum, dark-mode active fix, focus-visible outline
 - [x] 2026-02-26 — Typekit font integration (kit ID: `acb7qvn`)
