@@ -5,10 +5,25 @@ import { DocHeader } from "@preview/components/doc-header";
 import { DemoSection } from "@preview/components/demo-section";
 
 const APPS: ProductApp[] = [
-  { id: "cloud", label: "Cloud", href: "https://app.aleph.cloud" },
+  {
+    id: "cloud",
+    label: "Cloud",
+    href: "https://app.aleph.cloud",
+    external: true,
+  },
   { id: "network", label: "Network", href: "https://network.aleph.cloud" },
-  { id: "explorer", label: "Explorer", href: "https://explorer.aleph.cloud" },
-  { id: "swap", label: "Swap", href: "https://swap.aleph.cloud" },
+  {
+    id: "explorer",
+    label: "Explorer",
+    href: "https://explorer.aleph.cloud",
+    external: true,
+  },
+  {
+    id: "swap",
+    label: "Swap",
+    href: "https://swap.aleph.cloud",
+    external: true,
+  },
 ];
 
 export default function ProductStripPage() {

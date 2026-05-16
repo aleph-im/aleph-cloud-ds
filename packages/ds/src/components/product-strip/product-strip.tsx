@@ -1,4 +1,11 @@
-import { type ReactNode } from "react";
+"use client";
+
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  type ReactNode,
+} from "react";
 import { Logo } from "@ac/components/logo/logo";
 import { cn } from "@ac/lib/cn";
 
@@ -6,6 +13,7 @@ export type ProductApp = {
   id: string;
   label: string;
   href: string;
+  external?: boolean;
 };
 
 export type ProductStripProps = {
@@ -16,6 +24,9 @@ export type ProductStripProps = {
   className?: string;
 };
 
+const useIsoLayoutEffect =
+  typeof window === "undefined" ? useEffect : useLayoutEffect;
+
 export function ProductStrip({
   apps,
   activeId,
@@ -23,10 +34,46 @@ export function ProductStrip({
   right,
   className,
 }: ProductStripProps) {
+  const navRef = useRef<HTMLElement>(null);
+  const itemRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
+  const indicatorRef = useRef<HTMLSpanElement>(null);
+
+  const setIndicatorTo = (el: HTMLElement | null) => {
+    const nav = navRef.current;
+    const ind = indicatorRef.current;
+    if (!nav || !ind) return;
+    if (!el) {
+      ind.style.width = "0px";
+      ind.style.opacity = "0";
+      return;
+    }
+    const navRect = nav.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
+    ind.style.left = `${r.left - navRect.left}px`;
+    ind.style.width = `${r.width}px`;
+    ind.style.opacity = "1";
+  };
+
+  const restToActive = () => {
+    const activeEl = itemRefs.current.get(activeId) ?? null;
+    setIndicatorTo(activeEl);
+  };
+
+  useIsoLayoutEffect(() => {
+    restToActive();
+    const nav = navRef.current;
+    if (!nav) return;
+    const ro = new ResizeObserver(() => restToActive());
+    ro.observe(nav);
+    return () => ro.disconnect();
+    // restToActive depends on activeId; apps in deps catches list changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeId, apps]);
+
   return (
     <div
       className={cn(
-        "flex h-[54px] w-full items-center gap-3 border-b border-edge",
+        "flex h-[54px] w-full items-center gap-[48px] border-b border-edge",
         "bg-muted/40 dark:bg-surface px-3",
         className,
       )}
@@ -38,32 +85,75 @@ export function ProductStrip({
       >
         <Logo className="h-4 text-foreground" />
       </a>
-      <nav aria-label="Aleph products" className="flex items-center gap-1">
+      <nav
+        ref={navRef}
+        aria-label="Aleph products"
+        className="relative flex h-full items-center gap-[18px]"
+        onMouseLeave={restToActive}
+      >
+        <span
+          ref={indicatorRef}
+          aria-hidden="true"
+          className={cn(
+            "pointer-events-none absolute top-0 left-0 h-[2px] rounded-b-[2px]",
+            "transition-all duration-200 ease-out",
+            "motion-reduce:transition-none",
+          )}
+          style={{
+            width: 0,
+            opacity: 0,
+            background:
+              "linear-gradient(90deg, var(--color-primary-300), var(--color-primary-500))",
+            boxShadow: "0 4px 16px -4px var(--color-primary-500)",
+          }}
+        />
         {apps.map((app) => {
           const isActive = app.id === activeId;
           return (
             <a
               key={app.id}
+              ref={(el) => {
+                if (el) itemRefs.current.set(app.id, el);
+                else itemRefs.current.delete(app.id);
+              }}
               href={app.href}
               aria-current={isActive ? "page" : undefined}
+              data-external={app.external ? "true" : undefined}
+              onMouseEnter={(e) => setIndicatorTo(e.currentTarget)}
               className={cn(
-                "rounded-md px-2 py-1 text-sm transition-colors",
+                "group inline-flex h-full items-center gap-1.5 text-sm",
+                "text-muted-foreground transition-colors motion-reduce:transition-none",
+                "hover:text-foreground",
                 "focus-visible:outline-2 focus-visible:outline-primary-500 focus-visible:outline-offset-2",
                 "dark:focus-visible:outline-primary-300",
-                isActive
-                  ? [
-                      "bg-primary-100 text-primary-700 font-medium",
-                      "dark:bg-primary-500/18 dark:text-primary-200",
-                    ]
-                  : [
-                      "text-muted-foreground",
-                      "hover:bg-primary-100/50 hover:text-primary-700",
-                      "dark:hover:bg-primary-500/8 dark:hover:text-primary-200",
-                    ],
+                isActive && "text-foreground font-medium",
               )}
               style={{ transitionDuration: "var(--duration-fast)" }}
             >
               {app.label}
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className={cn(
+                  "h-2.5 w-2.5 origin-bottom-left shrink-0",
+                  "opacity-0 scale-0 -rotate-[25deg]",
+                  app.external && [
+                    "transition-[opacity,transform] duration-300",
+                    "[transition-timing-function:cubic-bezier(.16,1,.3,1)]",
+                    "group-hover:opacity-100 group-hover:scale-100 group-hover:rotate-0",
+                    isActive && "opacity-100 scale-100 rotate-0",
+                    "motion-reduce:transition-none",
+                    "motion-reduce:group-hover:opacity-100",
+                  ],
+                )}
+              >
+                <path d="M2 8 L8 2 M4 2 L8 2 L8 6" />
+              </svg>
             </a>
           );
         })}

@@ -1859,10 +1859,10 @@ Top bar listing the Aleph product family as tabs. Apps live on separate subdomai
 import { ProductStrip, type ProductApp } from "@aleph-front/ds/product-strip";
 
 const APPS: ProductApp[] = [
-  { id: "cloud",    label: "Cloud",    href: "https://app.aleph.cloud" },
+  { id: "cloud",    label: "Cloud",    href: "https://app.aleph.cloud",      external: true },
   { id: "network",  label: "Network",  href: "https://network.aleph.cloud" },
-  { id: "explorer", label: "Explorer", href: "https://explorer.aleph.cloud" },
-  { id: "swap",     label: "Swap",     href: "https://swap.aleph.cloud" },
+  { id: "explorer", label: "Explorer", href: "https://explorer.aleph.cloud", external: true },
+  { id: "swap",     label: "Swap",     href: "https://swap.aleph.cloud",     external: true },
 ];
 
 <ProductStrip apps={APPS} activeId="network" logoHref="https://aleph.cloud" />
@@ -1872,22 +1872,30 @@ const APPS: ProductApp[] = [
 
 | Prop | Type | Required | Description |
 |------|------|----------|-------------|
-| `apps` | `ProductApp[]` | yes | App definitions: `{ id, label, href }` |
+| `apps` | `ProductApp[]` | yes | App definitions: `{ id, label, href, external? }` |
 | `activeId` | `string` | yes | `id` of the currently active app. Pass anything that does not match an entry (e.g. `""`) to render no active tab. |
 | `logoHref` | `string` | yes | Anchor target for the logomark |
 | `right` | `ReactNode` | no | Slot rendered flush-right (theme toggle, profile, etc.) |
 | `className` | `string` | no | Extra classes merged onto the root container |
 
-The active tab is announced via `aria-current="page"`; the nav element carries `aria-label="Aleph products"`.
+The active tab is announced via `aria-current="page"`; the nav element carries `aria-label="Aleph products"`. Items with `external: true` render a small up-right arrow after the label and carry `data-external="true"` for consumer styling/testing.
 
-**State vocabulary** (shared with `AppShellSidebar` `NavItem` — see that section for the full rationale):
+**State vocabulary** — distinct from `AppShellSidebar` `NavItem`. The sidebar uses pill fills to signal in-app section nav; the strip uses a sliding top-edge indicator to signal cross-app chrome:
 
 | State | Light | Dark |
 |---|---|---|
 | Rest | `text-muted-foreground` | (same) |
-| Hover | `bg-primary-100/50` + `text-primary-700` | `bg-primary-500/8` + `text-primary-200` |
+| Hover | `text-foreground`; gradient indicator slides to hovered item | (same) |
 | Focus-visible | `outline-2 outline-primary-500 outline-offset-2` | `outline-primary-300` |
-| Active | `bg-primary-100` + `text-primary-700` + `font-medium` | `bg-primary-500/18` + `text-primary-200` + `font-medium` |
+| Active | `text-foreground` + `font-medium`; 2px top indicator anchored to active item; bloom shadow | (same) |
+
+**Indicator behavior:** A 2px `linear-gradient(90deg, primary-300 → primary-500)` bar sits at the top edge of the strip with a soft purple `box-shadow: 0 4px 16px -4px primary-500` bloom. On mount and on `activeId` change it tracks the active item. `mouseenter` on any item slides it to that item; `mouseleave` on `<nav>` returns it to active. Transition is `transition-all duration-200 ease-out`, suppressed under `prefers-reduced-motion`. With no active app the indicator is hidden (`width: 0`); hover still works.
+
+**External arrow micro-animation:** Hidden at rest (`opacity-0 scale-0 -rotate-[25deg]`, transform-origin bottom-left). On hover or when active, animates to `opacity-1 scale-100 rotate-0` over 300ms with `cubic-bezier(.16,1,.3,1)` for overshoot. Suppressed under `prefers-reduced-motion`. The SVG is rendered for every item (not just externals) so item widths and visual gaps stay uniform — the arrow is simply transition-less and stays hidden on non-externals.
+
+**Spacing:** 48px between logo and first item; 18px between items.
+
+**Implementation:** Component uses `useLayoutEffect` + `ResizeObserver` on the nav to keep the indicator aligned on mount, on `activeId` change, and across layout shifts (font load, viewport resize). Indicator position is set via inline `left` / `width` styles on a single absolutely-positioned `<span>`.
 
 ### PageHeader
 

@@ -3,9 +3,19 @@ import { describe, expect, it } from "vitest";
 import { ProductStrip, type ProductApp } from "./product-strip";
 
 const APPS: ProductApp[] = [
-  { id: "cloud", label: "Cloud", href: "https://app.aleph.cloud" },
+  {
+    id: "cloud",
+    label: "Cloud",
+    href: "https://app.aleph.cloud",
+    external: true,
+  },
   { id: "network", label: "Network", href: "https://network.aleph.cloud" },
-  { id: "explorer", label: "Explorer", href: "https://explorer.aleph.cloud" },
+  {
+    id: "explorer",
+    label: "Explorer",
+    href: "https://explorer.aleph.cloud",
+    external: true,
+  },
   { id: "swap", label: "Swap", href: "https://swap.aleph.cloud" },
 ];
 
@@ -60,6 +70,30 @@ describe("ProductStrip", () => {
       />,
     );
     expect(screen.getByTestId("right")).toBeInTheDocument();
+  });
+
+  it("marks external apps with data-external", () => {
+    render(
+      <ProductStrip
+        apps={APPS}
+        activeId="network"
+        logoHref="https://aleph.cloud"
+      />,
+    );
+    expect(screen.getByRole("link", { name: "Cloud" })).toHaveAttribute(
+      "data-external",
+      "true",
+    );
+    expect(screen.getByRole("link", { name: "Network" })).not.toHaveAttribute(
+      "data-external",
+    );
+    expect(screen.getByRole("link", { name: "Explorer" })).toHaveAttribute(
+      "data-external",
+      "true",
+    );
+    expect(screen.getByRole("link", { name: "Swap" })).not.toHaveAttribute(
+      "data-external",
+    );
   });
 
   it("emits no active tab when activeId does not match any app", () => {
