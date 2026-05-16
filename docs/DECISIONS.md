@@ -18,6 +18,13 @@ Each entry includes:
 
 ---
 
+## Decision #84 — 2026-05-16
+
+**Context:** Follow-up to #83. With the always-reserved arrow slot (every item rendering the SVG at `opacity:0 scale:0` so layout dimensions stayed uniform), item-to-item spacing was even — but the sliding top-edge indicator now overshot non-external items: it measured the `<a>` bounding box, which included the invisible-but-laid-out 16px arrow region. Visually, the indicator extended ~16px past the end of words like "Network," while externals like "Explorer↗" terminated cleanly at the arrow tip. Spacing and indicator length were in tension because they were being driven by the same DOM element.
+**Decision:** Wrap each item's label-plus-visible-arrow in an inner content `<span>` and have the indicator measure *that* span instead of the `<a>`. Non-external items get a separate empty 10×10 sibling spacer outside the inner span — it pads the link's bounding box for uniform inter-item spacing but is not included in the indicator's measured rect. For externals the visible arrow lives inside the inner span and is included in the indicator's width naturally.
+**Rationale:** Decouples two layout responsibilities — the indicator measures *visible* content, the link reserves *uniform* content. The fix is local to one component, doesn't change any prop signatures or animation tokens, and removes the conditional-rendering branch in the SVG itself (the visible arrow is now only mounted for externals; the spacer is only mounted for non-externals — fewer transition rules to skip on non-externals).
+**Alternatives considered:** Drop the always-reserved slot and accept the prior spacing inconsistency (rejected — that was the bug #83 explicitly fixed; we'd be re-opening it). Render two SVGs per item (one always-invisible-for-layout, one visible-for-externals) and have the indicator measure the visible one only (rejected — more nodes, an animation listener attached to an SVG that never runs, and consumers inspecting the DOM would see surprising double-arrows). Shrink the indicator with `padding-right` on `<a>` for non-externals (rejected — the indicator is positioned by `getBoundingClientRect`, which includes padding; would have required computing offsets to back the padding out).
+
 ## Decision #83 — 2026-05-16
 
 **Context:** `ProductStrip` (cross-app chrome) and `AppShellSidebar` `NavItem` (in-app section nav) were sharing the same hover/active vocabulary (pill fills, primary-tinted backgrounds). At runtime they read as the same kind of control, which blurs the taxonomy — the top strip is supposed to feel like "where in the constellation am I," not "which section of this app." Also wanted to surface that the strip's items are full-page navigations to other Aleph apps.

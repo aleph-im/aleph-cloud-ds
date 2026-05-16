@@ -35,7 +35,7 @@ export function ProductStrip({
   className,
 }: ProductStripProps) {
   const navRef = useRef<HTMLElement>(null);
-  const itemRefs = useRef<Map<string, HTMLAnchorElement>>(new Map());
+  const trackRefs = useRef<Map<string, HTMLSpanElement>>(new Map());
   const indicatorRef = useRef<HTMLSpanElement>(null);
 
   const setIndicatorTo = (el: HTMLElement | null) => {
@@ -55,8 +55,8 @@ export function ProductStrip({
   };
 
   const restToActive = () => {
-    const activeEl = itemRefs.current.get(activeId) ?? null;
-    setIndicatorTo(activeEl);
+    const activeTrack = trackRefs.current.get(activeId) ?? null;
+    setIndicatorTo(activeTrack);
   };
 
   useIsoLayoutEffect(() => {
@@ -112,14 +112,12 @@ export function ProductStrip({
           return (
             <a
               key={app.id}
-              ref={(el) => {
-                if (el) itemRefs.current.set(app.id, el);
-                else itemRefs.current.delete(app.id);
-              }}
               href={app.href}
               aria-current={isActive ? "page" : undefined}
               data-external={app.external ? "true" : undefined}
-              onMouseEnter={(e) => setIndicatorTo(e.currentTarget)}
+              onMouseEnter={() =>
+                setIndicatorTo(trackRefs.current.get(app.id) ?? null)
+              }
               className={cn(
                 "group inline-flex h-full items-center gap-1.5 text-sm",
                 "text-muted-foreground transition-colors motion-reduce:transition-none",
@@ -130,30 +128,41 @@ export function ProductStrip({
               )}
               style={{ transitionDuration: "var(--duration-fast)" }}
             >
-              {app.label}
-              <svg
-                aria-hidden="true"
-                viewBox="0 0 10 10"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className={cn(
-                  "h-2.5 w-2.5 origin-bottom-left shrink-0",
-                  "opacity-0 scale-0 -rotate-[25deg]",
-                  app.external && [
-                    "transition-[opacity,transform] duration-300",
-                    "[transition-timing-function:cubic-bezier(.16,1,.3,1)]",
-                    "group-hover:opacity-100 group-hover:scale-100 group-hover:rotate-0",
-                    isActive && "opacity-100 scale-100 rotate-0",
-                    "motion-reduce:transition-none",
-                    "motion-reduce:group-hover:opacity-100",
-                  ],
-                )}
+              <span
+                ref={(el) => {
+                  if (el) trackRefs.current.set(app.id, el);
+                  else trackRefs.current.delete(app.id);
+                }}
+                className="inline-flex items-center gap-1.5"
               >
-                <path d="M2 8 L8 2 M4 2 L8 2 L8 6" />
-              </svg>
+                {app.label}
+                {app.external && (
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 10 10"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={cn(
+                      "h-2.5 w-2.5 origin-bottom-left shrink-0",
+                      "opacity-0 scale-0 -rotate-[25deg]",
+                      "transition-[opacity,transform] duration-300",
+                      "[transition-timing-function:cubic-bezier(.16,1,.3,1)]",
+                      "group-hover:opacity-100 group-hover:scale-100 group-hover:rotate-0",
+                      isActive && "opacity-100 scale-100 rotate-0",
+                      "motion-reduce:transition-none",
+                      "motion-reduce:group-hover:opacity-100",
+                    )}
+                  >
+                    <path d="M2 8 L8 2 M4 2 L8 2 L8 6" />
+                  </svg>
+                )}
+              </span>
+              {!app.external && (
+                <span aria-hidden="true" className="h-2.5 w-2.5 shrink-0" />
+              )}
             </a>
           );
         })}

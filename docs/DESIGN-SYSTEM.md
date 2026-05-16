@@ -1891,11 +1891,11 @@ The active tab is announced via `aria-current="page"`; the nav element carries `
 
 **Indicator behavior:** A 2px `linear-gradient(90deg, primary-300 → primary-500)` bar sits at the top edge of the strip with a soft purple `box-shadow: 0 4px 16px -4px primary-500` bloom. On mount and on `activeId` change it tracks the active item. `mouseenter` on any item slides it to that item; `mouseleave` on `<nav>` returns it to active. Transition is `transition-all duration-200 ease-out`, suppressed under `prefers-reduced-motion`. With no active app the indicator is hidden (`width: 0`); hover still works.
 
-**External arrow micro-animation:** Hidden at rest (`opacity-0 scale-0 -rotate-[25deg]`, transform-origin bottom-left). On hover or when active, animates to `opacity-1 scale-100 rotate-0` over 300ms with `cubic-bezier(.16,1,.3,1)` for overshoot. Suppressed under `prefers-reduced-motion`. The SVG is rendered for every item (not just externals) so item widths and visual gaps stay uniform — the arrow is simply transition-less and stays hidden on non-externals.
+**External arrow micro-animation:** Hidden at rest (`opacity-0 scale-0 -rotate-[25deg]`, transform-origin bottom-left). On hover or when active, animates to `opacity-1 scale-100 rotate-0` over 300ms with `cubic-bezier(.16,1,.3,1)` for overshoot. Suppressed under `prefers-reduced-motion`. Non-external items render an empty 10×10 sibling spacer in the arrow's place so item widths and visual gaps stay uniform.
 
 **Spacing:** 48px between logo and first item; 18px between items.
 
-**Implementation:** Component uses `useLayoutEffect` + `ResizeObserver` on the nav to keep the indicator aligned on mount, on `activeId` change, and across layout shifts (font load, viewport resize). Indicator position is set via inline `left` / `width` styles on a single absolutely-positioned `<span>`.
+**Implementation:** Each item's `<a>` contains an inner content `<span>` that wraps the label plus the visible arrow (when external). The indicator measures *that inner span*, not the `<a>`, so it ends at the end of the label for non-externals and at the arrow tip for externals. The non-external spacer sits outside the inner span — it pads the link's bounding box for uniform inter-item spacing without being included in the indicator's width. The indicator itself is a single absolutely-positioned `<span>` driven by inline `left` / `width` styles, aligned via `useLayoutEffect` + `ResizeObserver` on the nav (on mount, on `activeId` change, and across layout shifts from font load / viewport resize).
 
 ### PageHeader
 
